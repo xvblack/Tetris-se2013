@@ -28,8 +28,8 @@ namespace Tetris
         {
             var result=new Square[style.GetUpperBound(0)+1,style.GetUpperBound(1)+1];
             for (int i = 0; i < style.GetUpperBound(0)+1; i++)
-                for (int j = 0; j < style.GetUpperBound(1)+1; j++)
-                    result[i, j] = new Square(style[i, j]);
+                for (int j = 0; j < style.GetUpperBound(1) + 1; j++)
+                    result[i, j] = style[i, j] != 0 ? new Square(style[i, j]) : null;
             return result;
         }
 

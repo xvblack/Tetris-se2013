@@ -29,7 +29,7 @@ namespace Tetris
         public MainWindow()
         {
             InitializeComponent();
-            int[][,] styles = {new int[2, 2] {{1, 2}, {3, 4}}, new int[2, 3] {{1, 3, 4}, {2, 3, 4}}};
+            int[][,] styles = {new int[2, 2] {{1, 1}, {1, 1}}, new int[1,4]{{1,1,1,1}},  new int[2, 3] {{0, 0, 1}, {1, 1, 1}},new int[2,3]{{1,0,0},{1,1,1}},new int[2,3]{{0,1,0},{1,1,1}}};
 
             var game = new TetrisGame(Square.Styles(styles), new TimerEngine());
             game.AddDisplay(this);

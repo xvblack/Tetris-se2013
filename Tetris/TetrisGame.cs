@@ -76,7 +76,7 @@ namespace Tetris
                     for (int i=0;i<_block.Height;i++)
                         for (int j = 0; j < _block.Width; j++)
                         {
-                            result[_block.LPos + i, _block.RPos + j] = _block.SquareAt(i, j);
+                            if (_block.SquareAt(i, j)!=null) result[_block.LPos + i, _block.RPos + j] = _block.SquareAt(i, j);
                         }
                 return result;
             }
