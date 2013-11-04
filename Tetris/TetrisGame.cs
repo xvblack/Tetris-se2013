@@ -122,6 +122,7 @@ namespace Tetris
         private void Update(object sender,int tick)
         {
             if (_state == 0) return;
+            if (_block == null) GenTetris();
             _tick++;
             Trace.WriteLine(_tick);
             _block.FallSpeed = FallingSpeed;
@@ -130,7 +131,6 @@ namespace Tetris
             {
                 HandleFalling();
                 ClearBar();
-                if (_block == null) GenTetris();
             });
             
             foreach (var display in _displays)
