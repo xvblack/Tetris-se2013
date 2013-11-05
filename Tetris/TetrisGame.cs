@@ -53,7 +53,6 @@ namespace Tetris
         }
         public void End()
         {
-            Trace.WriteLine(String.Format("Fail"));
             _state = 0;
             Console.Out.Write("end");
         }
@@ -125,7 +124,7 @@ namespace Tetris
             if (_state == 0) return;
             if (_block == null) GenTetris();
             _tick++;
-            //Trace.WriteLine(_tick);
+            Trace.WriteLine(_tick);
             _block.FallSpeed = FallingSpeed;
             PerRound(3,HandleAction);
             PerRound(1 * _block.FallSpeed, delegate()
@@ -181,7 +180,6 @@ namespace Tetris
             if (Try(b))
             {
                 _block = b;
-                Trace.WriteLine(String.Format("OK"));
             }
             else
             {
@@ -222,7 +220,6 @@ namespace Tetris
             if (Try(_block.Clone().Fall()))
             {
                 _block.Fall();
-                Trace.WriteLine(String.Format("Block pos = ({0},{1})", _block.LPos, _block.RPos));
             }
             else
             {
