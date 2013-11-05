@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Tetris
 {
@@ -42,18 +43,22 @@ namespace Tetris
             return RPos + j;
         }
         private readonly Square[,] _style;
-        private float _l, _r;
+        private float _l, _r; // Why float?
         private float _vl;
         private int _direction;
         public int LPos { get { return (int)_l; } set{ _l=value; } }
         public int RPos { get { return (int)_r; } set{ _r = value; } }
         public int FallSpeed { get { return (int)_vl;} set{ _vl=value; } }
 
-        public Block(Square[,] style)
+        // More universal constructor by Hengkai Guo
+        public Block(Square[,] style, float l = 0, float r = 0, float vl = 0, int direction = 0)
         {
             _style = style;
-            _l = _r = _vl = 0;
-            _direction = 0;
+            _l = l;
+            _r = r;
+            _vl = vl;
+            _direction = direction;
+
         }
 
         public void Rotate()
@@ -73,6 +78,7 @@ namespace Tetris
         public Block Fall()
         {
             LPos++;
+            // Fallspeed work? by Hengkai Guo
             return this;
         }
 
@@ -86,7 +92,16 @@ namespace Tetris
             _random=new Random();
         }
         public Block GenTetris(){
-            var t = new Block(_styles[_random.Next(0, _styles.Count())]);
+            // Need the interface of underlying for AI
+            float rr;
+            int dir = 0;
+            int type = _random.Next(0, _styles.Count());
+            var temp = _styles[type];
+            //rr = _random.Next(0, 10 - temp.GetUpperBound(1 - dir % 2));
+            rr = 10 / 2 - 1;
+            Trace.WriteLine(String.Format("pos = {0}, style = {1}", rr, type));
+            var t = new Block(temp, r: rr);
+            Trace.WriteLine(String.Format("width = {0}", t.Width));
             return t;
         }
     }
