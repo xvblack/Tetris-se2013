@@ -9,6 +9,7 @@ namespace Tetris
 
         public enum GameAction { Rotate, Left, Right, Down };
 
+        #region Event Args and Callback Declare
         public class ClearBarEventArgs
         {
             public int Line { get; private set; }
@@ -26,7 +27,6 @@ namespace Tetris
                 }
             }
         }
-
         public class UpdateEndEventArgs
         {
             public int Tick { get; private set; }
@@ -36,7 +36,6 @@ namespace Tetris
                 Tick = tick;
             }
         }
-
         public class DrawEventArgs
         {
             public int Tick { get; private set; }
@@ -48,29 +47,33 @@ namespace Tetris
         }
 
         public delegate void ClearBarCallback(object sender, ClearBarEventArgs e);
-
         public delegate void UpdateEndCallback(object sender, UpdateEndEventArgs e);
-
         public delegate void DrawCallback(TetrisGame sender, DrawEventArgs e);
+        #endregion
 
         private delegate void UpdateCallback();
 
-        private IEngine _engine;
         private readonly Square[,] _underLying;
-        private readonly List<IDisplay> _displays;
         private Block _block;
-        private readonly TetrisFactory _factory;
-        private IController _controller;
         private int _tick;
         private readonly int _w, _h;
         private const int Round = 6;
         private readonly int _gameSpeed;
         private int _state;         // 0 for game ending, 1 for looping, 2 for pause
         private readonly object _updating=new object();
-        public event ClearBarCallback ClearBarEvent;
+
+        #region Reference to External Objects
+        private readonly IEngine _engine;
+        private readonly TetrisFactory _factory;
+        private IController _controller;
         public ScoreSystem ScoreSystem { get; private set; }
+        #endregion
+
+        #region Events
+        public event ClearBarCallback ClearBarEvent;
         public event UpdateEndCallback UpdateEndEvent;
         public event DrawCallback DrawEvent;
+        #endregion
 
         public TetrisGame(IEnumerable<Square[,]> styles,IEngine engine,int w=10,int h=15, int gameSpeed=1)
         {
@@ -78,24 +81,35 @@ namespace Tetris
             _h = h;
             _gameSpeed = gameSpeed;
             _engine = engine;
-            _engine.TickEvent += Update;
+            _engine.TickEvent += UpdateDispatch;
             _underLying = new Square[_h, _w];
-            _displays=new List<IDisplay>();
-            _factory=new TetrisFactory(styles);
-            ScoreSystem=new ScoreSystem();
+            _factory=new TetrisFactory(this,styles);
+
+            #region Intializeing ScoreSystem
+            ScoreSystem =new ScoreSystem();
             ClearBarEvent += ScoreSystem.OnClearBar;
             UpdateEndEvent += ScoreSystem.OnUpdateEnd;
+            #endregion
+
             _tick = 0;
             _state = 0;
-            _engine.Enabled = true;
         }
 
         public void Start()
         {
+            _engine.Enabled = true;
             if (_block==null) GenTetris();
             _state = 1;
         }
-
+        public void Pause()
+        {
+            Debug.Assert(_state==1,"Can Only Pause a Ongoing Game");
+            _state = 2;
+        }
+        public void Continue()
+        {
+            _state = 1;
+        }
         public void End()
         {
             Trace.WriteLine("ending");
@@ -165,7 +179,7 @@ namespace Tetris
             return false;
         }
 
-        private void Update(object sender,int tick)
+        private void UpdateDispatch(object sender,int tick)
         {
             lock (_updating)
             {
