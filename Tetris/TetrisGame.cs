@@ -1,20 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.RightsManagement;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
-using System.Windows.Media;
 
 namespace Tetris
 {
-    public class TetrisGame
+    public partial class TetrisGame
     {
+
         public enum GameAction { Rotate, Left, Right, Down };
+
+        public class ClearBarEventArgs
+        {
+            public int Line { get; private set; }
+            public Square[] Squares { get; private set; }
+            public int Tick { get; private set; }
+
+            public ClearBarEventArgs(Square[,] underlying, int line, int tick)
+            {
+                Line = line;
+                Tick = tick;
+                Squares = new Square[underlying.GetUpperBound(1) + 1];
+                for (var j = 0; j < underlying.GetUpperBound(1) + 1; j++)
+                {
+                    Squares[j] = underlying[line, j];
+                }
+            }
+        }
+
+        public class UpdateEndEventArgs
+        {
+            public int Tick { get; private set; }
+
+            public UpdateEndEventArgs(int tick)
+            {
+                Tick = tick;
+            }
+        }
+
+        public delegate void ClearBarCallback(object sender, ClearBarEventArgs e);
+
+        public delegate void UpdateEndCallback(object sender, UpdateEndEventArgs e);
+
+        private delegate void UpdateCallback();
 
         private IEngine _engine;
         private readonly Square[,] _underLying;
@@ -26,9 +53,11 @@ namespace Tetris
         private readonly int _w, _h;
         private const int Round = 6;
         private readonly int _gameSpeed;
-        private int _state;
-
-        private delegate void UpdateCallback();
+        private int _state;         // 0 for game ending, 1 for looping, 2 for pause
+        private readonly object _updating=new object();
+        public event ClearBarCallback ClearBarEvent;
+        public ScoreSystem ScoreSystem { get; private set; }
+        public event UpdateEndCallback UpdateEndEvent;
 
         public TetrisGame(IEnumerable<Square[,]> styles,IEngine engine,int w=10,int h=15, int gameSpeed=1)
         {
@@ -36,11 +65,13 @@ namespace Tetris
             _h = h;
             _gameSpeed = gameSpeed;
             _engine = engine;
-            _engine.TickEvent += new TickHandler(Update);
+            _engine.TickEvent += Update;
             _underLying = new Square[_h, _w];
             _displays=new List<IDisplay>();
-            // TODO
             _factory=new TetrisFactory(styles);
+            ScoreSystem=new ScoreSystem();
+            ClearBarEvent += ScoreSystem.OnClearBar;
+            UpdateEndEvent += ScoreSystem.OnUpdateEnd;
             _tick = 0;
             _state = 0;
             _engine.Enabled = true;
@@ -51,9 +82,12 @@ namespace Tetris
             if (_block==null) GenTetris();
             _state = 1;
         }
+
         public void End()
         {
+            Trace.WriteLine("ending");
             _state = 0;
+            _engine.Enabled = false;
             Console.Out.Write("end");
         }
 
@@ -121,27 +155,31 @@ namespace Tetris
 
         private void Update(object sender,int tick)
         {
-            if (_state == 0) return;
-            if (_block == null) GenTetris();
-            _tick++;
-            Trace.WriteLine(_tick);
-            _block.FallSpeed = FallingSpeed;
-            PerRound(3,HandleAction);
-            PerRound(1 * _block.FallSpeed, delegate()
+            lock (_updating)
             {
-                HandleFalling();
-                ClearBar();
-            });
-            
-            foreach (var display in _displays)
-            {
-                display.OnStateChange();
+                if (_block == null) GenTetris();
+                if (_state == 0) return;    // Check ending caused by cannot generate new block
+                if (_state == 2) return;    // Check for pause
+                _tick++;                    // internal tick add
+                Debug.Assert(_block != null, "loop continue when _block is null");
+                _block.FallSpeed = FallingSpeed;    // Use the Game FallingSpeed as the block fall speed
+                PerRound(3, HandleAction);
+                PerRound(1*_block.FallSpeed, delegate()
+                {
+                    HandleFalling();
+                    ClearBar();
+                });
+                UpdateEndEvent.Invoke(this,new UpdateEndEventArgs(_tick));
+                foreach (var display in _displays)
+                {
+                    display.OnStateChange();
+                }
             }
         }
 
         private void ClearBar()
         {
-            for (int i = 0; i < _h; i++)
+            for (var i = 0; i < _h; i++)
             {
                 bool clear = true;
                 for (int j = 0; j < _w; j++)
@@ -150,11 +188,12 @@ namespace Tetris
                 }
                 if (clear)
                 {
+                    ClearBarEvent.Invoke(this,new ClearBarEventArgs(_underLying,i,_tick));
                     for(var s=i-1;s>0;s--)
-                    for (var j = 0; j < _w; j++)
-                    {
-                        _underLying[s+1, j] = _underLying[s,j];
-                    }
+                        for (var j = 0; j < _w; j++)
+                        {
+                            _underLying[s+1, j] = _underLying[s,j];
+                        }
                     for (int j = 0; j < _w; j++)
                     {
                         _underLying[0, j] = null;
@@ -215,6 +254,7 @@ namespace Tetris
                 }
             }
         }
+
         private void HandleFalling()
         {
             if (Try(_block.Clone().Fall()))
@@ -226,6 +266,7 @@ namespace Tetris
                 AddToUnderlying();
             }
         }
+
         private void AddToUnderlying()
         {
             for (int i = 0; i < _block.Height; i++)

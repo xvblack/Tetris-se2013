@@ -63,6 +63,7 @@
     <Compile Include="CSprite.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="TetrisGame.cs" />
+    <Compile Include="ScoreSystem.cs" />
     <Compile Include="TimerEngine.cs">
       <SubType>Component</SubType>
     </Compile>
