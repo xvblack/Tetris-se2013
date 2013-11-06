@@ -22,7 +22,6 @@ namespace Tetris
     /// </summary>
     public partial class MainWindow : Window, IDisplay
     {
-        private TetrisGame _game;
         private Square[,] _image;
         private readonly Controller _controller;
 
@@ -66,10 +65,11 @@ namespace Tetris
             }
         }
 
-        void IDisplay.OnStateChange()
+        public void OnDrawing(TetrisGame game, TetrisGame.DrawEventArgs e)
         {
-            _image = _game.Image;
+            _image = game.Image;
             Console.Clear();
+            Console.WriteLine(game.ScoreSystem.Score);
             Console.WriteLine("============");
             for (int i = 0; i < 15; i++)
             {
@@ -79,11 +79,6 @@ namespace Tetris
                 Console.Out.WriteLine("|");
             }
             Console.WriteLine("============");
-        }
-
-        void IDisplay.SetGame(TetrisGame game)
-        {
-            _game = game;
         }
 
         static readonly Dictionary<TetrisGame.GameAction,Key> Ht=new Dictionary<TetrisGame.GameAction, Key>()
@@ -96,7 +91,7 @@ namespace Tetris
 
         class Controller : IController
         {
-            private Dictionary<Key,bool> _keyState=new Dictionary<Key, bool>()
+            private readonly Dictionary<Key,bool> _keyState=new Dictionary<Key, bool>()
             {
                 {Key.Left,false},
                 {Key.Right,false},

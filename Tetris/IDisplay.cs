@@ -9,7 +9,6 @@ namespace Tetris
 {
     public interface IDisplay
     {
-        void OnStateChange();
-        void SetGame(TetrisGame game);
+        void OnDrawing(TetrisGame sender, TetrisGame.DrawEventArgs e);
     }
 }

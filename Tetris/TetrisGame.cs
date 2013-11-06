@@ -37,9 +37,21 @@ namespace Tetris
             }
         }
 
+        public class DrawEventArgs
+        {
+            public int Tick { get; private set; }
+
+            public DrawEventArgs(int tick)
+            {
+                Tick = tick;
+            }
+        }
+
         public delegate void ClearBarCallback(object sender, ClearBarEventArgs e);
 
         public delegate void UpdateEndCallback(object sender, UpdateEndEventArgs e);
+
+        public delegate void DrawCallback(TetrisGame sender, DrawEventArgs e);
 
         private delegate void UpdateCallback();
 
@@ -58,6 +70,7 @@ namespace Tetris
         public event ClearBarCallback ClearBarEvent;
         public ScoreSystem ScoreSystem { get; private set; }
         public event UpdateEndCallback UpdateEndEvent;
+        public event DrawCallback DrawEvent;
 
         public TetrisGame(IEnumerable<Square[,]> styles,IEngine engine,int w=10,int h=15, int gameSpeed=1)
         {
@@ -93,8 +106,7 @@ namespace Tetris
 
         public void AddDisplay(IDisplay display)
         {
-            _displays.Add(display);
-            display.SetGame(this);
+            DrawEvent += display.OnDrawing;
         }
         public void SetController(IController controller)
         {
@@ -170,10 +182,7 @@ namespace Tetris
                     ClearBar();
                 });
                 UpdateEndEvent.Invoke(this,new UpdateEndEventArgs(_tick));
-                foreach (var display in _displays)
-                {
-                    display.OnStateChange();
-                }
+                DrawEvent.Invoke(this,new DrawEventArgs(_tick));
             }
         }
 
