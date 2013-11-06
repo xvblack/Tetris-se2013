@@ -87,9 +87,11 @@ namespace Tetris
     {
         readonly List<Square[,]> _styles;
         readonly Random _random;
-        public TetrisFactory(IEnumerable<Square[,]> styles){
+        private readonly TetrisGame _game;
+        public TetrisFactory(TetrisGame game, IEnumerable<Square[,]> styles){
             _styles = new List<Square[,]>(styles);
             _random=new Random();
+            _game = game;
         }
         public Block GenTetris(){
             // Need the interface of underlying for AI
