@@ -56,7 +56,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GameAPI.cs" />
     <Compile Include="IEngine.cs" />
+    <Compile Include="SimpleGame.cs" />
     <Compile Include="Square.cs" />
     <Compile Include="IController.cs" />
     <Compile Include="IDisplay.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="Block.cs" />
     <Compile Include="TetrisGame.cs" />
     <Compile Include="ScoreSystem.cs" />
+    <Compile Include="Tetrisor.cs" />
     <Compile Include="TimerEngine.cs">
       <SubType>Component</SubType>
     </Compile>
