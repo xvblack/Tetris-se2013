@@ -141,7 +141,14 @@ namespace Tetris
                 return result;
             }
         }
-
+        // Get Width
+        public int w
+        {
+            get
+            {
+                return _w;
+            }
+        }
 
         public bool Try(Block block)
         {
