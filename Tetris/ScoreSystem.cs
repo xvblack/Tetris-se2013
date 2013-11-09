@@ -3,22 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tetris.GameBase;
 
 namespace Tetris
 {
-    public class ScoreSystem
+    namespace GameSystem
     {
-        public int Score { get; private set; }
-        private int _tickScore=0;
-        public void OnClearBar(object sender, TetrisGame.ClearBarEventArgs e)
+        public class ScoreSystem
         {
-            _tickScore++;
-        }
+            public int Score { get; private set; }
 
-        public void OnUpdateEnd(object sender, TetrisGame.UpdateEndEventArgs e)
-        {
-            Score += _tickScore * _tickScore;
-            _tickScore = 0;
+            public void OnUpdateEnd(object sender, TetrisGame.UpdateEndEventArgs e)
+            {
+                var game = (TetrisGame) sender;
+                Score += game.TickScore * game.TickScore;
+            }
         }
     }
 }

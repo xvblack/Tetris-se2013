@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using Tetris.GameBase;
 
-namespace Tetris
+namespace Tetris.GameBase
 {
     public class Block:CSprite
     {
@@ -24,25 +25,16 @@ namespace Tetris
                 case 0:
                     return _style[i, j];
                 case 1:
-                    return _style[_style.GetUpperBound(0) - j, i];
+                    return _style[j, _style.GetUpperBound(1) - i];
                 case 2:
                     return _style[_style.GetUpperBound(0) - i, _style.GetUpperBound(1) - j];
                 case 3:
-                    return _style[j, _style.GetUpperBound(1) - i];
+                    return _style[_style.GetUpperBound(0) - j, i];
             }
             return null;
         }
 
-        public int LPosAt(int i, int j)
-        {
-            return LPos + i;
-        }
-
-        public int RPosAt(int i, int j)
-        {
-            return RPos + j;
-        }
-        private readonly Square[,] _style;
+        private readonly SquareArray _style;
         private float _l, _r;
         private float _vl;
         private int _direction;
@@ -51,7 +43,7 @@ namespace Tetris
         public int FallSpeed { get { return (int)_vl;} set{ _vl=value; } }
 
         // More universal constructor by Hengkai Guo
-        public Block(Square[,] style, float l = 0, float r = 0, float vl = 0, int direction = 0)
+        public Block(SquareArray style, float l = 0, float r = 0, float vl = 0, int direction = 0)
         {
             _style = style;
             _l = l;
@@ -77,20 +69,20 @@ namespace Tetris
 
         public Block Fall()
         {
-            LPos++;
+            LPos--;
             return this;
         }
 
     }
-    class TetrisFactory
+
+    public class TetrisFactory
     {
-        readonly List<Square[,]> _styles;
+        readonly List<SquareArray> _styles;
         readonly Random _random;
-        private readonly TetrisGame _game;
-        public TetrisFactory(TetrisGame game, IEnumerable<Square[,]> styles){
-            _styles = new List<Square[,]>(styles);
+        public TetrisGame Game;
+        public TetrisFactory(IEnumerable<SquareArray> styles){
+            _styles = new List<SquareArray>(styles);
             _random=new Random();
-            _game = game;
         }
         public Block GenTetris(){
             float rr;
