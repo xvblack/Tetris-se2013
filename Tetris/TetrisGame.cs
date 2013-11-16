@@ -141,6 +141,23 @@ namespace Tetris
                 return result;
             }
         }
+        public Square[,] UnderLying
+        {
+            get
+            {
+                var result = new Square[_h, _w];
+                Array.Copy(_underLying, result, _h * _w);
+                return result;
+            }
+        }
+        public Block block
+        {
+            get
+            {
+                return _block;
+            }
+        }
+
         // Get Width
         public int w
         {

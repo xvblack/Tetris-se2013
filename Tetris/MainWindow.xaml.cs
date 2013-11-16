@@ -23,7 +23,8 @@ namespace Tetris
     public partial class MainWindow : Window, IDisplay
     {
         private Square[,] _image;
-        private readonly Controller _controller;
+        //private readonly Controller _controller;
+        private readonly AIController _controller;
 
         public MainWindow()
         {
@@ -34,11 +35,12 @@ namespace Tetris
 
             var game = new TetrisGame(Square.Styles(styles), new TimerEngine());
             game.AddDisplay(this);
-            _controller=new Controller();
+            //_controller=new Controller();
+            _controller = new AIController(game);
             game.SetController(_controller);
             game.Start();
         }
-
+        /*
         private readonly Key[] Keys = new Key[]
         {
             Key.Left,
@@ -63,7 +65,7 @@ namespace Tetris
             {
                // _controller.KeyState[e.Key] = false;
             }
-        }
+        }*/
 
         public void OnDrawing(TetrisGame game, TetrisGame.DrawEventArgs e)
         {
@@ -80,7 +82,7 @@ namespace Tetris
             }
             Console.WriteLine("============");
         }
-
+        /*
         static readonly Dictionary<TetrisGame.GameAction,Key> Ht=new Dictionary<TetrisGame.GameAction, Key>()
         {
             {TetrisGame.GameAction.Left,Key.Left},
@@ -109,6 +111,6 @@ namespace Tetris
                 KeyState[Ht[action]] = false;
                 return result;
             }
-        }
+        }*/
     }
 }
