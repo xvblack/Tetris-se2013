@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Diagnostics;
-using Tetris.GameBase;
+using System.Linq;
 
 namespace Tetris.GameBase
 {
     public class Block:CSprite
     {
+        private static int _id=0;
         public int Width
         {
             get{return _style.GetUpperBound(1-_direction%2)+1;}
@@ -35,7 +33,9 @@ namespace Tetris.GameBase
         }
 
         private readonly SquareArray _style;
-        private float _l, _r; // Why float?
+        public int Id { get; private set; }
+        private float _l; // Why float?
+        private float _r;
         private float _vl;
         private int _direction;
         public int LPos { get { return (int)_l; } set{ _l=value; } }
@@ -43,14 +43,14 @@ namespace Tetris.GameBase
         public int FallSpeed { get { return (int)_vl;} set{ _vl=value; } }
 
         // More universal constructor by Hengkai Guo
-        public Block(SquareArray style, float l = 0, float r = 0, float vl = 0, int direction = 0)
+        public const int TempId = -2;
+        public Block(SquareArray style, int blockId=-1)
         {
+            if (blockId==-1)
+                Id = _id++;
+            else
+                Id = blockId;
             _style = style;
-            _l = l;
-            _r = r;
-            _vl = vl;
-            _direction = direction;
-
         }
 
         public void Rotate()
@@ -64,7 +64,7 @@ namespace Tetris.GameBase
 
         public Block Clone()
         {
-            return new Block(_style) { _direction = this._direction, _vl = this._vl, _l = this._l, _r = this._r };
+            return new Block(_style,blockId:TempId) { _direction = this._direction, _vl = this._vl, _l = this._l, _r = this._r };
         }
 
         public Block Fall()
@@ -87,14 +87,14 @@ namespace Tetris.GameBase
         }
         public Block GenTetris(){
             // Need the interface of underlying for AI
-            float rr;
+            int rr;
             int dir = 0;
             int type = _random.Next(0, _styles.Count());
             var temp = _styles[type];
             //rr = _random.Next(0, 10 - temp.GetUpperBound(1 - dir % 2));
             rr = 10 / 2 - 1;
             Trace.WriteLine(String.Format("pos = {0}, style = {1}", rr, type));
-            var t = new Block(temp, r: rr);
+            var t = new Block(temp){RPos = rr};
             Trace.WriteLine(String.Format("width = {0}", t.Width));
             return t;
         }
