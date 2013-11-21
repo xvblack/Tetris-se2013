@@ -28,9 +28,8 @@ namespace Tetris
             var factory = new TetrisFactory(Square.Styles(styles));
             var game = new TetrisGame(id,Square.Styles(styles), _engine, factory,10,15,1);
             game.SetController(controller);
-            var scoreSystem = new ScoreSystem();
-            game.ScoreSystem = scoreSystem;
-            game.UpdateEndEvent += scoreSystem.OnUpdateEnd;
+            ScoreSystem.Bind(game);
+            AchievementSystem.Bind(game);
             games[id] = game;
             return game;
         }

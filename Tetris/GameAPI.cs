@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Tetris.GameSystem;
 
 namespace Tetris.GameBase
 {
     public partial class TetrisGame
     {
         #region TickAPI
-        public int TickScore
+        public int TickClearedBars
         {
             get;
             private set;
@@ -18,30 +14,31 @@ namespace Tetris.GameBase
 
         private void InitTickAPI()
         {
-            TickScore = 0;
+            TickClearedBars = 0;
             ClearBarEvent += TickOnClearBar;
             UpdateBeginEvent += TickOnUpdateBegin;
         }
 
         private void TickOnClearBar(object sender, ClearBarEventArgs e)
         {
-            TickScore++;
+            TickClearedBars++;
         }
 
         private void TickOnUpdateBegin(object sender, UpdateBeginEventArgs e)
         {
-            TickScore = 0;
+            TickClearedBars = 0;
         }
         #endregion
         #region UnderlyingAPI
 
-        public int UpperBound
-        {
-            get
-            {
-                return 0;
-            }
-        }
+        #endregion
+        #region Score System Api
+        public ScoreSystem ScoreSystem;
+        #endregion
+        #region Achievement System Api
+
+        public AchievementSystem.AchievementState AchievementState;
+
         #endregion
     }
 }
