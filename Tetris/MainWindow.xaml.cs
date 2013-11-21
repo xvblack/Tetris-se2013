@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Tetris.GameBase;
 
 namespace Tetris
 {
@@ -29,15 +30,16 @@ namespace Tetris
         public MainWindow()
         {
             InitializeComponent();
-            int[][,] styles = {new int[2, 2]{{1, 1}, {1, 1}}, new int[1, 4]{{1, 1, 1, 1}}, new int[2, 3]{{0, 1, 0},{1, 1, 1}},
-                               new int[2, 3]{{1, 0, 0}, {1, 1, 1}}, new int[2, 3]{{0, 0, 1}, {1, 1, 1}}, 
-                               new int[2, 3]{{1, 1, 0}, {0, 1, 1}}, new int[2, 3]{{0, 1, 1}, {1, 1, 0}}};
-
-            var game = new TetrisGame(Square.Styles(styles), new TimerEngine());
+            var t = new Tetrisor();
+            _controller = new Controller();
+            var game = t.NewGame(_controller);
             game.AddDisplay(this);
+<<<<<<< HEAD
             //_controller=new Controller();
             _controller = new AIController(game);
             game.SetController(_controller);
+=======
+>>>>>>> origin/master
             game.Start();
         }
         /*

@@ -1,46 +1,66 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using System.Collections.Generic;
 
-namespace Tetris
+namespace Tetris.GameBase
 {
     public class Square
     {
-        int _color;
-
         private Square(int color)
         {
-            _color = color;
+            Color = color;
         }
 
         public int Color
         {
-            get
-            {
-                return _color;
-            }
+            get; set;
         }
 
-        private static Square[,] Style(int[,] style)
+        private static SquareArray Style(int[,] style)
         {
-            var result=new Square[style.GetUpperBound(0)+1,style.GetUpperBound(1)+1];
+            var result=new SquareArray(style.GetUpperBound(0)+1,style.GetUpperBound(1)+1);
             for (int i = 0; i < style.GetUpperBound(0)+1; i++)
                 for (int j = 0; j < style.GetUpperBound(1) + 1; j++)
-                    result[i, j] = style[i, j] != 0 ? new Square(style[i, j]) : null;
+                    result[style.GetUpperBound(0)-i, j] = style[i, j] != 0 ? new Square(style[i, j]) : null;
             return result;
         }
 
-        public static Square[][,] Styles(int[][,] styles)
+        public static IEnumerable<SquareArray> Styles(int[][,] styles)
         {
-            var result = new Square[styles.Length][,];
+            var result = new SquareArray[styles.Length];
             for (int i = 0; i < styles.Length; i++)
             {
                 result[i] = Style(styles[i]);
             }
             return result;
+        }
+    }
+
+
+    public class SquareArray
+    {
+        public Square[,] Storage
+        {
+            get; private set;
+        }
+
+        public SquareArray(int m, int n)
+        {
+            Storage=new Square[m,n];
+        }
+
+        public SquareArray(Square[,] _squares)
+        {
+            Storage = _squares;
+        }
+
+        public int GetUpperBound(int i)
+        {
+            return Storage.GetUpperBound(i);
+        }
+
+        public Square this[int i, int j]
+        {
+            get { return Storage[Storage.GetUpperBound(0) - i, j]; }
+            set { Storage[Storage.GetUpperBound(0) - i, j] = value; }
         }
     }
 }

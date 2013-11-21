@@ -58,13 +58,18 @@
     </ApplicationDefinition>
     <Compile Include="AIController.cs" />
     <Compile Include="IEngine.cs" />
+    <Compile Include="Block.cs" />
+    <Compile Include="GameAPI.cs" />
     <Compile Include="Square.cs" />
+    <Compile Include="TetrisGame.cs" />
+    <Compile Include="AchievementSystem.cs" />
+    <Compile Include="ScoreSystem.cs" />
+    <Compile Include="IEngine.cs" />
+    <Compile Include="SimpleGame.cs" />
     <Compile Include="IController.cs" />
     <Compile Include="IDisplay.cs" />
     <Compile Include="CSprite.cs" />
-    <Compile Include="Block.cs" />
-    <Compile Include="TetrisGame.cs" />
-    <Compile Include="ScoreSystem.cs" />
+    <Compile Include="Tetrisor.cs" />
     <Compile Include="TimerEngine.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -108,6 +113,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="GameBase\" />
+    <Folder Include="GameSystem\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

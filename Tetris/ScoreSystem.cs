@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Tetris.GameBase;
 
-namespace Tetris
+namespace Tetris.GameSystem
 {
     public class ScoreSystem
     {
-        public int Score { get; private set; }
-        private int _tickScore=0;
-        public void OnClearBar(object sender, TetrisGame.ClearBarEventArgs e)
+        public static void Bind(TetrisGame game)
         {
-            _tickScore++;
+            var ss = new ScoreSystem();
+            game.ScoreSystem = ss;
+            game.UpdateEndEvent += ss.OnUpdateEnd;
         }
+        public int Score { get; private set; }
 
-        public void OnUpdateEnd(object sender, TetrisGame.UpdateEndEventArgs e)
+        private void OnUpdateEnd(object sender, TetrisGame.UpdateEndEventArgs e)
         {
-            Score += _tickScore * _tickScore;
-            _tickScore = 0;
+            var game = (TetrisGame) sender;
+            Score += game.TickClearedBars * game.TickClearedBars;
         }
     }
 }

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Tetris.GameSystem;
 
-namespace Tetris
+namespace Tetris.GameBase
 {
     public partial class TetrisGame
     {
@@ -10,13 +11,22 @@ namespace Tetris
         public enum GameAction { Rotate, Left, Right, Down };
 
         #region Event Args and Callback Declare
+        public class UpdateBeginEventArgs
+        {
+            public int Tick { get; private set; }
+
+            public UpdateBeginEventArgs(int tick)
+            {
+                Tick = tick;
+            }
+        }
         public class ClearBarEventArgs
         {
             public int Line { get; private set; }
             public Square[] Squares { get; private set; }
             public int Tick { get; private set; }
 
-            public ClearBarEventArgs(Square[,] underlying, int line, int tick)
+            public ClearBarEventArgs(SquareArray underlying, int line, int tick)
             {
                 Line = line;
                 Tick = tick;
@@ -46,59 +56,81 @@ namespace Tetris
             }
         }
 
+        public class GameEndEventArgs
+        {
+            public int Score { get; private set; }
+
+            public GameEndEventArgs(int score)
+            {
+                Score = score;
+            }
+        }
+
+        public delegate void UpdateBeginCallback(object sender, UpdateBeginEventArgs e);
         public delegate void ClearBarCallback(object sender, ClearBarEventArgs e);
         public delegate void UpdateEndCallback(object sender, UpdateEndEventArgs e);
         public delegate void DrawCallback(TetrisGame sender, DrawEventArgs e);
+        public delegate void GameEndCallback(object sender, GameEndEventArgs e);
         #endregion
 
         private delegate void UpdateCallback();
-
-        private readonly Square[,] _underLying;
-        private Block _block;
+        
+        public int Id { get; private set; }
+        private readonly SquareArray _underLying;
+        public Block Block { get; private set; }
         private int _tick;
         private readonly int _w, _h;
-        private const int Round = 6;
+        private const int RoundTicks = 6;   // round tick numbers
         private readonly int _gameSpeed;
         private int _state;         // 0 for game ending, 1 for looping, 2 for pause
-        private readonly object _updating=new object();
+        public readonly object Updating = new object();
+
+        public SquareArray UnderLying
+        {
+            get { return _underLying; }
+        }
+
+        public int Height
+        {
+            get { return _h; }
+        }
+
+        public int Width
+        {
+            get { return _w; }
+        }
 
         #region Reference to External Objects
-        private readonly IEngine _engine;
         private readonly TetrisFactory _factory;
         private IController _controller;
-        public ScoreSystem ScoreSystem { get; private set; }
         #endregion
 
         #region Events
+        public event UpdateBeginCallback UpdateBeginEvent;
         public event ClearBarCallback ClearBarEvent;
         public event UpdateEndCallback UpdateEndEvent;
         public event DrawCallback DrawEvent;
+        public event GameEndCallback GameEndEvent;
         #endregion
 
-        public TetrisGame(IEnumerable<Square[,]> styles,IEngine engine,int w=10,int h=15, int gameSpeed=1)
+        public TetrisGame(int id, IEnumerable<SquareArray> styles, IEngine engine, TetrisFactory factory, int w, int h, int gameSpeed)
         {
             _w = w;
             _h = h;
             _gameSpeed = gameSpeed;
-            _engine = engine;
-            _engine.TickEvent += UpdateDispatch;
-            _underLying = new Square[_h, _w];
-            _factory=new TetrisFactory(this,styles);
-
-            #region Intializeing ScoreSystem
-            ScoreSystem =new ScoreSystem();
-            ClearBarEvent += ScoreSystem.OnClearBar;
-            UpdateEndEvent += ScoreSystem.OnUpdateEnd;
-            #endregion
-
+            engine.TickEvent += UpdateDispatch;
+            _underLying = new SquareArray(h,w);
+            _factory=factory;
+            _factory.Game = this;
+            InitTickAPI();
+            Id = id;
             _tick = 0;
             _state = 0;
         }
 
         public void Start()
         {
-            _engine.Enabled = true;
-            if (_block==null) GenTetris();
+            if (Block==null) GenTetris();
             _state = 1;
         }
         public void Pause()
@@ -114,7 +146,7 @@ namespace Tetris
         {
             Trace.WriteLine("ending");
             _state = 0;
-            _engine.Enabled = false;
+            GameEndEvent.Invoke(this,new GameEndEventArgs(this.ScoreSystem.Score));
             Console.Out.Write("end");
         }
 
@@ -130,15 +162,15 @@ namespace Tetris
         {
             get
             {
-                var result = new Square[_h, _w];
-                Array.Copy(_underLying, result, _h * _w);
-                if (_block!=null)
-                    for (int i=0;i<_block.Height;i++)
-                        for (int j = 0; j < _block.Width; j++)
+                var result = new SquareArray(_h,_w);
+                Array.Copy(_underLying.Storage, result.Storage, _h * _w);
+                if (Block!=null)
+                    for (var i=0;i<Block.Height;i++)
+                        for (var j = 0; j < Block.Width; j++)
                         {
-                            if (_block.SquareAt(i, j)!=null) result[_block.LPos + i, _block.RPos + j] = _block.SquareAt(i, j);
+                            if (Block.SquareAt(i, j) != null && Valid(Block.LPos + i, Block.RPos + j)) result[Block.LPos + i, Block.RPos + j] = Block.SquareAt(i, j);
                         }
-                return result;
+                return result.Storage;
             }
         }
         public Square[,] UnderLying
@@ -170,34 +202,41 @@ namespace Tetris
         public bool Try(Block block)
         {
             var result = true;
-            var tempBlock = _block;
-            _block = block;
+            var tempBlock = Block;
+            Block = block;
             if (Intersect()) result = false;
-            _block = tempBlock;
+            Block = tempBlock;
             return result;
         }
         private void PerRound(int times, UpdateCallback cb)
         {
-            if (_tick%(Round/times) == 0)
+            if (_tick%(RoundTicks/times) == 0)
             {
                 cb();
             }
         }
 
-        private bool Valid(int i, int j )
+        private bool Valid(int i, int j ,bool UpperBound=true)
         {
-            return (i >= 0) && (i < _h) && (j >= 0) && (j < _w);
+            if (UpperBound)
+            {
+                return (i >= 0) && (i < _h) && (j >= 0) && (j < _w);
+            }
+            else
+            {
+                return (i >= 0) && (j >= 0) && (j < _w);
+            }
         }
         private bool Intersect()
         {
-            for (int i = 0; i < _block.Height; i++)
-                for (int j = 0; j < _block.Width; j++)
+            for (int i = 0; i < Block.Height; i++)
+                for (int j = 0; j < Block.Width; j++)
                 {
-                    if ((_block.SquareAt(i, j) != null) && (Valid(_block.LPos + i, _block.RPos + j)) && (_underLying[_block.LPos + i, _block.RPos + j] != null))
+                    if ((Block.SquareAt(i, j) != null) && (Valid(Block.LPos + i, Block.RPos + j)) && (_underLying[Block.LPos + i, Block.RPos + j] != null))
                     {
                         return true;
                     }
-                    if ((_block.SquareAt(i, j) != null) && (!Valid(_block.LPos + i, _block.RPos + j)))
+                    if ((Block.SquareAt(i, j) != null) && (!Valid(Block.LPos + i, Block.RPos + j,false)))
                         return true;
                 }
             return false;
@@ -205,16 +244,18 @@ namespace Tetris
 
         private void UpdateDispatch(object sender,int tick)
         {
-            lock (_updating)
+            lock (Updating)
             {
-                if (_block == null) GenTetris();
+                if (Block == null) GenTetris();
                 if (_state == 0) return;    // Check ending caused by cannot generate new block
                 if (_state == 2) return;    // Check for pause
                 _tick++;                    // internal tick add
-                Debug.Assert(_block != null, "loop continue when _block is null");
-                _block.FallSpeed = FallingSpeed;    // Use the Game FallingSpeed as the block fall speed
+                UpdateBeginEvent.Invoke(this, new UpdateBeginEventArgs(_tick));
+                Debug.Assert(Block != null, "loop continue when Block is null");
+                Debug.Assert(Block.Id!=Block.TempId,"loop using a temp block");
+                Block.FallSpeed = FallingSpeed;    // Use the Game FallingSpeed as the block fall speed
                 PerRound(3, HandleAction);
-                PerRound(1*_block.FallSpeed, delegate()
+                PerRound(1*Block.FallSpeed, delegate()
                 {
                     HandleFalling();
                     ClearBar();
@@ -235,16 +276,16 @@ namespace Tetris
                 }
                 if (clear)
                 {
-                    ClearBarEvent.Invoke(this,new ClearBarEventArgs(_underLying,i,_tick));
-                    for(var s=i-1;s>0;s--)
+                    for(var s=i;s<_h-1;s++)
                         for (var j = 0; j < _w; j++)
                         {
-                            _underLying[s+1, j] = _underLying[s,j];
+                            _underLying[s, j] = _underLying[s+1,j];
                         }
                     for (int j = 0; j < _w; j++)
                     {
-                        _underLying[0, j] = null;
+                        _underLying[_h-1, j] = null;
                     }
+                    ClearBarEvent.Invoke(this, new ClearBarEventArgs(_underLying, i, _tick));
                 }
             }
         }
@@ -261,11 +302,12 @@ namespace Tetris
         }
         private void GenTetris()
         {
-            if (_block!=null) throw new Exception("multiple sprite generating");
+            if (Block!=null) throw new Exception("multiple sprite generating");
             var b = _factory.GenTetris();
+            b.LPos = _h - 1;
             if (Try(b))
             {
-                _block = b;
+                Block = b;
             }
             else
             {
@@ -277,36 +319,36 @@ namespace Tetris
         {
             if (_controller.Act(GameAction.Rotate))
             {
-                _block.Rotate();
+                Block.Rotate();
                 if (Intersect())
                 {
-                    _block.CounterRotate();
+                    Block.CounterRotate();
                 }
             }
 
             if (_controller.Act(GameAction.Left))
             {
-                _block.RPos--;
+                Block.RPos--;
                 if (Intersect())
                 {
-                    _block.RPos++;
+                    Block.RPos++;
                 }
             }
             if (_controller.Act(GameAction.Right))
             {
-                _block.RPos++;
+                Block.RPos++;
                 if (Intersect())
                 {
-                    _block.RPos--;
+                    Block.RPos--;
                 }
             }
         }
 
         private void HandleFalling()
         {
-            if (Try(_block.Clone().Fall()))
+            if (Try(Block.Clone().Fall()))
             {
-                _block.Fall();
+                Block.Fall();
             }
             else
             {
@@ -316,15 +358,20 @@ namespace Tetris
 
         private void AddToUnderlying()
         {
-            for (int i = 0; i < _block.Height; i++)
-                for(int j=0;j<_block.Width;j++)
+            for (int i = 0; i < Block.Height; i++)
+                for(int j=0;j<Block.Width;j++)
                 {
-                    if (_block.SquareAt(i, j) != null)
+                    if (Block.SquareAt(i, j) != null)
                     {
-                        _underLying[_block.LPos + i,_block.RPos + j] = _block.SquareAt(i, j);
+                        if (!Valid(Block.LPos + i, Block.RPos + j))
+                        {
+                            End();
+                            return;
+                        }
+                        _underLying[Block.LPos + i,Block.RPos + j] = Block.SquareAt(i, j);
                     }
                 }
-            _block = null;
+            Block = null;
         }
     }
 }
