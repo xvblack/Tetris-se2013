@@ -56,12 +56,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="GameBase\Block.cs" />
-    <Compile Include="GameBase\GameAPI.cs" />
-    <Compile Include="GameBase\Square.cs" />
-    <Compile Include="GameBase\TetrisGame.cs" />
-    <Compile Include="GameSystem\AchievementSystem.cs" />
-    <Compile Include="GameSystem\ScoreSystem.cs" />
+    <Compile Include="Block.cs" />
+    <Compile Include="GameAPI.cs" />
+    <Compile Include="Square.cs" />
+    <Compile Include="TetrisGame.cs" />
+    <Compile Include="AchievementSystem.cs" />
+    <Compile Include="ScoreSystem.cs" />
     <Compile Include="IEngine.cs" />
     <Compile Include="SimpleGame.cs" />
     <Compile Include="IController.cs" />
@@ -111,6 +111,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="GameBase\" />
+    <Folder Include="GameSystem\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
