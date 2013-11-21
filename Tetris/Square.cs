@@ -1,27 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using System.Collections.Generic;
 
 namespace Tetris.GameBase
 {
     public class Square
     {
-        readonly int _color;
-
         private Square(int color)
         {
-            _color = color;
+            Color = color;
         }
 
         public int Color
         {
-            get
-            {
-                return _color;
-            }
+            get; set;
         }
 
         private static SquareArray Style(int[,] style)
@@ -33,7 +23,7 @@ namespace Tetris.GameBase
             return result;
         }
 
-        public static SquareArray[] Styles(int[][,] styles)
+        public static IEnumerable<SquareArray> Styles(int[][,] styles)
         {
             var result = new SquareArray[styles.Length];
             for (int i = 0; i < styles.Length; i++)
@@ -43,6 +33,7 @@ namespace Tetris.GameBase
             return result;
         }
     }
+
 
     public class SquareArray
     {
