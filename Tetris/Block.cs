@@ -89,7 +89,7 @@ namespace Tetris.GameBase
             int dir = 0;
             int type = _random.Next(0, _styles.Count());
             var temp = _styles[type];
-            rr = _game.w / 2 - 1;
+            rr = Game.w / 2 - 1;
             Trace.WriteLine(String.Format("pos = {0}, style = {1}", rr, type));
             var t = new Block(temp){RPos = rr};
             Trace.WriteLine(String.Format("width = {0}", t.Width));
