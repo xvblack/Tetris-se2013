@@ -31,15 +31,13 @@ namespace Tetris
         {
             InitializeComponent();
             var t = new Tetrisor();
-            _controller = new Controller();
+            //_controller = new Controller();
             var game = t.NewGame(_controller);
             game.AddDisplay(this);
-<<<<<<< HEAD
-            //_controller=new Controller();
-            _controller = new AIController(game);
+
+            _controller = new AIController(game, 100);
             game.SetController(_controller);
-=======
->>>>>>> origin/master
+
             game.Start();
         }
         /*

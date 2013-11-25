@@ -34,7 +34,7 @@ namespace Tetris.GameBase
 
         private readonly SquareArray _style;
         public int Id { get; private set; }
-        private float _l; // Why float?
+        private float _l;
         private float _r;
         private float _vl;
         private int _direction;
@@ -56,6 +56,11 @@ namespace Tetris.GameBase
         public void Rotate()
         {
             _direction = (_direction + 1)%4;
+        }
+        public Block Rotate(int x)
+        {
+            _direction = (_direction + x) % 4;
+            return this;
         }
         public void CounterRotate()
         {
@@ -86,13 +91,11 @@ namespace Tetris.GameBase
         }
         public Block GenTetris(){
             int rr;
-            int dir = 0;
             int type = _random.Next(0, _styles.Count());
             var temp = _styles[type];
-            rr = _game.w / 2 - 1;
-            Trace.WriteLine(String.Format("pos = {0}, style = {1}", rr, type));
+            rr = Game.Width / 2 - 1;
+            //Trace.WriteLine(String.Format("pos = {0}, style = {1}", rr, type));
             var t = new Block(temp){RPos = rr};
-            Trace.WriteLine(String.Format("width = {0}", t.Width));
             return t;
         }
     }

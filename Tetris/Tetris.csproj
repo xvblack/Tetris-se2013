@@ -64,7 +64,6 @@
     <Compile Include="TetrisGame.cs" />
     <Compile Include="AchievementSystem.cs" />
     <Compile Include="ScoreSystem.cs" />
-    <Compile Include="IEngine.cs" />
     <Compile Include="SimpleGame.cs" />
     <Compile Include="IController.cs" />
     <Compile Include="IDisplay.cs" />

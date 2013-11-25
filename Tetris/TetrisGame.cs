@@ -173,31 +173,6 @@ namespace Tetris.GameBase
                 return result.Storage;
             }
         }
-        public Square[,] UnderLying
-        {
-            get
-            {
-                var result = new Square[_h, _w];
-                Array.Copy(_underLying, result, _h * _w);
-                return result;
-            }
-        }
-        public Block block
-        {
-            get
-            {
-                return _block;
-            }
-        }
-
-        // Get Width
-        public int w
-        {
-            get
-            {
-                return _w;
-            }
-        }
 
         public bool Try(Block block)
         {
@@ -267,7 +242,8 @@ namespace Tetris.GameBase
 
         private void ClearBar()
         {
-            for (var i = 0; i < _h; i++)
+            // Change bottom-up to top-down, in order to avoid bugs(by GHK)
+            for (var i = _h - 1; i >= 0; i--)
             {
                 bool clear = true;
                 for (int j = 0; j < _w; j++)

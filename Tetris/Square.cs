@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace Tetris.GameBase
 {
@@ -59,7 +60,14 @@ namespace Tetris.GameBase
 
         public Square this[int i, int j]
         {
-            get { return Storage[Storage.GetUpperBound(0) - i, j]; }
+            get
+            {
+                if (i > Storage.GetUpperBound(0))
+                {
+                    return null;
+                }
+                return Storage[Storage.GetUpperBound(0) - i, j]; 
+            }
             set { Storage[Storage.GetUpperBound(0) - i, j] = value; }
         }
     }
