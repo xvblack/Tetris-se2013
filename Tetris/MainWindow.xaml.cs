@@ -32,12 +32,12 @@ namespace Tetris
             InitializeComponent();
             var t = new Tetrisor();
             //_controller = new Controller();
-            var game = t.NewGame(_controller);
+            var game = t.NewGame(_controller);            
             game.AddDisplay(this);
-
+            
             _controller = new AIController(game, 100);
             game.SetController(_controller);
-
+            
             game.Start();
         }
         /*

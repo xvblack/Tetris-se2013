@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tetris.GameBase;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Tetris
 {
@@ -13,6 +14,7 @@ namespace Tetris
         private readonly TetrisGame _game;
         private int _id;
         private int _level;
+        private bool _running = false;
 
         public AIController(TetrisGame game, int level = 0)
         {
@@ -32,6 +34,7 @@ namespace Tetris
         // Pierre Dellacherie Algorithm
         void GenerateControll()
         {
+            _running = true;
             // To controll the difficulty, we can random to make an error, or down times
             Block block = _game.Block.Clone();
 
@@ -76,6 +79,7 @@ namespace Tetris
                 _keyState[TetrisGame.GameAction.Right] = Math.Abs(mov);
             }
             _keyState[TetrisGame.GameAction.Rotate] = max_r;
+            _running = false;
         }
         private bool Intersect(Block block, SquareArray array)
         {
@@ -255,11 +259,16 @@ namespace Tetris
         {
             if (_game.Block == null)
                 return false;
+            if (_running)
+                return false;
             bool result = false;
             if (_game.Block.Id != _id)
             {
                 _id = _game.Block.Id;
-                GenerateControll(); // May put it in a thread
+                Thread th = new Thread(new ThreadStart(GenerateControll));
+                th.IsBackground = true;
+                th.Start();
+                //GenerateControll(); // May put it in a thread
             }
             if (_keyState[action] > 0)
             {
