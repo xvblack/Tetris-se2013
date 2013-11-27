@@ -199,9 +199,9 @@ namespace Tetris.GameBase
             }
         }
 
-        private bool Valid(int i, int j ,bool UpperBound=true)
+        private bool Valid(int i, int j ,bool upperBound=true)
         {
-            if (UpperBound)
+            if (upperBound)
             {
                 return (i >= 0) && (i < _h) && (j >= 0) && (j < _w);
             }
@@ -273,6 +273,7 @@ namespace Tetris.GameBase
                         _underLying[_h-1, j] = null;
                     }
                     ClearBarEvent.Invoke(this, new ClearBarEventArgs(_underLying, i, _tick));
+                    i--;
                 }
             }
         }

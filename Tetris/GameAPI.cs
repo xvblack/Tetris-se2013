@@ -1,4 +1,5 @@
-﻿using Tetris.GameSystem;
+﻿using System.Diagnostics;
+using Tetris.GameSystem;
 
 namespace Tetris.GameBase
 {
@@ -22,6 +23,7 @@ namespace Tetris.GameBase
         private void TickOnClearBar(object sender, ClearBarEventArgs e)
         {
             TickClearedBars++;
+            Trace.WriteLine(e.Tick);
         }
 
         private void TickOnUpdateBegin(object sender, UpdateBeginEventArgs e)
