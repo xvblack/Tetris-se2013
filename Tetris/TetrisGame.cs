@@ -227,9 +227,9 @@ namespace Tetris.GameBase
 
         private void UpdateDispatch(object sender,int tick)
         {
-            lock (_updating)
+            lock (this)
             {
-                if (_block == null) GenTetris();
+                if (Block == null) GenTetris();
                 if (_state == 0) return;
                 if (_state == 2) return;
                 if (Block == null) GenTetris();
@@ -284,7 +284,7 @@ namespace Tetris.GameBase
             {
                 if (_controller.Act(GameAction.Down))
                 {
-                    return 2*_gameSpeed;
+                    return 3*_gameSpeed;
                 }
                 return 1*_gameSpeed;
             }
