@@ -70,7 +70,6 @@ namespace Tetris.GameBase
         public Block Fall()
         {
             LPos--;
-            // Fallspeed work? by Hengkai Guo
             return this;
         }
 
@@ -86,13 +85,11 @@ namespace Tetris.GameBase
             _random=new Random();
         }
         public Block GenTetris(){
-            // Need the interface of underlying for AI
             int rr;
             int dir = 0;
             int type = _random.Next(0, _styles.Count());
             var temp = _styles[type];
-            //rr = _random.Next(0, 10 - temp.GetUpperBound(1 - dir % 2));
-            rr = 10 / 2 - 1;
+            rr = Game.w / 2 - 1;
             Trace.WriteLine(String.Format("pos = {0}, style = {1}", rr, type));
             var t = new Block(temp){RPos = rr};
             Trace.WriteLine(String.Format("width = {0}", t.Width));

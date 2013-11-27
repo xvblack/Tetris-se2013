@@ -10,22 +10,20 @@ namespace Tetris
     class TimerEngine : Timer,IEngine
     {
         private int _tick;
+        
 
         public TimerEngine()
         {
             _tick = 0;
+            Elapsed += delegate(object sender, ElapsedEventArgs e)
+            {
+                lock (this)
+                {
+                    TickEvent.Invoke(this,_tick++);
+                }
+            };
         }
 
-        event TickHandler IEngine.TickEvent
-        {
-            add
-            {
-                Elapsed += (sender, args) => value(sender, _tick++);
-            }
-            remove
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public event TickHandler TickEvent;
     }
 }
