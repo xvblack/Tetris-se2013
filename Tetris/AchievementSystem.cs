@@ -32,7 +32,7 @@ namespace Tetris.GameSystem
                 }
                 );
             game.UpdateEndEvent += new TetrisGame.UpdateEndCallback(
-                delegate(object sender, TetrisGame.UpdateEndEventArgs e)
+                delegate(TetrisGame sender, TetrisGame.UpdateEndEventArgs e)
                 {
                     AchievementSystem.States[name].TotalClearBar += game.TickClearedBars;
                 });

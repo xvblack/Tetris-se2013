@@ -25,9 +25,10 @@ namespace Tetris
         public TetrisGame NewGame(IController controller=null)
         {
             var id = games.Count;
-            var factory = new TetrisFactory(Square.Styles(styles));
+            var factory = new TetrisItemFactory(Square.Styles(styles));
             var game = new TetrisGame(id,Square.Styles(styles), _engine, factory,10,15,1);
             game.SetController(controller);
+            ItemSystem.Bind(game);
             ScoreSystem.Bind(game);
             AchievementSystem.Bind(game);
             games[id] = game;

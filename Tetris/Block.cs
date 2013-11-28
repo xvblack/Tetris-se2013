@@ -40,6 +40,9 @@ namespace Tetris.GameBase
         private int _direction;
         public int LPos { get { return (int)_l; } set{ _l=value; } }
         public int RPos { get { return (int)_r; } set{ _r = value; } }
+
+        protected int Direction { get { return _direction; }
+            set { _direction = value; } }
         public int FallSpeed { get { return (int)_vl;} set{ _vl=value; } }
 
         // More universal constructor by Hengkai Guo
@@ -75,6 +78,29 @@ namespace Tetris.GameBase
 
     }
 
+    public class ItemBlock : Block
+    {
+        public void ResetDirection()
+        {
+            Direction = 0;
+        }
+
+        public bool Acted()
+        {
+            return Direction > 0;
+        }
+        public ItemBlock(SquareArray style, int blockId = -1) : base(style, blockId)
+        {
+        }
+    }
+
+    public class GunItemBlock : ItemBlock
+    {
+        public GunItemBlock(SquareArray style, int blockId = -1) : base(style, blockId)
+        {
+        }
+    }
+
     public class TetrisFactory
     {
         readonly List<SquareArray> _styles;
@@ -84,7 +110,7 @@ namespace Tetris.GameBase
             _styles = new List<SquareArray>(styles);
             _random=new Random();
         }
-        public Block GenTetris(){
+        public virtual Block GenTetris(){
             int rr;
             int dir = 0;
             int type = _random.Next(0, _styles.Count());
@@ -94,6 +120,33 @@ namespace Tetris.GameBase
             var t = new Block(temp){RPos = rr};
             Trace.WriteLine(String.Format("width = {0}", t.Width));
             return t;
+        }
+    }
+
+    public class TetrisItemFactory : TetrisFactory
+    {
+        public readonly Queue<Block> ItemQueue;
+        public TetrisItemFactory(IEnumerable<SquareArray> styles) : base(styles)
+        {
+            ItemQueue=new Queue<Block>();
+        }
+
+        public override Block GenTetris()
+        {
+            int[][,] styles = {new int[,] {{1}}};
+            var oneStyle = Square.Styles(styles).First();
+            if ((new Random()).Next(10)>5) ItemQueue.Enqueue(new GunItemBlock(oneStyle));
+            if (ItemQueue.Count > 0)
+                return ItemQueue.Dequeue();
+            else
+            {
+                return base.GenTetris();
+            }
+        }
+
+        public void PushItem(Block b)
+        {
+            ItemQueue.Enqueue(b);
         }
     }
 }

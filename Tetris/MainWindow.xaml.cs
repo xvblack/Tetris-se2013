@@ -72,7 +72,7 @@ namespace Tetris
             {
                 Console.Write("|");
                 for (int j = 0; j < 10; j++)
-                    Console.Out.Write(_image[i, j] == null ? " " : "#");
+                    Console.Out.Write(_image[i, j] == null ? " " : (_image[i,j].Color==5? "i" : "#"));
                 Console.Out.WriteLine("|");
             }
             Console.WriteLine("============");

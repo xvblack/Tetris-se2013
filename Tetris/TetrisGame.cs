@@ -69,7 +69,7 @@ namespace Tetris.GameBase
 
         public delegate void UpdateBeginCallback(object sender, UpdateBeginEventArgs e);
         public delegate void ClearBarCallback(object sender, ClearBarEventArgs e);
-        public delegate void UpdateEndCallback(object sender, UpdateEndEventArgs e);
+        public delegate void UpdateEndCallback(TetrisGame game, UpdateEndEventArgs e);
         public delegate void DrawCallback(TetrisGame sender, DrawEventArgs e);
         public delegate void GameEndCallback(object sender, GameEndEventArgs e);
         #endregion
