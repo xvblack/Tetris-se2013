@@ -238,6 +238,7 @@ namespace Tetris.GameBase
                     HandleFalling();
                     ClearBar();
                 });
+                
                 UpdateEndEvent.Invoke(this,new UpdateEndEventArgs(_tick));
                 if (_state == 0) return;
                 DrawEvent.Invoke(this,new DrawEventArgs(_tick));
@@ -256,6 +257,7 @@ namespace Tetris.GameBase
                 }
                 if (clear)
                 {
+                    Trace.WriteLine(i);
                     for(var s=i;s<_h-1;s++)
                         for (var j = 0; j < _w; j++)
                         {
@@ -266,7 +268,6 @@ namespace Tetris.GameBase
                         _underLying[_h-1, j] = null;
                     }
                     ClearBarEvent.Invoke(this, new ClearBarEventArgs(_underLying, i, _tick));
-                    i--;
                 }
             }
         }

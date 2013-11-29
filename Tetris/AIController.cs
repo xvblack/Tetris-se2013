@@ -79,6 +79,11 @@ namespace Tetris
                 _keyState[TetrisGame.GameAction.Right] = Math.Abs(mov);
             }
             _keyState[TetrisGame.GameAction.Rotate] = max_r;
+            /*
+            _keyState[TetrisGame.GameAction.Left] = 0;
+            _keyState[TetrisGame.GameAction.Right] = 0;
+            _keyState[TetrisGame.GameAction.Rotate] = 0;*/
+
             _running = false;
         }
         private bool Intersect(Block block, SquareArray array)
