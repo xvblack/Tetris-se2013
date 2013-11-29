@@ -78,7 +78,7 @@ namespace Tetris.GameBase
                }
                return Storage[_m - i, j];                
             }
-            set { Storage[_m - i, j] = value; }
+            set { if (i <= _m) Storage[_m - i, j] = value; }
         }
     }
 }

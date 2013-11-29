@@ -77,7 +77,6 @@ namespace Tetris.GameBase
             LPos--;
             return this;
         }
-
     }
 
     public class TetrisFactory

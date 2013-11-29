@@ -169,6 +169,7 @@ namespace Tetris
                 }
             }
             metric = line * bl;
+            //landHeight = block.LPos - line + block.Height / 2;
             landHeight = block.LPos - line;
             if (landHeight < 0) landHeight = 0;
             for (i = 0; i < h; i++)
