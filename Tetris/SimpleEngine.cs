@@ -15,10 +15,14 @@ namespace Tetris
         private bool _enabled;
         private Thread thread;
         public bool Enabled {
-            get { return _enabled; }
+            get
+            {
+                return _enabled;
+            }
             set
             {
                 _enabled = value;
+                if (_enabled) thread.Start();
             }
         }
 
@@ -37,8 +41,14 @@ namespace Tetris
                     Thread.Sleep((int)(Interval * 1000));
                 }
             });
-            TickEvent += (sender, tick) => Trace.WriteLine("tick");
-
+            var time = DateTime.Now;
+            TickEvent += (sender, tick) =>
+            {
+                var newtime = DateTime.Now;
+                Trace.WriteLine(newtime-time);
+                time = newtime;
+                Trace.Flush();
+            };
         }
     }
 }

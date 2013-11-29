@@ -17,7 +17,8 @@ namespace Tetris
                                new int[2, 3]{{1, 1, 0}, {0, 1, 1}}, new int[2, 3]{{0, 1, 1}, {1, 1, 0}}};
         public Tetrisor()
         {
-            _engine=new TimerEngine();
+            _engine=new SimpleEngine();
+            _engine.Interval = 0.03;
             games=new Dictionary<int, TetrisGame>();
             _engine.Enabled = true;
         }

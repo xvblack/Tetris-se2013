@@ -78,22 +78,6 @@ namespace Tetris.GameBase
 
     }
 
-    public class ItemBlock : Block
-    {
-        public void ResetDirection()
-        {
-            Direction = 0;
-        }
-
-        public bool Acted()
-        {
-            return Direction > 0;
-        }
-        public ItemBlock(SquareArray style, int blockId = -1) : base(style, blockId)
-        {
-        }
-    }
-
     public class TetrisFactory
     {
         readonly List<SquareArray> _styles;

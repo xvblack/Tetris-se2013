@@ -7,6 +7,23 @@ using Tetris.GameBase;
 
 namespace Tetris
 {
+    public class ItemBlock : Block
+    {
+        public void ResetDirection()
+        {
+            Direction = 0;
+        }
+
+        public bool Acted()
+        {
+            return Direction > 0;
+        }
+        public ItemBlock(SquareArray style, int blockId = -1)
+            : base(style, blockId)
+        {
+        }
+    }
+
     public class GunItemBlock : ItemBlock
     {
         public GunItemBlock(SquareArray style, int blockId = -1)
@@ -125,6 +142,10 @@ namespace Tetris
                         game.UnderLying[i, j] = null;
                     }
                 }
+                game.ClearBlock();
+            }
+            if (game.Block is ItemBlock)
+            {
                 game.ClearBlock();
             }
         }

@@ -94,7 +94,7 @@ namespace Tetris.GameBase
         public Block Block { get; private set; }
         private int _tick;
         private readonly int _w, _h;
-        private const int RoundTicks = 6;   // round tick numbers
+        private const int RoundTicks = 24;   // round tick numbers
         private readonly int _gameSpeed;
         private volatile int _state;         // 0 for game ending, 1 for looping, 2 for pause
         public readonly object Updating = new object();
@@ -303,13 +303,14 @@ namespace Tetris.GameBase
             {
                 if (_controller.Act(GameAction.Down))
                 {
-                    return 3*_gameSpeed;
+                    return 15*_gameSpeed;
                 }
                 return 1*_gameSpeed;
             }
         }
         private void GenTetris()
         {
+            if (_state == 0) return;
             if (Block!=null) throw new Exception("multiple sprite generating");
             var b = _factory.GenTetris();
             b.LPos = _h - 1;
