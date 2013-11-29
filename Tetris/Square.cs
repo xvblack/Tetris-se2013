@@ -4,7 +4,7 @@ namespace Tetris.GameBase
 {
     public class Square
     {
-        private Square(int color)
+        public Square(int color)
         {
             Color = color;
         }

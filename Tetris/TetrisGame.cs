@@ -12,25 +12,31 @@ namespace Tetris.GameBase
         public enum GameAction { Rotate, Left, Right, Down };
 
         #region Event Args and Callback Declare
-        public class UpdateBeginEventArgs
-        {
-            public int Tick { get; private set; }
 
-            public UpdateBeginEventArgs(int tick)
+        public class TickEventArgs
+        {
+            public int Tick { get; protected set; }
+
+            public TickEventArgs(int tick)
             {
                 Tick = tick;
             }
         }
-        public class ClearBarEventArgs
+
+        public class UpdateBeginEventArgs : TickEventArgs
+        {
+            public UpdateBeginEventArgs(int tick) : base(tick)
+            {
+            }
+        }
+        public class ClearBarEventArgs : TickEventArgs
         {
             public int Line { get; private set; }
             public Square[] Squares { get; private set; }
-            public int Tick { get; private set; }
 
-            public ClearBarEventArgs(SquareArray underlying, int line, int tick)
+            public ClearBarEventArgs(SquareArray underlying, int line, int tick) : base(tick)
             {
                 Line = line;
-                Tick = tick;
                 Squares = new Square[underlying.GetUpperBound(1) + 1];
                 for (var j = 0; j < underlying.GetUpperBound(1) + 1; j++)
                 {
@@ -38,22 +44,18 @@ namespace Tetris.GameBase
                 }
             }
         }
-        public class UpdateEndEventArgs
+        public class UpdateEndEventArgs : TickEventArgs
         {
-            public int Tick { get; private set; }
 
-            public UpdateEndEventArgs(int tick)
+            public UpdateEndEventArgs(int tick) : base(tick)
             {
-                Tick = tick;
             }
         }
-        public class DrawEventArgs
+        public class DrawEventArgs : TickEventArgs
         {
-            public int Tick { get; private set; }
 
-            public DrawEventArgs(int tick)
+            public DrawEventArgs(int tick):base(tick)
             {
-                Tick = tick;
             }
         }
 
@@ -67,11 +69,22 @@ namespace Tetris.GameBase
             }
         }
 
-        public delegate void UpdateBeginCallback(object sender, UpdateBeginEventArgs e);
+        public class AddToUnderlyingEventArgs : TickEventArgs
+        {
+            public Block block { get; private set; }
+            public AddToUnderlyingEventArgs(int tick, Block addingBlock):base(tick)
+            {
+                block = addingBlock;
+            }
+        }
+
+        public delegate void UpdateBeginCallback(TetrisGame game, UpdateBeginEventArgs e);
         public delegate void ClearBarCallback(object sender, ClearBarEventArgs e);
         public delegate void UpdateEndCallback(TetrisGame game, UpdateEndEventArgs e);
         public delegate void DrawCallback(TetrisGame sender, DrawEventArgs e);
         public delegate void GameEndCallback(object sender, GameEndEventArgs e);
+        public delegate void AddToUnderlyingCallback(TetrisGame game, AddToUnderlyingEventArgs e);
+
         #endregion
 
         private delegate void UpdateCallback();
@@ -112,6 +125,7 @@ namespace Tetris.GameBase
         public event UpdateEndCallback UpdateEndEvent;
         public event DrawCallback DrawEvent;
         public event GameEndCallback GameEndEvent;
+        public event AddToUnderlyingCallback AddToUnderlyingEvent;
         #endregion
 
         public TetrisGame(int id, IEnumerable<SquareArray> styles, IEngine engine, TetrisFactory factory, int w, int h, int gameSpeed)
@@ -223,6 +237,11 @@ namespace Tetris.GameBase
                         return true;
                 }
             return false;
+        }
+
+        public void ClearBlock()
+        {
+            Block = null;
         }
 
         private void UpdateDispatch(object sender,int tick)
@@ -347,20 +366,24 @@ namespace Tetris.GameBase
 
         private void AddToUnderlying()
         {
-            for (int i = 0; i < Block.Height; i++)
-                for(int j=0;j<Block.Width;j++)
-                {
-                    if (Block.SquareAt(i, j) != null)
+            AddToUnderlyingEvent.Invoke(this,new AddToUnderlyingEventArgs(_tick,Block));
+            if (Block != null)
+            {
+                for (int i = 0; i < Block.Height; i++)
+                    for (int j = 0; j < Block.Width; j++)
                     {
-                        if (!Valid(Block.LPos + i, Block.RPos + j))
+                        if (Block.SquareAt(i, j) != null)
                         {
-                            End();
-                            return;
+                            if (!Valid(Block.LPos + i, Block.RPos + j))
+                            {
+                                End();
+                                return;
+                            }
+                            _underLying[Block.LPos + i, Block.RPos + j] = Block.SquareAt(i, j);
                         }
-                        _underLying[Block.LPos + i,Block.RPos + j] = Block.SquareAt(i, j);
                     }
-                }
-            Block = null;
+                Block = null;
+            }
         }
     }
 }

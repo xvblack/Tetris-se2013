@@ -94,13 +94,6 @@ namespace Tetris.GameBase
         }
     }
 
-    public class GunItemBlock : ItemBlock
-    {
-        public GunItemBlock(SquareArray style, int blockId = -1) : base(style, blockId)
-        {
-        }
-    }
-
     public class TetrisFactory
     {
         readonly List<SquareArray> _styles;
@@ -123,30 +116,4 @@ namespace Tetris.GameBase
         }
     }
 
-    public class TetrisItemFactory : TetrisFactory
-    {
-        public readonly Queue<Block> ItemQueue;
-        public TetrisItemFactory(IEnumerable<SquareArray> styles) : base(styles)
-        {
-            ItemQueue=new Queue<Block>();
-        }
-
-        public override Block GenTetris()
-        {
-            int[][,] styles = {new int[,] {{1}}};
-            var oneStyle = Square.Styles(styles).First();
-            if ((new Random()).Next(10)>5) ItemQueue.Enqueue(new GunItemBlock(oneStyle));
-            if (ItemQueue.Count > 0)
-                return ItemQueue.Dequeue();
-            else
-            {
-                return base.GenTetris();
-            }
-        }
-
-        public void PushItem(Block b)
-        {
-            ItemQueue.Enqueue(b);
-        }
-    }
 }
