@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using Tetris.GameSystem;
 
 namespace Tetris.GameBase
@@ -82,7 +83,7 @@ namespace Tetris.GameBase
         private readonly int _w, _h;
         private const int RoundTicks = 6;   // round tick numbers
         private readonly int _gameSpeed;
-        private int _state;         // 0 for game ending, 1 for looping, 2 for pause
+        private volatile int _state;         // 0 for game ending, 1 for looping, 2 for pause
         public readonly object Updating = new object();
 
         public SquareArray UnderLying
@@ -144,7 +145,6 @@ namespace Tetris.GameBase
         }
         public void End()
         {
-            Trace.WriteLine("ending");
             _state = 0;
             GameEndEvent.Invoke(this,new GameEndEventArgs(this.ScoreSystem.Score));
             Console.Out.Write("end");
@@ -191,9 +191,9 @@ namespace Tetris.GameBase
             }
         }
 
-        private bool Valid(int i, int j ,bool UpperBound=true)
+        private bool Valid(int i, int j ,bool upperBound=true)
         {
-            if (UpperBound)
+            if (upperBound)
             {
                 return (i >= 0) && (i < _h) && (j >= 0) && (j < _w);
             }
@@ -219,10 +219,13 @@ namespace Tetris.GameBase
 
         private void UpdateDispatch(object sender,int tick)
         {
-            lock (Updating)
+            lock (this)
             {
+                if (_state == 0) return;
+                if (_state == 2) return;
                 if (Block == null) GenTetris();
-                if (_state == 0) return;    // Check ending caused by cannot generate new block
+                if (_state == 0) 
+                    return;    // Check ending caused by cannot generate new block
                 if (_state == 2) return;    // Check for pause
                 _tick++;                    // internal tick add
                 UpdateBeginEvent.Invoke(this, new UpdateBeginEventArgs(_tick));
@@ -236,6 +239,7 @@ namespace Tetris.GameBase
                     ClearBar();
                 });
                 UpdateEndEvent.Invoke(this,new UpdateEndEventArgs(_tick));
+                if (_state == 0) return;
                 DrawEvent.Invoke(this,new DrawEventArgs(_tick));
             }
         }
@@ -262,6 +266,7 @@ namespace Tetris.GameBase
                         _underLying[_h-1, j] = null;
                     }
                     ClearBarEvent.Invoke(this, new ClearBarEventArgs(_underLying, i, _tick));
+                    i--;
                 }
             }
         }

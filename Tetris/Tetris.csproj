@@ -60,6 +60,7 @@
     <Compile Include="IEngine.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="GameAPI.cs" />
+    <Compile Include="SimpleEngine.cs" />
     <Compile Include="Square.cs" />
     <Compile Include="TetrisGame.cs" />
     <Compile Include="AchievementSystem.cs" />
