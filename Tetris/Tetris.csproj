@@ -57,6 +57,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AIController.cs" />
+    <Compile Include="GameGrid.xaml.cs">
+      <DependentUpon>GameGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="IEngine.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="GameAPI.cs" />
@@ -73,6 +76,10 @@
     <Compile Include="TimerEngine.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Page Include="GameGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

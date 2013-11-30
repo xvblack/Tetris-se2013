@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Tetris.GameBase;
+using Tetris.GameGUI;
 
 namespace Tetris
 {
@@ -34,6 +35,15 @@ namespace Tetris
             //_controller = new Controller();
             var game = t.NewGame(_controller);            
             game.AddDisplay(this);
+            GameGrid gameGrid = new GameGrid(game.Height, game.Width);
+            this.Grid.Children.Add(gameGrid);
+            Grid.SetRow(gameGrid, 1);
+            Grid.SetColumn(gameGrid, 1);
+            this.Height = 50 + gameGrid.Height + 30 + 10 + 20;
+            this.Width = 160 + gameGrid.Width + 10 * 2;
+            Trace.WriteLine(String.Format("H:{0}, W:{1}", Height, Width));
+            grid_count.DataContext = game.ScoreSystem;
+            game.AddDisplay(gameGrid);
             
             _controller = new AIController(game, 100);
             game.SetController(_controller);
