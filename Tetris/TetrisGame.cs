@@ -253,7 +253,7 @@ namespace Tetris.GameBase
                 Debug.Assert(Block != null, "loop continue when Block is null");
                 Debug.Assert(Block.Id!=Block.TempId,"loop using a temp block");
                 Block.FallSpeed = FallingSpeed;    // Use the Game FallingSpeed as the block fall speed
-                PerRound(3, HandleAction);
+                PerRound(8, HandleAction);
                 PerRound(1*Block.FallSpeed, delegate()
                 {
                     HandleFalling();
