@@ -42,7 +42,8 @@ namespace Tetris
             _keyState[TetrisGame.GameAction.Right] = 0;
             _keyState[TetrisGame.GameAction.Rotate] = 0;
 
-            _keyState[TetrisGame.GameAction.Down] = _level * 5;
+            //_keyState[TetrisGame.GameAction.Down] = _level * 5;
+            _keyState[TetrisGame.GameAction.Down] = 0;
 
             int max_p = -1;           // Max position
             int max_r = -1;           // Max rotation
@@ -280,6 +281,9 @@ namespace Tetris
             {
                 result = true;
                 _keyState[action]--;
+                if ((action != TetrisGame.GameAction.Down) && (_keyState[TetrisGame.GameAction.Left]
+                    + _keyState[TetrisGame.GameAction.Right] + _keyState[TetrisGame.GameAction.Rotate] == 0))
+                    _keyState[TetrisGame.GameAction.Down] = _level * 5;
             }
             
             return result;
