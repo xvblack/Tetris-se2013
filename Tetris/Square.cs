@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace Tetris.GameBase
 {
@@ -37,6 +38,9 @@ namespace Tetris.GameBase
 
     public class SquareArray
     {
+        private int _m = 0;
+        private int _n = 0;
+
         public Square[,] Storage
         {
             get; private set;
@@ -45,11 +49,15 @@ namespace Tetris.GameBase
         public SquareArray(int m, int n)
         {
             Storage=new Square[m,n];
+            _m = m - 1;
+            _n = n - 1;
         }
 
         public SquareArray(Square[,] _squares)
         {
             Storage = _squares;
+            _m = Storage.GetUpperBound(0);
+            _n = Storage.GetUpperBound(1);
         }
 
         public SquareArray Clone()
@@ -59,13 +67,23 @@ namespace Tetris.GameBase
 
         public int GetUpperBound(int i)
         {
-            return Storage.GetUpperBound(i);
+            //return Storage.GetUpperBound(i);
+            if (i == 0)
+                return _m;
+            return _n;
         }
 
         public Square this[int i, int j]
         {
-            get { return Storage[Storage.GetUpperBound(0) - i, j]; }
-            set { Storage[Storage.GetUpperBound(0) - i, j] = value; }
+            get
+            {
+               if (i > _m)
+               {
+                   return null;
+               }
+               return Storage[_m - i, j];                
+            }
+            set { if (i <= _m) Storage[_m - i, j] = value; }
         }
     }
 }

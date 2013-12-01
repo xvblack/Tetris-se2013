@@ -1,21 +1,50 @@
 ﻿using Tetris.GameBase;
+using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Tetris.GameSystem
 {
-    public class ScoreSystem
+    public class ScoreSystem : INotifyPropertyChanged
     {
+        private int _score = 0;
         public static void Bind(TetrisGame game)
         {
             var ss = new ScoreSystem();
             game.ScoreSystem = ss;
-            game.UpdateEndEvent += ss.OnUpdateEnd;
+            //game.UpdateEndEvent += ss.OnUpdateEnd;
+            game.ClearBarEvent += ss.OnUpdateEnd;
         }
-        public int Score { get; private set; }
+        public int Score 
+        {
+            get 
+            { 
+                return _score; 
+            } 
+            set 
+            {
+                if (value != _score)
+                {
+                    _score = value;
+                    Notify("Score");
+                }
+            } 
+        }
 
-        private void OnUpdateEnd(object sender, TetrisGame.UpdateEndEventArgs e)
+        private void OnUpdateEnd(object sender, TetrisGame.ClearBarEventArgs e)
+        //private void OnUpdateEnd(object sender, TetrisGame.UpdateEndEventArgs e)
         {
             var game = (TetrisGame) sender;
             Score += game.TickClearedBars * game.TickClearedBars;
+            
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        void Notify(string propName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }
         }
     }
 }

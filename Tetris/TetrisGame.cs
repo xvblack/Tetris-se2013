@@ -188,14 +188,6 @@ namespace Tetris.GameBase
                 return result.Storage;
             }
         }
-        // Get Width
-        public int w
-        {
-            get
-            {
-                return _w;
-            }
-        }
 
         public bool Try(Block block)
         {
