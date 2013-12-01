@@ -25,32 +25,73 @@ namespace Tetris
     public partial class MainWindow : Window, IDisplay
     {
         private Square[,] _image;
-        //private readonly Controller _controller;
-        private readonly AIController _controller;
+        private readonly Controller _controller;
+        private readonly AIController _aiController;
+        private readonly AIController _aiController2;
+        private bool dual = false; // is dual?
 
         public MainWindow()
         {
             InitializeComponent();
             var t = new Tetrisor();
-            //_controller = new Controller();
-            var game = t.NewGame(_controller);            
-            game.AddDisplay(this);
-            GameGrid gameGrid = new GameGrid(game.Height, game.Width);
-            this.Grid.Children.Add(gameGrid);
-            Grid.SetRow(gameGrid, 1);
-            Grid.SetColumn(gameGrid, 1);
-            this.Height = 50 + gameGrid.Height + 30 + 10 + 20;
-            this.Width = 160 + gameGrid.Width + 10 * 2;
-            Trace.WriteLine(String.Format("H:{0}, W:{1}", Height, Width));
-            grid_count.DataContext = game.ScoreSystem;
-            game.AddDisplay(gameGrid);
-            
-            _controller = new AIController(game, 100);
-            game.SetController(_controller);
-            
-            game.Start();
+            if (dual)
+            {
+                var games = t.NewDuelGame();
+
+                GameGrid gameGrid1 = new GameGrid(games.Item1.Height, games.Item1.Width);
+                this.Grid.Children.Add(gameGrid1);
+                Grid.SetRow(gameGrid1, 1);
+                Grid.SetColumn(gameGrid1, 1);
+                GameGrid gameGrid2 = new GameGrid(games.Item2.Height, games.Item2.Width);
+                this.Grid.Children.Add(gameGrid2);
+                Grid.SetRow(gameGrid2, 1);
+                Grid.SetColumn(gameGrid2, 5);
+
+                this.Height = 50 + gameGrid1.Height + 30 + 10 + 20;
+                this.Width = 200 + gameGrid1.Width * 2 + 10 * 2 + 150 + 5;
+
+                grid_count.DataContext = games.Item1.ScoreSystem;
+                grid_count2.DataContext = games.Item2.ScoreSystem;
+
+                games.Item1.AddDisplay(gameGrid1);
+                games.Item2.AddDisplay(gameGrid2);
+
+                //_aiController2 = new AIController(games.Item1, 100);
+                //games.Item1.SetController(_aiController2);
+                _controller = new Controller();
+                games.Item1.SetController(_controller);
+                _aiController = new AIController(games.Item2, 100);
+                games.Item2.SetController(_aiController);
+
+                games.Item1.Start();
+                games.Item2.Start();
+            }
+            else
+            {
+                this.Grid.ColumnDefinitions.RemoveRange(4, 3);
+                this.Grid.Children.Remove(grid_count2);
+
+                var game = t.NewGame();
+                //game.AddDisplay(this);
+
+                GameGrid gameGrid = new GameGrid(game.Height, game.Width);
+                this.Grid.Children.Add(gameGrid);               
+                Grid.SetRow(gameGrid, 1);
+                Grid.SetColumn(gameGrid, 1);
+
+                this.Height = 50 + gameGrid.Height + 30 + 10 + 20;
+                this.Width = 200 + gameGrid.Width + 10 * 2;
+
+                grid_count.DataContext = game.ScoreSystem;
+                game.AddDisplay(gameGrid);
+
+                _aiController = new AIController(game, 100);
+                game.SetController(_aiController);
+
+                game.Start();
+            }
         }
-        /*
+        
         private readonly Key[] Keys = new Key[]
         {
             Key.Left,
@@ -75,7 +116,7 @@ namespace Tetris
             {
                // _controller.KeyState[e.Key] = false;
             }
-        }*/
+        }
 
         public void OnDrawing(TetrisGame game, TetrisGame.DrawEventArgs e)
         {
@@ -92,7 +133,7 @@ namespace Tetris
             }
             Console.WriteLine("============");
         }
-        /*
+        
         static readonly Dictionary<TetrisGame.GameAction,Key> Ht=new Dictionary<TetrisGame.GameAction, Key>()
         {
             {TetrisGame.GameAction.Left,Key.Left},
@@ -121,6 +162,6 @@ namespace Tetris
                 KeyState[Ht[action]] = false;
                 return result;
             }
-        }*/
+        }
     }
 }

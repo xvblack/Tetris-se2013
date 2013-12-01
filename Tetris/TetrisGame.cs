@@ -237,11 +237,12 @@ namespace Tetris.GameBase
                 {
                     HandleFalling();
                     ClearBar();
+                    DrawEvent.Invoke(this, new DrawEventArgs(_tick)); // 在方块下落时才刷新界面
                 });
                 
                 UpdateEndEvent.Invoke(this,new UpdateEndEventArgs(_tick));
                 if (_state == 0) return;
-                DrawEvent.Invoke(this,new DrawEventArgs(_tick));
+                
             }
         }
 

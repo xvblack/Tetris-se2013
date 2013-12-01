@@ -23,16 +23,17 @@ namespace Tetris.GameGUI
     public partial class GameGrid : Grid, IDisplay
     {
         private Rectangle[,] rect;
+        private const int _square = 30; // size of display square
         readonly Color[] colors = {Colors.Transparent, Colors.DarkOrange, Colors.Red, Colors.Blue, Colors.Green, Colors.Aquamarine, Colors.Olive, Colors.Violet};
 
         public GameGrid(int height, int width)
         {
             InitializeComponent();
-            Height = 25 * height;
-            Width = 25 * width;
+            Height = _square * height;
+            Width = _square * width;
             ColumnDefinition[] col = new ColumnDefinition[width];
             RowDefinition[] row = new RowDefinition[height];
-            GridLength gl = new GridLength(25, GridUnitType.Pixel);
+            GridLength gl = new GridLength(_square, GridUnitType.Pixel);
             int i, j;
             for (i = 0; i < width; i++)
             {
@@ -53,8 +54,8 @@ namespace Tetris.GameGUI
                 for (j = 0; j < width; j++)
                 {
                     rect[i, j] = new Rectangle();
-                    rect[i, j].Width = 24;
-                    rect[i, j].Height = 24;
+                    rect[i, j].Width = _square - 1;
+                    rect[i, j].Height = _square - 1;
                     rect[i, j].SetValue(Grid.RowProperty, i);
                     rect[i, j].SetValue(Grid.ColumnProperty, j);
                     rect[i, j].Fill = new SolidColorBrush(colors[0]);
@@ -77,7 +78,7 @@ namespace Tetris.GameGUI
                             new Action(
                                 delegate
                                 {
-                                    rect[i, j].Fill = new SolidColorBrush(colors[image[i, j] == null ? 0 : image[i, j].Color]);
+                                    rect[i, j].Fill = new SolidColorBrush(colors[image[i, j] == null ? 0 : (image[i, j].Color < colors.Length ? image[i, j].Color : 1)]);
                                     //Trace.WriteLine(String.Format("{0}, {1}: {2}", i, j, image[i, j] == null ? 0 : image[i, j].Color));
                                 }
                         ));
@@ -86,25 +87,6 @@ namespace Tetris.GameGUI
                     {
                     }
                 }
-            /*
-            if (game.Block == null)
-                return;
-            Tetris.GameBase.Block block = game.Block;
-            for (i = 0; i < block.Height; i++)
-                for (j = 0; j < block.Width; j++)
-                {
-                    if ((block.LPos + i < 0) || (block.LPos + i >= game.Height) || (block.RPos + j < 0) || (block.RPos + j >= game.Width))
-                        continue;
-                        rect[block.LPos + i, block.RPos + j].Dispatcher.Invoke(
-                            new Action(
-                                delegate
-                                {
-                                    rect[block.LPos + i, block.RPos + j].Fill = new SolidColorBrush(colors[block.SquareAt(i, j) == null ? 0 : block.SquareAt(i, j).Color]);
-                                    //Trace.WriteLine(String.Format("{0}, {1}", i, j));
-                                }
-                        ));
-           
-                }*/
         }
     }
 }
