@@ -79,7 +79,7 @@ namespace Tetris.GameBase
         }
 
         public delegate void UpdateBeginCallback(TetrisGame game, UpdateBeginEventArgs e);
-        public delegate void ClearBarCallback(object sender, ClearBarEventArgs e);
+        public delegate void ClearBarCallback(TetrisGame sender, ClearBarEventArgs e);
         public delegate void UpdateEndCallback(TetrisGame game, UpdateEndEventArgs e);
         public delegate void DrawCallback(TetrisGame sender, DrawEventArgs e);
         public delegate void GameEndCallback(object sender, GameEndEventArgs e);
@@ -97,8 +97,8 @@ namespace Tetris.GameBase
         private const int RoundTicks = 24;   // round tick numbers
         private readonly int _gameSpeed;
         private volatile int _state;         // 0 for game ending, 1 for looping, 2 for pause
-        public readonly object Updating = new object();
 
+        public TetrisFactory Factory{get { return _factory; }}
         public SquareArray UnderLying
         {
             get { return _underLying; }
@@ -122,6 +122,7 @@ namespace Tetris.GameBase
         #region Events
         public event UpdateBeginCallback UpdateBeginEvent;
         public event ClearBarCallback ClearBarEvent;
+        public event ClearBarCallback BeforeClearBarEvent;
         public event UpdateEndCallback UpdateEndEvent;
         public event DrawCallback DrawEvent;
         public event GameEndCallback GameEndEvent;
@@ -264,8 +265,8 @@ namespace Tetris.GameBase
                 PerRound(1*Block.FallSpeed, delegate()
                 {
                     HandleFalling();
-                    ClearBar();
                 });
+                ClearBar();
                 UpdateEndEvent.Invoke(this,new UpdateEndEventArgs(_tick));
                 if (_state == 0) return;
                 DrawEvent.Invoke(this,new DrawEventArgs(_tick));
@@ -283,6 +284,7 @@ namespace Tetris.GameBase
                 }
                 if (clear)
                 {
+                    BeforeClearBarEvent.Invoke(this, new ClearBarEventArgs(_underLying,i,_tick));
                     for(var s=i;s<_h-1;s++)
                         for (var j = 0; j < _w; j++)
                         {

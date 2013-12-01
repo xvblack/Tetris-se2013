@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,15 @@ namespace Tetris
         public ItemBlock(SquareArray style, int blockId = -1)
             : base(style, blockId)
         {
+        }
+    }
+
+    public class ItemSquare : Square
+    {
+        public int ItemId;
+        public ItemSquare(int color,int itemId) : base(color)
+        {
+            ItemId = itemId;
         }
     }
 
@@ -51,31 +61,65 @@ namespace Tetris
     public class TetrisItemFactory : TetrisFactory
     {
         public readonly Queue<Block> ItemQueue;
+        private static readonly int[][,] styles = new int[][,] { new int[,] { { 10 } }, new int[,] { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } } };
+        SquareArray oneStyle = Square.Styles(styles).First();
+        SquareArray threeStyle = Square.Styles(styles).ElementAt(1);
+        Random _random=new Random();
+
         public TetrisItemFactory(IEnumerable<SquareArray> styles)
             : base(styles)
         {
             ItemQueue = new Queue<Block>();
         }
 
+        public int rand(int max)
+        {
+            return _random.Next(max);
+        }
+
         public override Block GenTetris()
         {
-            int[][,] styles = { new int[,] { { 1 } }, new int[,] { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } } };
-            var oneStyle = Square.Styles(styles).First();
-            var threeStyle = Square.Styles(styles).ElementAt(1);
-            if ((new Random()).Next(10)>8) ItemQueue.Enqueue(new GunItemBlock(oneStyle));
-            if ((new Random()).Next(10) > 8) ItemQueue.Enqueue(new TonItemBlock(threeStyle));
-            if ((new Random()).Next(10) > 8) ItemQueue.Enqueue(new InverseGunItemBlock(oneStyle));
+            //if ((new Random()).Next(10)>8) ItemQueue.Enqueue(new GunItemBlock(oneStyle));
+            //if ((new Random()).Next(10) > 8) ItemQueue.Enqueue(new TonItemBlock(threeStyle));
+            //if ((new Random()).Next(10) > 8) ItemQueue.Enqueue(new InverseGunItemBlock(oneStyle));
             if (ItemQueue.Count > 0)
                 return ItemQueue.Dequeue();
             else
             {
-                return base.GenTetris();
+                var block=base.GenTetris();
+                if (rand(100) > 90)
+                {
+                    var i = rand(block.Height);
+                    var j = 0;
+                    while (block.SquareAt(i, j) == null)
+                    {
+                        j++;
+                    }
+                    block._style = block._style.Clone();
+                    block._style[i, j] = new ItemSquare(10, rand(3));
+                }
+                return block;
             }
         }
 
         public void PushItem(Block b)
         {
             ItemQueue.Enqueue(b);
+        }
+
+        public void PushGun()
+        {
+            ItemQueue.Enqueue(new GunItemBlock(oneStyle));
+        }
+
+        public void PushInverseGun()
+        {
+            ItemQueue.Enqueue(new InverseGunItemBlock(oneStyle));
+        }
+
+        public void PushTon()
+        {
+            ItemQueue.Enqueue(new TonItemBlock(threeStyle));
         }
     }
     class ItemSystem
@@ -84,6 +128,30 @@ namespace Tetris
         {
             game.UpdateBeginEvent += ProcessItem;
             game.AddToUnderlyingEvent += ProcessUnderlyingItem;
+            game.BeforeClearBarEvent += ProcessItemSquare;
+        }
+
+        private static void ProcessItemSquare(TetrisGame game, TetrisGame.ClearBarEventArgs e)
+        {
+            foreach (var s in e.Squares)
+            {
+                if (s is ItemSquare)
+                {
+                    var si = s as ItemSquare;
+                    switch (si.ItemId)
+                    {
+                        case 0:
+                            (game.Factory as TetrisItemFactory).PushGun();
+                            break;
+                        case 1:
+                            (game.Factory as TetrisItemFactory).PushInverseGun();
+                            break;
+                        case 2:
+                            (game.Factory as TetrisItemFactory).PushTon();
+                            break;
+                    }
+                }
+            }
         }
 
         public static void ProcessItem(TetrisGame game, TetrisGame.UpdateBeginEventArgs e)

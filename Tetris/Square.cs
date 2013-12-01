@@ -52,6 +52,11 @@ namespace Tetris.GameBase
             Storage = _squares;
         }
 
+        public SquareArray Clone()
+        {
+            return new SquareArray(Storage.Clone() as Square[,]);
+        }
+
         public int GetUpperBound(int i)
         {
             return Storage.GetUpperBound(i);

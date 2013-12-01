@@ -32,7 +32,7 @@ namespace Tetris.GameBase
             return null;
         }
 
-        private readonly SquareArray _style;
+        public SquareArray _style;
         public int Id { get; private set; }
         private float _l; // Why float?
         private float _r;
