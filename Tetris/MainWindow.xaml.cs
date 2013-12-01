@@ -28,16 +28,27 @@ namespace Tetris
         private readonly Controller _controller;
         private readonly AIController _aiController;
         private readonly AIController _aiController2;
-        private bool dual = false; // is dual?
+        private bool dual = true; // is dual?
+        private ColumnDefinition[] _oriGridCol;
+        private Grid child;
 
         public MainWindow()
         {
             InitializeComponent();
             var t = new Tetrisor();
+            _oriGridCol = this.Grid.ColumnDefinitions.ToArray<ColumnDefinition>();
+            Trace.WriteLine(_oriGridCol.Length);
+            child = this.grid_count2;
+
             if (dual)
             {
                 var games = t.NewDuelGame();
-
+                this.Grid.ColumnDefinitions.Clear();
+                for (int i = 0; i < _oriGridCol.Length; i++ )
+                    this.Grid.ColumnDefinitions.Add(_oriGridCol[i]);
+                if (!this.Grid.Children.Contains(child))
+                    this.Grid.Children.Add(child);
+                Trace.WriteLine(this.Grid.ColumnDefinitions.Count);
                 GameGrid gameGrid1 = new GameGrid(games.Item1.Height, games.Item1.Width);
                 this.Grid.Children.Add(gameGrid1);
                 Grid.SetRow(gameGrid1, 1);
@@ -69,8 +80,7 @@ namespace Tetris
             else
             {
                 this.Grid.ColumnDefinitions.RemoveRange(4, 3);
-                this.Grid.Children.Remove(grid_count2);
-
+                this.Grid.Children.Remove(child);
                 var game = t.NewGame();
                 //game.AddDisplay(this);
 
