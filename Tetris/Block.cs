@@ -84,9 +84,9 @@ namespace Tetris.GameBase
         readonly List<SquareArray> _styles;
         readonly Random _random;
         public TetrisGame Game;
-        public TetrisFactory(IEnumerable<SquareArray> styles){
+        public TetrisFactory(IEnumerable<SquareArray> styles, Random random){
             _styles = new List<SquareArray>(styles);
-            _random=new Random();
+            _random=random;
         }
         public Block GenTetris(){
             int rr;
