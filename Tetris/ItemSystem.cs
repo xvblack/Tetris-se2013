@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
 using Tetris.GameBase;
 
 namespace Tetris
@@ -31,6 +32,11 @@ namespace Tetris
         public ItemSquare(int color,int itemId) : base(color)
         {
             ItemId = itemId;
+        }
+
+        public override Square Clone()
+        {
+            return new ItemSquare(Color,ItemId);
         }
     }
 
@@ -87,7 +93,7 @@ namespace Tetris
             else
             {
                 var block=base.GenTetris();
-                if (rand(100) > 90)
+                if (rand(100) > 50)
                 {
                     var i = rand(block.Height);
                     var j = 0;
@@ -129,6 +135,7 @@ namespace Tetris
             game.UpdateBeginEvent += ProcessItem;
             game.AddToUnderlyingEvent += ProcessUnderlyingItem;
             game.BeforeClearBarEvent += ProcessItemSquare;
+            game.BeforeClearBarEvent += ProcessLine;
         }
 
         private static void ProcessItemSquare(TetrisGame game, TetrisGame.ClearBarEventArgs e)
@@ -217,5 +224,26 @@ namespace Tetris
                 game.ClearBlock();
             }
         }
+
+        private static void ProcessLine(TetrisGame sender, TetrisGame.ClearBarEventArgs e)
+        {
+            if (sender.IsDuelGame)
+            {
+                var line = e.Squares.Clone() as Square[];
+                for(int i=0;i<e.Squares.Length;i++)
+                {
+                    if (line[i].NewSquare)
+                    {
+                        line[i] = null;
+                    }
+                    if (line[i] is ItemSquare)
+                    {
+                        line[i]=new Square(1);
+                    }
+                }
+                sender.DuelGame.PushLine(line);
+            }
+        }
     }
+
 }

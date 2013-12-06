@@ -20,6 +20,10 @@ namespace Tetris
         {
             Winner = -1;
             DuelGameEndEvent += delegate { Trace.WriteLine("ended"); };
+            item1.IsDuelGame = true;
+            item2.IsDuelGame = true;
+            item1.DuelGame = item2;
+            item2.DuelGame = item1;
             item1.GameEndEvent += delegate(object sender, TetrisGame.GameEndEventArgs e)
             {
                 if (!ended)
@@ -62,10 +66,18 @@ namespace Tetris
             _engine.Enabled = true;
         }
 
-        public TetrisGame NewGame(IController controller=null)
+        public TetrisGame NewGame(IController controller=null,bool withItem=true)
         {
             var id = games.Count;
-            var factory = new TetrisItemFactory(Square.Styles(styles));
+            TetrisFactory factory;
+            if (withItem)
+            {
+                factory = new TetrisItemFactory(Square.Styles(styles));
+            }
+            else
+            {
+                factory=new TetrisFactory(Square.Styles(styles));
+            } 
             var game = new TetrisGame(id,Square.Styles(styles), _engine, factory,10,15,1);
             game.SetController(controller);
             ItemSystem.Bind(game);
@@ -75,10 +87,10 @@ namespace Tetris
             return game;
         }
 
-        public DuelGame NewDuelGame()
+        public DuelGame NewDuelGame(bool withItem=true)
         {
-            var game1 = NewGame();
-            var game2 = NewGame();
+            var game1 = NewGame(null,withItem);
+            var game2 = NewGame(null,withItem);
             // preserved for duel game
             return new DuelGame(game1,game2);
         }

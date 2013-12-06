@@ -41,6 +41,11 @@ namespace Tetris.GameBase
             }
             return result;
         }
+
+        public virtual Square Clone()
+        {
+            return new Square(Color);
+        }
     }
 
 

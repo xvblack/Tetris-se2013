@@ -241,9 +241,11 @@ namespace Tetris.GameBase
         private void UpdateDispatch(object sender,int tick)
         {
             DrawEvent.Invoke(this, new DrawEventArgs(_tick));
-            lock (this)
+            //lock (this)
             {
-                if (Block == null) GenTetris();
+                if (Block != null && Block.IsVoid) Block = null;
+                if (_pendingLines.Count>=2) PushLines();
+                _pendingLines.Clear();
                 if (_state == 0) return;
                 if (_state == 2) return;
                 if (Block == null) GenTetris();
@@ -300,7 +302,7 @@ namespace Tetris.GameBase
             {
                 if (_controller.Act(GameAction.Down))
                 {
-                    return 15*_gameSpeed;
+                    return 10*_gameSpeed;
                 }
                 return 1*_gameSpeed;
             }
@@ -377,7 +379,8 @@ namespace Tetris.GameBase
                                 End();
                                 return;
                             }
-                            _underLying[Block.LPos + i, Block.RPos + j] = Block.SquareAt(i, j);
+                            _underLying[Block.LPos + i, Block.RPos + j] = Block.SquareAt(i, j).Clone();
+                            _newSquares.Push(_underLying[Block.LPos + i, Block.RPos + j]);
                         }
                     }
                 Block = null;

@@ -85,10 +85,10 @@ namespace Tetris
                 games.Item1.AddDisplay(gameGrid1);
                 games.Item2.AddDisplay(gameGrid2);
 
-                //_aiController2 = new AIController(games.Item1, 100);
-                //games.Item1.SetController(_aiController2);
-                _controller = new Controller();
-                games.Item1.SetController(_controller);
+                _aiController2 = new AIController(games.Item1, 100);
+                games.Item1.SetController(_aiController2);
+                //_controller = new Controller();
+                //games.Item1.SetController(_controller);
                 _aiController = new AIController(games.Item2, 100);
                 games.Item2.SetController(_aiController);
 

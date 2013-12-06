@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Windows.Shapes;
 using Tetris.GameSystem;
 
 namespace Tetris.GameBase
@@ -43,5 +44,52 @@ namespace Tetris.GameBase
         public AchievementSystem.AchievementState AchievementState;
 
         #endregion
+
+        private void CleanNewSquare()
+        {
+            foreach (var square in this._newSquares)
+            {
+                square.Devoid();
+            }
+        }
+
+        public bool IsDuelGame = false;
+        public TetrisGame DuelGame = null;
+        private Queue<Square[]> _pendingLines=new Queue<Square[]>();
+
+        private void DevoidBlock()
+        {
+            if (this.Block != null) Block.IsVoid = true;
+        }
+
+        public void PushLine(Square[] line)
+        {
+            _pendingLines.Enqueue(line);
+        }
+
+        private void PushLines()
+        {
+            foreach (var line in _pendingLines)
+            {
+                for (var i = this.Height - 1; i > 0; i--)
+                {
+                    for (var j = 0; j < this.Width; j++)
+                    {
+                        this.UnderLying[i, j] = this.UnderLying[i - 1, j];
+                    }
+                }
+                for (var j = 0; j < this.Width; j++)
+                {
+                    this.UnderLying[0, j] = line[j];
+                }
+                DevoidBlock();
+            }
+            _pendingLines.Clear();
+        }
+    }
+
+    public partial class Block
+    {
+        public bool IsVoid=false;
     }
 }

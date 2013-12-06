@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Tetris.GameBase
 {
-    public class Block:CSprite
+    public partial class Block:CSprite
     {
         private static int _id=0;
         public int Width
@@ -86,10 +86,11 @@ namespace Tetris.GameBase
     {
         readonly List<SquareArray> _styles;
         readonly Random _random;
+        private static readonly Random __random=new Random();
         public TetrisGame Game;
         public TetrisFactory(IEnumerable<SquareArray> styles){
             _styles = new List<SquareArray>(styles);
-            _random=new Random();
+            _random = __random;
         }
         public virtual Block GenTetris(){
             int rr;
