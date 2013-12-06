@@ -7,12 +7,20 @@ namespace Tetris.GameBase
     {
         public Square(int color)
         {
+            NewSquare = true;
             Color = color;
         }
 
         public int Color
         {
             get; set;
+        }
+
+        public bool NewSquare { get; private set; }
+
+        public void Devoid()
+        {
+            NewSquare = false;
         }
 
         private static SquareArray Style(int[,] style)

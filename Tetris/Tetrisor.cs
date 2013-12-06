@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,40 @@ using Tetris.GameSystem;
 
 namespace Tetris
 {
+    class DuelGame : Tuple<TetrisGame, TetrisGame>
+    {
+        public int Winner { get; private set; }
+        internal delegate void DuelGameEndHandler(DuelGame game,int winner) ;
+        public event DuelGameEndHandler DuelGameEndEvent;
+        private volatile bool ended = false;
+
+        public DuelGame(TetrisGame item1, TetrisGame item2) : base(item1, item2)
+        {
+            Winner = -1;
+            DuelGameEndEvent += delegate { Trace.WriteLine("ended"); };
+            item1.GameEndEvent += delegate(object sender, TetrisGame.GameEndEventArgs e)
+            {
+                if (!ended)
+                {
+                    Winner = 1;
+                    this.ended = true;
+                    item2.End();
+                    DuelGameEndEvent.Invoke(this, Winner);
+                }
+            };
+            item2.GameEndEvent += delegate(object sender, TetrisGame.GameEndEventArgs e)
+            {
+                if (!ended)
+                {
+                    Winner = 0;
+                    this.ended = true;
+                    item1.End();
+                    DuelGameEndEvent.Invoke(this, Winner);
+                }
+            };
+
+        }
+    }
     class Tetrisor
     {
         private readonly IEngine _engine;
@@ -40,12 +75,17 @@ namespace Tetris
             return game;
         }
 
-        public Tuple<TetrisGame, TetrisGame> NewDuelGame()
+        public DuelGame NewDuelGame()
         {
             var game1 = NewGame();
             var game2 = NewGame();
             // preserved for duel game
-            return new Tuple<TetrisGame, TetrisGame>(game1,game2);
+            return new DuelGame(game1,game2);
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }

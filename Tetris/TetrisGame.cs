@@ -97,6 +97,7 @@ namespace Tetris.GameBase
         private const int RoundTicks = 24;   // round tick numbers
         private readonly int _gameSpeed;
         private volatile int _state;         // 0 for game ending, 1 for looping, 2 for pause
+        private Stack<Square> _newSquares = new Stack<Square>();
 
         public TetrisFactory Factory{get { return _factory; }}
         public SquareArray UnderLying
@@ -239,6 +240,7 @@ namespace Tetris.GameBase
 
         private void UpdateDispatch(object sender,int tick)
         {
+            DrawEvent.Invoke(this, new DrawEventArgs(_tick));
             lock (this)
             {
                 if (Block == null) GenTetris();
@@ -248,20 +250,21 @@ namespace Tetris.GameBase
                 if (_state == 0) 
                     return;    // Check ending caused by cannot generate new block
                 if (_state == 2) return;    // Check for pause
+                foreach (Square newSquare in _newSquares)
+                {
+                    newSquare.Devoid();
+                }
+                _newSquares.Clear();
                 _tick++;                    // internal tick add
                 UpdateBeginEvent.Invoke(this, new UpdateBeginEventArgs(_tick));
                 Debug.Assert(Block != null, "loop continue when Block is null");
                 Debug.Assert(Block.Id!=Block.TempId,"loop using a temp block");
                 Block.FallSpeed = FallingSpeed;    // Use the Game FallingSpeed as the block fall speed
                 PerRound(8, HandleAction);
-                PerRound(1*Block.FallSpeed, delegate()
-                {
-                    HandleFalling();
-                });
+                PerRound(1*Block.FallSpeed, HandleFalling);
                 ClearBar();
                 UpdateEndEvent.Invoke(this,new UpdateEndEventArgs(_tick));
                 if (_state == 0) return;
-                DrawEvent.Invoke(this,new DrawEventArgs(_tick));
             }
         }
 

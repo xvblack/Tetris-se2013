@@ -58,6 +58,24 @@ namespace Tetris
                 Grid.SetRow(gameGrid2, 1);
                 Grid.SetColumn(gameGrid2, 5);
 
+                games.DuelGameEndEvent += delegate(DuelGame game, int winner)
+                {
+                    if (winner == 0)
+                    {
+                        WinnerBlock.Dispatcher.Invoke(new Action(delegate()
+                        {
+                            WinnerBlock.Text = "Left";
+                        }));
+                    }
+                    else
+                    {
+                        WinnerBlock.Dispatcher.Invoke(new Action(delegate()
+                        {
+                            WinnerBlock.Text = "Right";
+                        }));
+                    }
+                };
+
                 this.Height = 50 + gameGrid1.Height + 30 + 10 + 20;
                 this.Width = 200 + gameGrid1.Width * 2 + 10 * 2 + 150 + 5;
 
