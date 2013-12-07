@@ -94,8 +94,8 @@ namespace Tetris.GameBase
         public Block Block { get; private set; }
         private int _tick;
         private readonly int _w, _h;
-        private const int RoundTicks = 24;   // round tick numbers
-        private readonly int _gameSpeed;
+        private const int RoundTicks = 30;   // round tick numbers
+        public int GameSpeed { get; set; }
         private volatile int _state;         // 0 for game ending, 1 for looping, 2 for pause
         private Stack<Square> _newSquares = new Stack<Square>();
 
@@ -115,6 +115,11 @@ namespace Tetris.GameBase
             get { return _w; }
         }
 
+        public IController Controller
+        {
+            get { return _controller; }
+        }
+
         #region Reference to External Objects
         private readonly TetrisFactory _factory;
         private IController _controller;
@@ -125,7 +130,7 @@ namespace Tetris.GameBase
         public event ClearBarCallback ClearBarEvent;
         public event ClearBarCallback BeforeClearBarEvent;
         public event UpdateEndCallback UpdateEndEvent;
-        public event DrawCallback DrawEvent;
+        public event DrawCallback DrawEvent= delegate { };
         public event GameEndCallback GameEndEvent;
         public event AddToUnderlyingCallback AddToUnderlyingEvent;
         #endregion
@@ -134,7 +139,7 @@ namespace Tetris.GameBase
         {
             _w = w;
             _h = h;
-            _gameSpeed = gameSpeed;
+            GameSpeed = gameSpeed;
             engine.TickEvent += UpdateDispatch;
             _underLying = new SquareArray(h,w);
             _factory=factory;
@@ -302,9 +307,9 @@ namespace Tetris.GameBase
             {
                 if (_controller.Act(GameAction.Down))
                 {
-                    return 10*_gameSpeed;
+                    return 10*GameSpeed;
                 }
-                return 1*_gameSpeed;
+                return 1*GameSpeed;
             }
         }
         private void GenTetris()

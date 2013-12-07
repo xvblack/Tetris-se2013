@@ -67,20 +67,37 @@ namespace Tetris
     public class TetrisItemFactory : TetrisFactory
     {
         public readonly Queue<Block> ItemQueue;
-        private static readonly int[][,] styles = new int[][,] { new int[,] { { 10 } }, new int[,] { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } } };
-        SquareArray oneStyle = Square.Styles(styles).First();
-        SquareArray threeStyle = Square.Styles(styles).ElementAt(1);
-        Random _random=new Random();
+        private static readonly List<SquareArray> ItemStyles = Square.Styles(new int[][,] { new int[,] { { 10 } }, new int[,] { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } } });
+        private static readonly List<SquareArray> SpecialStyles = Square.Styles(new int[][,] { new int[,] { { 11 } }, new int[,] { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } }, new int[,] { { 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1 }} });
+        private SquareArray oneStyle = ItemStyles[0];
+        private SquareArray threeStyle = ItemStyles[1];
+        readonly Random _random=new Random();
+        private int[] _itemIds;
+        public bool GenSpecialBlock;
 
-        public TetrisItemFactory(IEnumerable<SquareArray> styles)
+        public TetrisItemFactory(IEnumerable<SquareArray> styles,bool isDuel=false)
             : base(styles)
         {
             ItemQueue = new Queue<Block>();
+            if (isDuel)
+            {
+                _itemIds=new int[]{0,1,2};
+            }
+            else
+            {
+                _itemIds=new int[]{0,1,2,3};
+            }
+            GenSpecialBlock = false;
         }
 
-        public int rand(int max)
+        private int rand(int max)
         {
             return _random.Next(max);
+        }
+
+        private ItemSquare GenItemSquare()
+        {
+            return new ItemSquare(10,_itemIds[rand(_itemIds.Length)]);
         }
 
         public override Block GenTetris()
@@ -93,7 +110,11 @@ namespace Tetris
             else
             {
                 var block=base.GenTetris();
-                if (rand(100) > 50)
+                if (GenSpecialBlock&&rand(100) > 90)
+                {
+                    block=new Block(SpecialStyles[rand(SpecialStyles.Count)]);
+                }
+                if (rand(100) > 90)
                 {
                     var i = rand(block.Height);
                     var j = 0;
@@ -102,7 +123,7 @@ namespace Tetris
                         j++;
                     }
                     block._style = block._style.Clone();
-                    block._style[i, j] = new ItemSquare(10, rand(3));
+                    block._style[i, j] = GenItemSquare();
                 }
                 return block;
             }
@@ -136,6 +157,12 @@ namespace Tetris
             game.AddToUnderlyingEvent += ProcessUnderlyingItem;
             game.BeforeClearBarEvent += ProcessItemSquare;
             game.BeforeClearBarEvent += ProcessLine;
+            game.UpdateBeginEvent += ProcessSpeedUp;
+        }
+
+        private static void ProcessSpeedUp(TetrisGame game, TetrisGame.UpdateBeginEventArgs e)
+        {
+            if (game.ScoreSystem.Score>20) game.GameSpeed=2;
         }
 
         private static void ProcessItemSquare(TetrisGame game, TetrisGame.ClearBarEventArgs e)
@@ -155,6 +182,10 @@ namespace Tetris
                             break;
                         case 2:
                             (game.Factory as TetrisItemFactory).PushTon();
+                            break;
+                        case 3:
+                            Debug.Assert(game.IsDuelGame);
+                            game.DuelGame.Controller.InverseControl();
                             break;
                     }
                 }

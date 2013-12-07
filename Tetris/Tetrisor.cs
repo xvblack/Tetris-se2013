@@ -61,7 +61,7 @@ namespace Tetris
         public Tetrisor()
         {
             _engine=new SimpleEngine();
-            _engine.Interval = 0.03;
+            _engine.Interval = 0.005;
             games=new Dictionary<int, TetrisGame>();
             _engine.Enabled = true;
         }
@@ -73,6 +73,7 @@ namespace Tetris
             if (withItem)
             {
                 factory = new TetrisItemFactory(Square.Styles(styles));
+                (factory as TetrisItemFactory).GenSpecialBlock = true;
             }
             else
             {

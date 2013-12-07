@@ -86,6 +86,11 @@ namespace Tetris.GameBase
             }
             _pendingLines.Clear();
         }
+
+        public void SpeedUp()
+        {
+            GameSpeed++;
+        }
     }
 
     public partial class Block

@@ -10,5 +10,7 @@ namespace Tetris
     public interface IController
     {
         bool Act(TetrisGame.GameAction action);
+
+        void InverseControl();
     }
 }

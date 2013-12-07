@@ -284,5 +284,9 @@ namespace Tetris
             
             return result;
         }
+
+        public void InverseControl()
+        {
+        }
     }
 }

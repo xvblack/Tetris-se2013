@@ -32,14 +32,14 @@ namespace Tetris.GameBase
             return result;
         }
 
-        public static IEnumerable<SquareArray> Styles(int[][,] styles)
+        public static List<SquareArray> Styles(int[][,] styles)
         {
             var result = new SquareArray[styles.Length];
             for (int i = 0; i < styles.Length; i++)
             {
                 result[i] = Style(styles[i]);
             }
-            return result;
+            return new List<SquareArray>(result);
         }
 
         public virtual Square Clone()

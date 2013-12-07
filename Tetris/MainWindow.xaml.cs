@@ -190,6 +190,10 @@ namespace Tetris
                 KeyState[Ht[action]] = false;
                 return result;
             }
+
+            public void InverseControl()
+            {
+            }
         }
     }
 }
