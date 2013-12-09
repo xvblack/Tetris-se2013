@@ -42,7 +42,7 @@ namespace Tetris
             _keyState[TetrisGame.GameAction.Right] = 0;
             _keyState[TetrisGame.GameAction.Rotate] = 0;
 
-            _keyState[TetrisGame.GameAction.Down] = _level * 5;
+            _keyState[TetrisGame.GameAction.Down] = 0;
 
             int max_p = -1;           // Max position
             int max_r = -1;           // Max rotation
@@ -54,8 +54,6 @@ namespace Tetris
                 {
                     Block b = block.Clone().Rotate(j);
                     b.RPos = i;
-                    //Trace.WriteLine(String.Format("---------------------------------------------------------"));
-                    //Trace.WriteLine(String.Format("pos = {0}, rot = {1}", i, j));
                     int rating = calRating(b);
                     if (rating == -999999) continue;
                     int prior = calPrior(block, i, j);
@@ -83,6 +81,8 @@ namespace Tetris
             _keyState[TetrisGame.GameAction.Left] = 0;
             _keyState[TetrisGame.GameAction.Right] = 0;
             _keyState[TetrisGame.GameAction.Rotate] = 0;*/
+            if (_keyState[TetrisGame.GameAction.Left] + _keyState[TetrisGame.GameAction.Right] + _keyState[TetrisGame.GameAction.Rotate] == 0)
+                _keyState[TetrisGame.GameAction.Down] = _level * 5;
 
             _running = false;
         }
@@ -125,7 +125,6 @@ namespace Tetris
 
             while (!Intersect(block.Fall(), underlying))
             {
-                //Trace.WriteLine(String.Format("fall {0}", block.LPos));
             }
             block.LPos++;
 
@@ -228,13 +227,6 @@ namespace Tetris
             }
             height[0] = h + 1;
             height[w + 1] = h + 1;
-            /*
-            for (i = 0; i < w + 2; i++)
-            {
-                Trace.Write(height[i]);
-                Trace.Write(" ");
-            }
-            Trace.WriteLine("");*/
             for (i = 0; i < w; i++)
             {
                 j = min(height[i], height[i + 2]);
@@ -243,10 +235,6 @@ namespace Tetris
                     wells += (j - height[i + 1]);
                 }
             }
-            /*
-            Trace.WriteLine(String.Format("height = {0}, line = {1}, block = {2}", landHeight, line, bl));
-            Trace.WriteLine(String.Format("row = {0}, col = {1}", rowTrans, colTrans));
-            Trace.WriteLine(String.Format("hole = {0}, well = {1}", holes, wells));*/
             
 
             return -landHeight + metric - rowTrans - colTrans - 4 * holes - wells;
@@ -270,16 +258,19 @@ namespace Tetris
             bool result = false;
             if (_game.Block.Id != _id)
             {
+                _keyState[TetrisGame.GameAction.Down] = 0;
                 _id = _game.Block.Id;
                 Thread th = new Thread(new ThreadStart(GenerateControll));
                 th.IsBackground = true;
                 th.Start();
-                //GenerateControll(); // May put it in a thread
             }
             if (_keyState[action] > 0)
             {
                 result = true;
                 _keyState[action]--;
+                if ((action != TetrisGame.GameAction.Down) && (_keyState[TetrisGame.GameAction.Left]
+                    + _keyState[TetrisGame.GameAction.Right] + _keyState[TetrisGame.GameAction.Rotate] == 0))
+                    _keyState[TetrisGame.GameAction.Down] = _level * 5;
             }
             
             return result;

@@ -51,6 +51,7 @@ namespace Tetris
     {
         private readonly IEngine _engine;
         private Dictionary<int,TetrisGame> games;
+        private Random ran;
         /*
         readonly int[][,] styles = {new int[2, 2]{{1, 1}, {1, 1}}, new int[1, 4]{{1, 1, 1, 1}}, new int[2, 3]{{0, 1, 0},{1, 1, 1}},
                                new int[2, 3]{{1, 0, 0}, {1, 1, 1}}, new int[2, 3]{{0, 0, 1}, {1, 1, 1}}, 
@@ -64,11 +65,12 @@ namespace Tetris
             _engine.Interval = 0.005;
             games=new Dictionary<int, TetrisGame>();
             _engine.Enabled = true;
+            ran = new Random();
         }
 
         public TetrisGame NewGame(IController controller=null,bool withItem=true)
         {
-            var id = games.Count;
+            var id = games.Count;          
             TetrisFactory factory;
             if (withItem)
             {
@@ -77,7 +79,7 @@ namespace Tetris
             }
             else
             {
-                factory=new TetrisFactory(Square.Styles(styles));
+            var factory = new TetrisFactory(Square.Styles(styles));
             } 
             var game = new TetrisGame(id,Square.Styles(styles), _engine, factory,10,15,1);
             game.SetController(controller);

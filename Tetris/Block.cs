@@ -86,13 +86,12 @@ namespace Tetris.GameBase
     {
         readonly List<SquareArray> _styles;
         readonly Random _random;
-        private static readonly Random __random=new Random();
         public TetrisGame Game;
-        public TetrisFactory(IEnumerable<SquareArray> styles){
+        public TetrisFactory(IEnumerable<SquareArray> styles, Random random){
             _styles = new List<SquareArray>(styles);
-            _random = __random;
+            _random=random;
         }
-        public virtual Block GenTetris(){
+        public Block GenTetris(){
             int rr;
             int type = _random.Next(0, _styles.Count());
             var temp = _styles[type];

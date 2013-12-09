@@ -24,8 +24,8 @@ namespace Tetris.GameGUI
     {
         private Rectangle[,] rect;
         private const int _square = 30; // size of display square
-        readonly Color[] colors = {Colors.Transparent, Colors.DarkOrange, Colors.Red, Colors.Blue, Colors.Green, Colors.Aquamarine, Colors.Olive, Colors.Violet};
-
+        readonly Color[] colors = {Colors.Transparent, Colors.DarkOrange, Colors.Red, Colors.Blue, Colors.Green, Colors.Aquamarine, Colors.Olive, Colors.Violet, Colors.Black};
+        // The last color is for non-defined color
         public GameGrid(int height, int width)
         {
             InitializeComponent();
@@ -78,7 +78,7 @@ namespace Tetris.GameGUI
                             new Action(
                                 delegate
                                 {
-                                    rect[i, j].Fill = new SolidColorBrush(colors[image[i, j] == null ? 0 : (image[i, j].Color < colors.Length ? image[i, j].Color : 1)]);
+                                    rect[i, j].Fill = new SolidColorBrush(colors[image[i, j] == null ? 0 : (image[i, j].Color < colors.Length ? image[i, j].Color : colors.Length - 1)]);
                                     //Trace.WriteLine(String.Format("{0}, {1}: {2}", i, j, image[i, j] == null ? 0 : image[i, j].Color));
                                 }
                         ));

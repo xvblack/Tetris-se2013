@@ -37,18 +37,17 @@ namespace Tetris
             InitializeComponent();
             var t = new Tetrisor();
             _oriGridCol = this.Grid.ColumnDefinitions.ToArray<ColumnDefinition>();
-            Trace.WriteLine(_oriGridCol.Length);
             child = this.grid_count2;
 
             if (dual)
             {
-                var games = t.NewDuelGame();
                 this.Grid.ColumnDefinitions.Clear();
                 for (int i = 0; i < _oriGridCol.Length; i++ )
                     this.Grid.ColumnDefinitions.Add(_oriGridCol[i]);
                 if (!this.Grid.Children.Contains(child))
                     this.Grid.Children.Add(child);
-                Trace.WriteLine(this.Grid.ColumnDefinitions.Count);
+
+                var games = t.NewDuelGame();
                 GameGrid gameGrid1 = new GameGrid(games.Item1.Height, games.Item1.Width);
                 this.Grid.Children.Add(gameGrid1);
                 Grid.SetRow(gameGrid1, 1);
@@ -97,11 +96,15 @@ namespace Tetris
             }
             else
             {
+                this.Grid.ColumnDefinitions.Clear();
+                for (int i = 0; i < _oriGridCol.Length; i++)
+                    this.Grid.ColumnDefinitions.Add(_oriGridCol[i]);
+                if (this.Grid.Children.Contains(child))
+                    this.Grid.Children.Remove(child);
                 this.Grid.ColumnDefinitions.RemoveRange(4, 3);
-                this.Grid.Children.Remove(child);
+
                 var game = t.NewGame();
                 //game.AddDisplay(this);
-
                 GameGrid gameGrid = new GameGrid(game.Height, game.Width);
                 this.Grid.Children.Add(gameGrid);               
                 Grid.SetRow(gameGrid, 1);
