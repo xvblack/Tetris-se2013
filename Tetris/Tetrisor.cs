@@ -74,12 +74,12 @@ namespace Tetris
             TetrisFactory factory;
             if (withItem)
             {
-                factory = new TetrisItemFactory(Square.Styles(styles));
+                factory = new TetrisItemFactory(Square.Styles(styles), ran);
                 (factory as TetrisItemFactory).GenSpecialBlock = true;
             }
             else
             {
-            var factory = new TetrisFactory(Square.Styles(styles));
+                factory = new TetrisFactory(Square.Styles(styles), ran);
             } 
             var game = new TetrisGame(id,Square.Styles(styles), _engine, factory,10,15,1);
             game.SetController(controller);

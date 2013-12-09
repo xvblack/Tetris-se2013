@@ -91,7 +91,7 @@ namespace Tetris.GameBase
             _styles = new List<SquareArray>(styles);
             _random=random;
         }
-        public Block GenTetris(){
+        public virtual Block GenTetris(){
             int rr;
             int type = _random.Next(0, _styles.Count());
             var temp = _styles[type];

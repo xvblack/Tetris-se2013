@@ -71,12 +71,12 @@ namespace Tetris
         private static readonly List<SquareArray> SpecialStyles = Square.Styles(new int[][,] { new int[,] { { 11 } }, new int[,] { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } }, new int[,] { { 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1 }} });
         private SquareArray oneStyle = ItemStyles[0];
         private SquareArray threeStyle = ItemStyles[1];
-        readonly Random _random=new Random();
+        readonly Random _random;
         private int[] _itemIds;
         public bool GenSpecialBlock;
 
-        public TetrisItemFactory(IEnumerable<SquareArray> styles,bool isDuel=false)
-            : base(styles)
+        public TetrisItemFactory(IEnumerable<SquareArray> styles,Random ran, bool isDuel=false)
+            : base(styles, ran)
         {
             ItemQueue = new Queue<Block>();
             if (isDuel)
@@ -88,6 +88,7 @@ namespace Tetris
                 _itemIds=new int[]{0,1,2,3};
             }
             GenSpecialBlock = false;
+            _random = ran;
         }
 
         private int rand(int max)
