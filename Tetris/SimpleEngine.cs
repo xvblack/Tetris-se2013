@@ -45,7 +45,7 @@ namespace Tetris
             TickEvent += (sender, tick) =>
             {
                 var newtime = DateTime.Now;
-                Trace.WriteLine(newtime-time);
+                //Trace.WriteLine(newtime-time);
                 time = newtime;
                 Trace.Flush();
             };
