@@ -4,30 +4,35 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignHeight="700" d:DesignWidth="800"
 	Title="GamePage">
 
     <Grid Name="outerGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20" />
-            <ColumnDefinition Width="4*" />
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="50" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Grid Name="gameGrid" Grid.Row="1" Grid.Column="1" />
-        <Grid Grid.Row="1" Grid.Column="2" Name="scoreGrid">
+        <Border Height="Auto" Width="Auto" BorderThickness="2" BorderBrush="LightGray"
+                 Grid.Row="1" Grid.Column="1">
+            <Grid Name="gameGrid" />
+        </Border>
+        <Grid Grid.Row="0" Grid.RowSpan="2"  Grid.Column="3" Name="scoreGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="25" />
-                <RowDefinition Height="25" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="得分:"/>
-            <Label Name="scores" Grid.Row="1" /> 
+            <Label Grid.Row="1" Content="得分:" Style="{StaticResource LabelTheme}"/>
+            <Label Name="scores" Grid.Row="2" Style="{StaticResource LabelTheme}"/> 
         </Grid>
     </Grid>
 </Page>

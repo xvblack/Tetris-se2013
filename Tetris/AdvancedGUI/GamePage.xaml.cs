@@ -21,23 +21,19 @@ namespace Tetris.AdvancedGUI
     /// </summary>
     public partial class GamePage : Page
     {
-        int _height;
-        int _width;
-
         Color[] colorMap;
         GameGrid g;
         
-        public GamePage(int pageHeight, int pageWidth)
+        public GamePage(int[] gridSize)
         {
             InitializeComponent();
 
+//Console.WriteLine(this.WindowHeight);
             // size of gameGrid
-            _height = pageHeight;
-            _width = pageWidth;
+            
             colorMap = (new Styles.SquareGenerator()).getColorMap();
-            g = new GameGrid(10, 10, colorMap); // grid containing the game
+            g = new GameGrid(gridSize, colorMap); // grid containing the game
             this.gameGrid.Children.Add(g);
-
         }
 
         // Grid to show the game
@@ -47,11 +43,13 @@ namespace Tetris.AdvancedGUI
             Color[] colorMap;
             int gridHeight;
             int gridWidth;
+            int winHeight;
+            int winWidth;
             
             // height or width means the maximum number of squares contained
-            public GameGrid(int height, int width, Color[] cMap) {
-                gridHeight = height;
-                gridWidth = width;
+            public GameGrid(int[] gridSize, Color[] cMap) {
+                gridHeight = gridSize[0];
+                gridWidth = gridSize[1];
 
                 squaresMatrix = new Rectangle[gridHeight, gridWidth];
 
@@ -62,10 +60,11 @@ namespace Tetris.AdvancedGUI
                 int _squareContainerSize = 
                     Styles.SquareGenerator.squareContainerSize();
                 int _squareSize = Styles.SquareGenerator.squareSize();
-                GridLength _gridLen = new GridLength(_squareContainerSize,
-                    GridUnitType.Pixel);  // square size
-
+                Console.WriteLine(_squareSize);
+                GridLength _gridLen = new GridLength(1,
+                    GridUnitType.Auto);  // square size
                 // initialize the grid
+                Console.WriteLine(_gridLen.Value);
                 int i = 0;
                 int j = 0;
                 for (i = 0; i < gridHeight; i++)
@@ -91,9 +90,10 @@ namespace Tetris.AdvancedGUI
                         squaresMatrix[i, j].SetValue(Grid.ColumnProperty, j);
                         squaresMatrix[i, j].Width = _squareSize;
                         squaresMatrix[i, j].Height = _squareSize;
+                        squaresMatrix[i, j].Margin = new Thickness(1, 1, 1, 1);
                     }
 
-                this.ShowGridLines = true;
+                //this.ShowGridLines = true;
 
                 this.testSquares();
             }

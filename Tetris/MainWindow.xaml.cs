@@ -49,6 +49,10 @@ namespace Tetris
 
                 var games = t.NewDuelGame();
                 GameGrid gameGrid1 = new GameGrid(games.Item1.Height, games.Item1.Width);
+                // test code
+                Console.WriteLine(games.Item1.Height);
+                Console.WriteLine(gameGrid1.Height);
+                // end
                 this.Grid.Children.Add(gameGrid1);
                 Grid.SetRow(gameGrid1, 1);
                 Grid.SetColumn(gameGrid1, 1);

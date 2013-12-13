@@ -59,6 +59,9 @@
     <Compile Include="AdvancedGUI\AchievementPage.xaml.cs">
       <DependentUpon>AchievementPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AdvancedGUI\DualModePage.xaml.cs">
+      <DependentUpon>DualModePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AdvancedGUI\GameModeSelectionPage.xaml.cs">
       <DependentUpon>GameModeSelectionPage.xaml</DependentUpon>
     </Compile>
@@ -73,6 +76,9 @@
     </Compile>
     <Compile Include="AdvancedGUI\GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\SingleModePage.xaml.cs">
+      <DependentUpon>SingleModePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="AdvancedGUI\Styles\SquareGenerator.cs" />
     <Compile Include="AdvancedGUI\TestClasses\TestWindow.xaml.cs">
@@ -102,6 +108,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="AdvancedGUI\DualModePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AdvancedGUI\GameModeSelectionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -115,6 +125,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AdvancedGUI\SettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\SingleModePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

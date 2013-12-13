@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Tetris.AdvancedGUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="500" Width="600">
-    <Frame Name="contentFrame" Source="NavigationPage.xaml" NavigationUIVisibility="Hidden">
+        Title="MainWindow" MinHeight="700" MinWidth="800">
+    <Frame Name="contentFrame" NavigationUIVisibility="Hidden">
     </Frame>
 </Window>

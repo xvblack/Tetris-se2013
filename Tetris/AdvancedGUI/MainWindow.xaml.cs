@@ -22,6 +22,10 @@ namespace Tetris.AdvancedGUI
         public MainWindow()
         {
             InitializeComponent();
+            NavigationPage firstPage = new NavigationPage();
+            firstPage.holderWin = this;
+            contentFrame.Resources.Add(Guid.NewGuid(), firstPage);
+            contentFrame.Navigate(firstPage);  
         }
     }
 }

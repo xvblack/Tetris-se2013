@@ -21,12 +21,11 @@ namespace Tetris.AdvancedGUI.Styles
     {
         const int _colorNum = 9;
         static int _squareContainerSize = 30;
-        static int _squareSize = 29;
+        static int _squareSize = 40;
         Color[] colorMap;
 
         public SquareGenerator() { 
             colorMap = new Color[_colorNum];
-            _squareSize = 30;
         }
 
 
@@ -47,6 +46,6 @@ namespace Tetris.AdvancedGUI.Styles
             return colorMap;
         }
         public static int squareSize() { return _squareSize; }
-        public static int squareContainerSize() { return _squareContainerSize; }
+        public static int squareContainerSize() { return _squareContainerSize;  }
     }
 }

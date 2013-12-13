@@ -22,6 +22,7 @@ namespace Tetris.AdvancedGUI
     public partial class GameModeSelectionPage : Page
     {
         NavigationService nav; // Navigate the page
+        public Window holderWin;     // to change the size of main window
         
         public GameModeSelectionPage()
         {
@@ -31,27 +32,19 @@ namespace Tetris.AdvancedGUI
         // Click to start single mode game
         private void selSingleMode_Click(object sender, RoutedEventArgs e)
         {
-            Window win = new Tetris.MainWindow();
-            win.Show();
-            
-            //nav = NavigationService.GetNavigationService(this);
-            //nav.Navigate(new singleModePage());
+            nav = NavigationService.GetNavigationService(this);
+            SingleModePage nextPage = new SingleModePage();
+            nextPage.holderWin = holderWin;
+            nav.Navigate(nextPage);
         }
 
         // Click to start dual mode game
         private void selDualMode_Click(object sender, RoutedEventArgs e)
-        {
-            TestClasses.TestWindow win = new TestClasses.TestWindow();
-            Frame aFrame = new Frame();
-            win.grid.Children.Add(aFrame);
-            GamePage page = new GamePage(100, 100);
-            aFrame.Resources.Add(Guid.NewGuid(), page);
-            aFrame.Navigate(page);
-            win.Show();
-            //win.grid.Children.Add(page);
-            
-            //nav = NavigationService.GetNavigationService(this);
-            //nav.Navigate(new dualModePage());
+        { 
+            nav = NavigationService.GetNavigationService(this);
+            DualModePage nextPage = new DualModePage();
+            nextPage.holderWin = holderWin;
+            nav.Navigate(nextPage);
         }
         // Click to go to the last page
         private void back_Click(object sender, RoutedEventArgs e)
