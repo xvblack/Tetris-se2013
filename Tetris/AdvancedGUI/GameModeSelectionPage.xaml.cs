@@ -41,7 +41,16 @@ namespace Tetris.AdvancedGUI
         // Click to start dual mode game
         private void selDualMode_Click(object sender, RoutedEventArgs e)
         {
-            nav = NavigationService.GetNavigationService(this);
+            TestClasses.TestWindow win = new TestClasses.TestWindow();
+            Frame aFrame = new Frame();
+            win.grid.Children.Add(aFrame);
+            GamePage page = new GamePage(100, 100);
+            aFrame.Resources.Add(Guid.NewGuid(), page);
+            aFrame.Navigate(page);
+            win.Show();
+            //win.grid.Children.Add(page);
+            
+            //nav = NavigationService.GetNavigationService(this);
             //nav.Navigate(new dualModePage());
         }
         // Click to go to the last page

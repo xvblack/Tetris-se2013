@@ -62,7 +62,6 @@ namespace Tetris.GameGUI
                     this.Children.Add(rect[i, j]);
                 }
         }
-
         public void OnDrawing(TetrisGame game, TetrisGame.DrawEventArgs e)
         {
             // Repaint all ( May be ineffient --> Only repaint the region of block? )

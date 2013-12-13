@@ -71,6 +71,13 @@
     <Compile Include="AdvancedGUI\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AdvancedGUI\GamePage.xaml.cs">
+      <DependentUpon>GamePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\Styles\SquareGenerator.cs" />
+    <Compile Include="AdvancedGUI\TestClasses\TestWindow.xaml.cs">
+      <DependentUpon>TestWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AIController.cs" />
     <Compile Include="GameGrid.xaml.cs">
       <DependentUpon>GameGrid.xaml</DependentUpon>
@@ -112,6 +119,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AdvancedGUI\Styles\GUIStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\GamePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\TestClasses\TestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
