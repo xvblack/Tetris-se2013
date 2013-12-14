@@ -20,7 +20,7 @@ namespace Tetris.AdvancedGUI
     /// </summary>
     public partial class SingleModePage : Page
     {
-        public Window holderWin {get; set;}
+        public MainWindow holderWin {get; set;}
 
         public SingleModePage()
         {
@@ -36,7 +36,29 @@ namespace Tetris.AdvancedGUI
             aFrame.Resources.Add(Guid.NewGuid(), gamePage);
             aFrame.Navigate(gamePage);
         }
-        private void changeSize(object sender, RoutedEventArgs e) {
+
+        private void Loaded_ChangeWinSize(object sender, RoutedEventArgs e)
+        {
+            this.holderWin.Width = Styles.WindowSizeGenerator.singleModePageWidth;
+            this.holderWin.Left = Styles.WindowSizeGenerator.singleModePageLocationLeft;
+
+            this.holderWin.PreviewKeyDown += this.keyPressed;
+        }
+
+        private void keyPressed(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                EscapeDialog win = new EscapeDialog();
+                //win.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                win.holderWindow = this.holderWin;
+                win.ShowDialog();
+            }
+        }
+
+        private void Unloaded_Event(object sender, RoutedEventArgs e)
+        {
+            this.holderWin.PreviewKeyDown -= this.keyPressed;
         }
     }
 }

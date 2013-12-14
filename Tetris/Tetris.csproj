@@ -62,6 +62,9 @@
     <Compile Include="AdvancedGUI\DualModePage.xaml.cs">
       <DependentUpon>DualModePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AdvancedGUI\EscapeDialog.xaml.cs">
+      <DependentUpon>EscapeDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AdvancedGUI\GameModeSelectionPage.xaml.cs">
       <DependentUpon>GameModeSelectionPage.xaml</DependentUpon>
     </Compile>
@@ -81,6 +84,7 @@
       <DependentUpon>SingleModePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="AdvancedGUI\Styles\SquareGenerator.cs" />
+    <Compile Include="AdvancedGUI\Styles\WindowSizeGenerator.cs" />
     <Compile Include="AdvancedGUI\TestClasses\TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
@@ -109,6 +113,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AdvancedGUI\DualModePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\EscapeDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -22,10 +22,29 @@ namespace Tetris.AdvancedGUI
         public MainWindow()
         {
             InitializeComponent();
+            this.MinHeight = Styles.WindowSizeGenerator.mainWindowMinHeight;
+            this.MinWidth = Styles.WindowSizeGenerator.mainWindowMinWidth;
+            this.Height = this.MinHeight;
+            this.Width = this.MinWidth;
+        }
+
+        private void Window_Loaded_1(object sender, RoutedEventArgs e)
+        {
             NavigationPage firstPage = new NavigationPage();
             firstPage.holderWin = this;
             contentFrame.Resources.Add(Guid.NewGuid(), firstPage);
             contentFrame.Navigate(firstPage);  
+        }
+
+        private void contentFrame_Navigated_1(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        {
+            //String[] addMainWinRefList = { "NavigationPage", "s"};
+            /*
+            String currentPage = e.Content.ToString();
+            if (currentPage.Contains("NavigationPage"))
+            {
+                contentFrame.Content
+            }**/
         }
     }
 }

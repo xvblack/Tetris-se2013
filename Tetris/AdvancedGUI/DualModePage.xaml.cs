@@ -20,7 +20,7 @@ namespace Tetris.AdvancedGUI
     /// </summary>
     public partial class DualModePage : Page
     {
-        public Window holderWin { get; set; }
+        public MainWindow holderWin { get; set; }
         
         public DualModePage()
         {
@@ -50,7 +50,26 @@ namespace Tetris.AdvancedGUI
 
         private void Loaded_ChangeWinSize(object sender, RoutedEventArgs e)
         {
-            this.holderWin.Width = 1200;
+            //this.holderWin.Width = 1200;
+            Console.WriteLine(this.holderWin);
+            this.holderWin.Width = Styles.WindowSizeGenerator.dualModePageWidth;
+            this.holderWin.Left = Styles.WindowSizeGenerator.dualModePageLocationLeft;
+
+            this.holderWin.PreviewKeyDown += this.keyPressed;
+        }
+
+        private void keyPressed(object sender, KeyEventArgs e) {
+            if (e.Key == Key.Escape) {
+                EscapeDialog win = new EscapeDialog();
+                //win.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                win.holderWindow = this.holderWin;
+                win.ShowDialog();
+            }
+        }
+
+        private void Unloaded_Event(object sender, RoutedEventArgs e)
+        {
+            this.holderWin.PreviewKeyDown -= this.keyPressed;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Tetris.AdvancedGUI
     public partial class GameModeSelectionPage : Page
     {
         NavigationService nav; // Navigate the page
-        public Window holderWin;     // to change the size of main window
+        public MainWindow holderWin;     // to change the size of main window
         
         public GameModeSelectionPage()
         {
@@ -50,7 +50,9 @@ namespace Tetris.AdvancedGUI
         private void back_Click(object sender, RoutedEventArgs e)
         {
             nav = NavigationService.GetNavigationService(this);
-            nav.Navigate(new NavigationPage());            
+            NavigationPage backPage = new NavigationPage();
+            backPage.holderWin = holderWin;
+            nav.Navigate(backPage);            
         }
     }
 }

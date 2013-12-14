@@ -21,6 +21,7 @@ namespace Tetris.AdvancedGUI
     public partial class SettingPage : Page
     {
         NavigationService nav;
+        public MainWindow holderWin;
         
         public SettingPage()
         {
@@ -46,7 +47,9 @@ namespace Tetris.AdvancedGUI
         private void back_Click(object sender, RoutedEventArgs e)
         {
             nav = NavigationService.GetNavigationService(this);
-            nav.Navigate(new NavigationPage());
+            NavigationPage backPage = new NavigationPage();
+            backPage.holderWin = holderWin;
+            nav.Navigate(backPage);  
         }
     }
 }

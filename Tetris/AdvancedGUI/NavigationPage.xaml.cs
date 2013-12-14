@@ -21,7 +21,7 @@ namespace Tetris.AdvancedGUI
     public partial class NavigationPage : Page
     {
         NavigationService nav;
-        public Window holderWin {get; set;}
+        public MainWindow holderWin {get; set;}
        
         public NavigationPage() {
             InitializeComponent();
@@ -31,7 +31,9 @@ namespace Tetris.AdvancedGUI
         private void gotoAchievement_Click(object sender, RoutedEventArgs e)
         {
             nav = NavigationService.GetNavigationService(this);
-            nav.Navigate(new AchievementPage());
+            AchievementPage nextPage = new AchievementPage();
+            nextPage.holderWin = holderWin;
+            nav.Navigate(nextPage);
         }
         // Click the button to go to GameModeSelection Page
         private void gotoGameModeSel_Click(object sender, RoutedEventArgs e)
@@ -44,8 +46,10 @@ namespace Tetris.AdvancedGUI
         // Click the button to go to Setting Page
         private void gotoSetting_Click(object sender, RoutedEventArgs e)
         {
+            SettingPage nextPage = new SettingPage();
             nav = NavigationService.GetNavigationService(this);
-            nav.Navigate(new SettingPage());
+            nextPage.holderWin = holderWin;
+            nav.Navigate(nextPage);
         }
         // Click the button to exit the game
         private void exitGame_Click(object sender, RoutedEventArgs e)
