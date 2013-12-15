@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Tetris.GameBase;
 using Tetris.GameGUI;
+using Tetris.GameControl;
 
 namespace Tetris
 {
@@ -25,7 +26,7 @@ namespace Tetris
     public partial class MainWindow : Window, IDisplay
     {
         private Square[,] _image;
-        private readonly Controller _controller;
+        private readonly PlayerController _controller;
         private readonly AIController _aiController;
         private readonly AIController _aiController2;
         private bool dual = true; // is dual?
@@ -66,10 +67,10 @@ namespace Tetris
                 games.Item1.AddDisplay(gameGrid1);
                 games.Item2.AddDisplay(gameGrid2);
 
-                _aiController2 = new AIController(games.Item1, 100);
-                games.Item1.SetController(_aiController2);
-                //_controller = new Controller();
-                //games.Item1.SetController(_controller);
+                //_aiController2 = new AIController(games.Item1, 100);
+                //games.Item1.SetController(_aiController2);
+                _controller = new PlayerController();
+                games.Item1.SetController(_controller);
                 _aiController = new AIController(games.Item2, 100);
                 games.Item2.SetController(_aiController);
 
@@ -115,20 +116,12 @@ namespace Tetris
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            if (Keys.Contains(e.Key))
-            {
-                _controller.KeyState[e.Key] = true;
-                if (e.Key == Key.Left) _controller.KeyState[Key.Right] = false;
-                if (e.Key == Key.Right) _controller.KeyState[Key.Left] = false;
-            }
+            _controller.OnKeyDown(e);
         }
 
         protected override void OnKeyUp(KeyEventArgs e)
         {
-            if (Keys.Contains(e.Key))
-            {
-               // _controller.KeyState[e.Key] = false;
-            }
+            _controller.OnKeyUp(e);
         }
 
         public void OnDrawing(TetrisGame game, TetrisGame.DrawEventArgs e)

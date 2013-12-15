@@ -232,7 +232,7 @@ namespace Tetris.GameBase
                 Debug.Assert(Block != null, "loop continue when Block is null");
                 Debug.Assert(Block.Id!=Block.TempId,"loop using a temp block");
                 Block.FallSpeed = FallingSpeed;    // Use the Game FallingSpeed as the block fall speed
-                PerRound(3, HandleAction);
+                PerRound(6, HandleAction);
                 PerRound(1*Block.FallSpeed, delegate()
                 {
                     HandleFalling();
@@ -278,7 +278,7 @@ namespace Tetris.GameBase
             {
                 if (_controller.Act(GameAction.Down))
                 {
-                    return 2*_gameSpeed;
+                    return 6*_gameSpeed;
                 }
                 return 1*_gameSpeed;
             }
@@ -325,6 +325,9 @@ namespace Tetris.GameBase
                     Block.RPos--;
                 }
             }
+
+            //刷新界面以解决延迟感 by huangyuhan
+            DrawEvent.Invoke(this, new DrawEventArgs(_tick));
         }
 
         private void HandleFalling()

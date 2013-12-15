@@ -57,12 +57,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AIController.cs" />
+    <Compile Include="ControllerConfig.cs" />
     <Compile Include="GameGrid.xaml.cs">
       <DependentUpon>GameGrid.xaml</DependentUpon>
     </Compile>
     <Compile Include="IEngine.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="GameAPI.cs" />
+    <Compile Include="PlayerController.cs" />
     <Compile Include="SimpleEngine.cs" />
     <Compile Include="Square.cs" />
     <Compile Include="TetrisGame.cs" />
