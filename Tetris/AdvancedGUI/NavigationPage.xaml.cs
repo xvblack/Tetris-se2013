@@ -56,5 +56,11 @@ namespace Tetris.AdvancedGUI
         {
             App.Current.Shutdown();
         }
+
+        private void Page_Loaded_1(object sender, RoutedEventArgs e)
+        {
+            this.holderWin.Width = Styles.WindowSizeGenerator.mainWindowMinWidth;
+            this.holderWin.Left = Styles.WindowSizeGenerator.mainWindowLocationLeft;
+        }
     }
 }

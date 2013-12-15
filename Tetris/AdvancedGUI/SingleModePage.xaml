@@ -8,19 +8,20 @@
 	Title="SingleModePage"
       Loaded="Loaded_ChangeWinSize"
       Unloaded="Unloaded_Event">
-
-    <Grid Name="outerGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="20" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20" />
-            <ColumnDefinition Width="50" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="50" />
-            <ColumnDefinition Width="20" />
-        </Grid.ColumnDefinitions>
-    </Grid>
+    <Canvas>
+        <Grid Name="outerGrid" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="20" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="20" />
+            </Grid.ColumnDefinitions>
+        </Grid>
+    </Canvas>
 </Page>

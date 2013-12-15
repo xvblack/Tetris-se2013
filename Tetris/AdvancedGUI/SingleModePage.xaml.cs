@@ -42,6 +42,9 @@ namespace Tetris.AdvancedGUI
             this.holderWin.Width = Styles.WindowSizeGenerator.singleModePageWidth;
             this.holderWin.Left = Styles.WindowSizeGenerator.singleModePageLocationLeft;
 
+            outerGrid.Width = this.holderWin.Width;
+            outerGrid.Height = this.holderWin.Height;
+
             this.holderWin.PreviewKeyDown += this.keyPressed;
         }
 

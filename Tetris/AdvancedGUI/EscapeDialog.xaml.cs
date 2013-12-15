@@ -29,11 +29,8 @@ namespace Tetris.AdvancedGUI
         private void okayClicked(object sender, RoutedEventArgs e) {
             Console.WriteLine("okayclikced");
             NavigationPage backPage = new NavigationPage();
-            this.holderWindow.contentFrame.Resources.Add(Guid.NewGuid(), backPage);
-            this.holderWindow.contentFrame.Navigate(backPage);
             backPage.holderWin = this.holderWindow;
-            this.holderWindow.Width = Styles.WindowSizeGenerator.mainWindowMinWidth;
-            this.holderWindow.Left = Styles.WindowSizeGenerator.mainWindowLocationLeft;
+            this.holderWindow.Navigate(backPage);
             this.Close();
         }
         private void cancelClicked(object sender, RoutedEventArgs e) { this.Close(); }
