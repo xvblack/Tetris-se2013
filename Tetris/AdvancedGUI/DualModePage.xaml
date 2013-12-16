@@ -8,7 +8,7 @@
 	Title="dualModePage"
       Loaded="Loaded_ChangeWinSize"
       Unloaded="Unloaded_Event">
-    <Canvas>
+    <Canvas Name="aCanvas">
         <Grid Name="outerGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="20" />

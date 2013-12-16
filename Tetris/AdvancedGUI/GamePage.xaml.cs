@@ -60,11 +60,9 @@ namespace Tetris.AdvancedGUI
                 int _squareContainerSize = 
                     Styles.SquareGenerator.squareContainerSize();
                 int _squareSize = Styles.SquareGenerator.squareSize();
-                Console.WriteLine(_squareSize);
                 GridLength _gridLen = new GridLength(1,
                     GridUnitType.Auto);  // square size
                 // initialize the grid
-                Console.WriteLine(_gridLen.Value);
                 int i = 0;
                 int j = 0;
                 for (i = 0; i < gridHeight; i++)

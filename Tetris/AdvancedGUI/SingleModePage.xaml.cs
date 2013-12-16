@@ -26,7 +26,7 @@ namespace Tetris.AdvancedGUI
         {
             InitializeComponent();
             int[] gridSize = new int[2] { 10, 10 };
-
+    
             Frame aFrame = new Frame();
             outerGrid.Children.Add(aFrame);
             aFrame.SetValue(Grid.RowProperty, 1);
@@ -35,6 +35,20 @@ namespace Tetris.AdvancedGUI
             GamePage gamePage = new GamePage(gridSize);
             aFrame.Resources.Add(Guid.NewGuid(), gamePage);
             aFrame.Navigate(gamePage);
+
+            StartWelcomeString welcomeString = new StartWelcomeString("READY");
+            Canvas.SetLeft(welcomeString, 100);
+            Canvas.SetTop(welcomeString, 200);
+            aCanvas.Children.Add(welcomeString);
+
+            // add some animation here...
+
+            welcomeString = new StartWelcomeString("GO");
+            Canvas.SetLeft(welcomeString, 100);
+            Canvas.SetTop(welcomeString, 400);
+            aCanvas.Children.Add(welcomeString);
+
+
         }
 
         private void Loaded_ChangeWinSize(object sender, RoutedEventArgs e)
@@ -46,6 +60,8 @@ namespace Tetris.AdvancedGUI
             outerGrid.Height = this.holderWin.Height;
 
             this.holderWin.PreviewKeyDown += this.keyPressed;
+
+
         }
 
         private void keyPressed(object sender, KeyEventArgs e)

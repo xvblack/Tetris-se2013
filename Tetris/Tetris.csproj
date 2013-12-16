@@ -83,6 +83,9 @@
     <Compile Include="AdvancedGUI\SingleModePage.xaml.cs">
       <DependentUpon>SingleModePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AdvancedGUI\StartWelcomeString.xaml.cs">
+      <DependentUpon>StartWelcomeString.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AdvancedGUI\Styles\SquareGenerator.cs" />
     <Compile Include="AdvancedGUI\Styles\WindowSizeGenerator.cs" />
     <Compile Include="AdvancedGUI\TestClasses\TestWindow.xaml.cs">
@@ -137,6 +140,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AdvancedGUI\SingleModePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\StartWelcomeString.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
