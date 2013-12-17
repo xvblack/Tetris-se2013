@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Media.Animation;
 
 namespace Tetris.AdvancedGUI
 {
@@ -24,21 +25,27 @@ namespace Tetris.AdvancedGUI
         private Dictionary<char, int[,]> fontLibrary;  // store the bit maps of capital letters
         const int fontHeight = 9;
         const int fontWidth = 9;
+        private SolidColorBrush[,] brush;
+        private int gridLen;
+        private Color[] colorMap = (new Styles.SquareGenerator()).getColorMap();
+        int[,] contentMap;
+        private Rectangle[,] rect;
 
         public StartWelcomeString(String content)
         {   
             InitializeComponent();
             this.setFontLibrary();
 
-            int[,] contentMap = getWelcomeString(content);
+            contentMap  = getWelcomeString(content);
 
-            int len = content.Length * fontWidth;
+            gridLen = content.Length * fontWidth;
 
             GridLength gl = new GridLength(0, GridUnitType.Auto);
 
             int i = 0;
             int j = 0;
-            for (i = 0; i < len; i++) {
+            for (i = 0; i < gridLen; i++)
+            {
                 ColumnDefinition aCol = new ColumnDefinition();
                 aCol.Width = gl;
                 this.ColumnDefinitions.Add(aCol);
@@ -49,25 +56,64 @@ namespace Tetris.AdvancedGUI
                 aRow.Height = gl;
                 this.RowDefinitions.Add(aRow);
             }
-            Rectangle[,] rect = new Rectangle[fontHeight, len];
+            
             int _squareSize = Styles.SquareGenerator.squareSize();
-            Random num = new Random();
-            Color[] colorMap = (new Styles.SquareGenerator()).getColorMap();
+            rect = new Rectangle[fontHeight, gridLen];
+            brush = new SolidColorBrush[fontHeight, gridLen];
             for (i = 0; i < fontHeight; i++)
-                for (j = 0; j < len; j++)
+                for (j = 0; j < gridLen; j++)
                 {
                     rect[i, j] = new Rectangle();
                     this.Children.Add(rect[i, j]);
                     rect[i, j].SetValue(Grid.RowProperty, i);
                     rect[i, j].SetValue(Grid.ColumnProperty, j);
-                    rect[i, j].Width = _squareSize / 4;
-                    rect[i, j].Height = _squareSize / 4;
+                    rect[i, j].Width = _squareSize / 2.5;
+                    rect[i, j].Height = _squareSize / 2.5;
                     rect[i, j].Margin = new Thickness(1, 1, 1, 1);
-
-                    if (contentMap[i, j] == 1) { 
-                        rect[i,j].Fill = new SolidColorBrush(colorMap[num.Next(5)+1]);
+                    if (contentMap[i, j] == 1) {
+                        brush[i, j] = new SolidColorBrush();
+                        rect[i,j].Fill = brush[i, j];
                     }
                 }
+        }
+
+        public double getWidth() {
+            return (rect[0, 0].Width * gridLen);
+
+        }
+
+        public double getHeight() {
+            return (rect[0, 0].Height * fontHeight);
+        }
+
+        public void startAnimation(int timeStep, int timeDelay) {
+            Random num = new Random();
+            int beginTime = 0;
+            ColorAnimationUsingKeyFrames[,] ca = new ColorAnimationUsingKeyFrames[fontHeight, gridLen];
+
+            for (int i = 0; i < fontHeight; i++)
+            {
+                for (int j = 0; j < gridLen; j++) {
+                    
+                    Color fromColor = colorMap[0];
+                    Color toColor = colorMap[num.Next(5) + 1];
+                    beginTime = num.Next(300);
+                 
+                    if (contentMap[i, j] == 1)
+                    {
+                        ca[i, j] = new ColorAnimationUsingKeyFrames();
+                        ca[i, j].KeyFrames.Add(new SplineColorKeyFrame(fromColor,
+                            TimeSpan.FromMilliseconds(beginTime + timeDelay)));
+                        ca[i, j].KeyFrames.Add(new SplineColorKeyFrame(toColor,
+                            TimeSpan.FromMilliseconds(beginTime + timeDelay)));
+                        ca[i, j].KeyFrames.Add(new SplineColorKeyFrame(toColor,
+                            TimeSpan.FromMilliseconds(timeStep + beginTime + timeDelay)));
+                        ca[i, j].KeyFrames.Add(new SplineColorKeyFrame(fromColor,
+                            TimeSpan.FromMilliseconds(timeStep + beginTime + timeDelay)));
+                        brush[i, j].BeginAnimation(SolidColorBrush.ColorProperty, ca[i, j]);
+                    }
+                }
+            }
         }
 
         private int[,] getWelcomeString(String s) {
@@ -161,7 +207,7 @@ namespace Tetris.AdvancedGUI
                                                    {0, 0, 0, 0, 1, 0, 0, 0, 0}};
             fontLibrary.Add('Y', aFont);
 
-            aFont = new int[fontHeight, fontWidth]{{1, 0, 0, 1, 1, 1, 1, 0, 0},
+            aFont = new int[fontHeight, fontWidth]{{0, 0, 0, 1, 1, 1, 1, 0, 0},
                                                    {0, 0, 1, 0, 0, 0, 0, 1, 0},
                                                    {0, 1, 0, 0, 0, 0, 0, 1, 0},
                                                    {0, 1, 0, 0, 0, 0, 0, 0, 0},

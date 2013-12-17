@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Media.Animation;
 
 namespace Tetris.AdvancedGUI
 {
@@ -21,6 +22,8 @@ namespace Tetris.AdvancedGUI
     public partial class SingleModePage : Page
     {
         public MainWindow holderWin {get; set;}
+
+        StartWelcomeString welcomeString;
 
         public SingleModePage()
         {
@@ -35,22 +38,34 @@ namespace Tetris.AdvancedGUI
             GamePage gamePage = new GamePage(gridSize);
             aFrame.Resources.Add(Guid.NewGuid(), gamePage);
             aFrame.Navigate(gamePage);
-
-            StartWelcomeString welcomeString = new StartWelcomeString("READY");
-            Canvas.SetLeft(welcomeString, 100);
-            Canvas.SetTop(welcomeString, 200);
-            aCanvas.Children.Add(welcomeString);
-
-            // add some animation here...
-
-            welcomeString = new StartWelcomeString("GO");
-            Canvas.SetLeft(welcomeString, 100);
-            Canvas.SetTop(welcomeString, 400);
-            aCanvas.Children.Add(welcomeString);
-
-
+           
         }
 
+        private void startAnimation() {
+            int timeStart = 500;
+            int timeStep = 1200;
+            int timeDelay = timeStep + 500;
+            welcomeString = new StartWelcomeString("READY");
+            Canvas.SetLeft(welcomeString,
+                (outerGrid.Width - welcomeString.getWidth()) / 3);
+            Canvas.SetTop(welcomeString,
+                (outerGrid.Height - welcomeString.getHeight()) / 2);
+            aCanvas.Children.Add(welcomeString);
+            welcomeString.startAnimation(timeStep, timeStart);
+
+            Console.WriteLine(outerGrid.Width);
+            Console.WriteLine(welcomeString.getWidth());
+            Console.WriteLine((holderWin.Width - welcomeString.getWidth()) / 2);
+
+            welcomeString = new StartWelcomeString("GO");
+            Canvas.SetLeft(welcomeString,
+                (holderWin.Width - welcomeString.getWidth()) / 2);
+            Canvas.SetTop(welcomeString,
+                (holderWin.Height - welcomeString.getHeight()) / 2);
+            aCanvas.Children.Add(welcomeString);
+            welcomeString.startAnimation(timeStep, timeDelay+timeStart);
+        }
+        
         private void Loaded_ChangeWinSize(object sender, RoutedEventArgs e)
         {
             this.holderWin.Width = Styles.WindowSizeGenerator.singleModePageWidth;
@@ -61,6 +76,7 @@ namespace Tetris.AdvancedGUI
 
             this.holderWin.PreviewKeyDown += this.keyPressed;
 
+            this.startAnimation();
 
         }
 
