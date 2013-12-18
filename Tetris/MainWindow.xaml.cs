@@ -119,6 +119,7 @@ namespace Tetris
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
+            Console.WriteLine("onkeydon");
             if (Keys.Contains(e.Key))
             {
                 _controller.KeyState[e.Key] = true;

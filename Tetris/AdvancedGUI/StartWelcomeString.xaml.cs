@@ -64,13 +64,29 @@ namespace Tetris.AdvancedGUI
                 for (j = 0; j < gridLen; j++)
                 {
                     rect[i, j] = new Rectangle();
-                    this.Children.Add(rect[i, j]);
+                    
+                    /*
+                    Border border = new Border();
+                    border.BorderThickness = new Thickness(0.5, 0.5, 0.5, 0.5);
+                    border.Child = rect[i, j];
+
+                    this.Children.Add(border);
+                    border.SetValue(Grid.RowProperty, i);
+                    border.SetValue(Grid.ColumnProperty, j);
+                    */
+
+                    this.Children.Add(rect[i,j]);
                     rect[i, j].SetValue(Grid.RowProperty, i);
                     rect[i, j].SetValue(Grid.ColumnProperty, j);
+
                     rect[i, j].Width = _squareSize / 2.5;
                     rect[i, j].Height = _squareSize / 2.5;
                     rect[i, j].Margin = new Thickness(1, 1, 1, 1);
+
+                    rect[i, j].Stroke = new SolidColorBrush(Colors.Transparent);
+
                     if (contentMap[i, j] == 1) {
+                       // border.BorderBrush = new SolidColorBrush(Colors.Black);
                         brush[i, j] = new SolidColorBrush();
                         rect[i,j].Fill = brush[i, j];
                     }
@@ -78,12 +94,12 @@ namespace Tetris.AdvancedGUI
         }
 
         public double getWidth() {
-            return (rect[0, 0].Width * gridLen);
+            return ((rect[0, 0].Width+1) * gridLen);
 
         }
 
         public double getHeight() {
-            return (rect[0, 0].Height * fontHeight);
+            return ((rect[0, 0].Height+1) * fontHeight);
         }
 
         public void startAnimation(int timeStep, int timeDelay) {
@@ -97,11 +113,14 @@ namespace Tetris.AdvancedGUI
                     
                     Color fromColor = colorMap[0];
                     Color toColor = colorMap[num.Next(5) + 1];
+                    Color strokeColor = Colors.Gray;
+
                     beginTime = num.Next(300);
                  
                     if (contentMap[i, j] == 1)
                     {
                         ca[i, j] = new ColorAnimationUsingKeyFrames();
+
                         ca[i, j].KeyFrames.Add(new SplineColorKeyFrame(fromColor,
                             TimeSpan.FromMilliseconds(beginTime + timeDelay)));
                         ca[i, j].KeyFrames.Add(new SplineColorKeyFrame(toColor,
@@ -110,7 +129,22 @@ namespace Tetris.AdvancedGUI
                             TimeSpan.FromMilliseconds(timeStep + beginTime + timeDelay)));
                         ca[i, j].KeyFrames.Add(new SplineColorKeyFrame(fromColor,
                             TimeSpan.FromMilliseconds(timeStep + beginTime + timeDelay)));
+
                         brush[i, j].BeginAnimation(SolidColorBrush.ColorProperty, ca[i, j]);
+
+                        ColorAnimationUsingKeyFrames ca_stroke = 
+                            new ColorAnimationUsingKeyFrames();
+
+                        ca_stroke.KeyFrames.Add(new SplineColorKeyFrame(fromColor,
+                            TimeSpan.FromMilliseconds(beginTime + timeDelay)));
+                        ca_stroke.KeyFrames.Add(new SplineColorKeyFrame(strokeColor,
+                            TimeSpan.FromMilliseconds(beginTime + timeDelay)));
+                        ca_stroke.KeyFrames.Add(new SplineColorKeyFrame(strokeColor,
+                            TimeSpan.FromMilliseconds(timeStep + beginTime + timeDelay)));
+                        ca_stroke.KeyFrames.Add(new SplineColorKeyFrame(fromColor,
+                            TimeSpan.FromMilliseconds(timeStep + beginTime + timeDelay)));
+
+                        rect[i, j].Stroke.BeginAnimation(SolidColorBrush.ColorProperty, ca_stroke);
                     }
                 }
             }

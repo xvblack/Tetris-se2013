@@ -19,81 +19,65 @@ namespace Tetris.AdvancedGUI
     /// <summary>
     /// SingleModePage.xaml 的交互逻辑
     /// </summary>
-    public partial class SingleModePage : Page
+    public partial class SingleModePage : GameContainerPage
     {
-        public MainWindow holderWin {get; set;}
+        private Tetrisor t = new Tetrisor();
+        private GameGrid gameGrid;
+        private Tetris.GameBase.TetrisGame game;
 
-        StartWelcomeString welcomeString;
-
-        public SingleModePage()
+        public SingleModePage():base()
         {
             InitializeComponent();
-            int[] gridSize = new int[2] { 10, 10 };
+
+            ColumnDefinition aCol = new ColumnDefinition();
+            aCol.Width = new GridLength(50, GridUnitType.Star);
+            outerGrid.ColumnDefinitions.Add(aCol);
+
+            aCol = new ColumnDefinition();
+            aCol.Width = new GridLength(50, GridUnitType.Auto);
+            outerGrid.ColumnDefinitions.Add(aCol);
+
+            aCol = new ColumnDefinition();
+            aCol.Width = new GridLength(50, GridUnitType.Star);
+            outerGrid.ColumnDefinitions.Add(aCol);
     
-            Frame aFrame = new Frame();
-            outerGrid.Children.Add(aFrame);
-            aFrame.SetValue(Grid.RowProperty, 1);
-            aFrame.SetValue(Grid.ColumnProperty, 2);
+            Border border = new Border();
 
-            GamePage gamePage = new GamePage(gridSize);
-            aFrame.Resources.Add(Guid.NewGuid(), gamePage);
-            aFrame.Navigate(gamePage);
-           
+            border.BorderBrush = new SolidColorBrush(Colors.Gray);
+            border.BorderThickness = new Thickness(1, 1, 1, 1);
+
+            game = t.NewGame();
+
+            int[] gridSize = new int[2] { game.Height, game.Width };
+
+            gameGrid = new GameGrid(gridSize);
+
+            game.AddDisplay(gameGrid);
+            AIController _aiController = new AIController(game, 100);
+            game.SetController(_aiController);
+
+            border.Child = gameGrid;
+            outerGrid.Children.Add(border);
+            border.SetValue(Grid.RowProperty, 1);
+            border.SetValue(Grid.ColumnProperty, 1);
         }
 
-        private void startAnimation() {
-            int timeStart = 500;
-            int timeStep = 1200;
-            int timeDelay = timeStep + 500;
-            welcomeString = new StartWelcomeString("READY");
-            Canvas.SetLeft(welcomeString,
-                (outerGrid.Width - welcomeString.getWidth()) / 3);
-            Canvas.SetTop(welcomeString,
-                (outerGrid.Height - welcomeString.getHeight()) / 2);
-            aCanvas.Children.Add(welcomeString);
-            welcomeString.startAnimation(timeStep, timeStart);
-
-            Console.WriteLine(outerGrid.Width);
-            Console.WriteLine(welcomeString.getWidth());
-            Console.WriteLine((holderWin.Width - welcomeString.getWidth()) / 2);
-
-            welcomeString = new StartWelcomeString("GO");
-            Canvas.SetLeft(welcomeString,
-                (holderWin.Width - welcomeString.getWidth()) / 2);
-            Canvas.SetTop(welcomeString,
-                (holderWin.Height - welcomeString.getHeight()) / 2);
-            aCanvas.Children.Add(welcomeString);
-            welcomeString.startAnimation(timeStep, timeDelay+timeStart);
-        }
-        
-        private void Loaded_ChangeWinSize(object sender, RoutedEventArgs e)
+        protected override void Loaded_Event(object sender, RoutedEventArgs e)
         {
-            this.holderWin.Width = Styles.WindowSizeGenerator.singleModePageWidth;
-            this.holderWin.Left = Styles.WindowSizeGenerator.singleModePageLocationLeft;
+            holderWin.Width = Styles.WindowSizeGenerator.singleModePageWidth;
+            holderWin.Left = Styles.WindowSizeGenerator.singleModePageLocationLeft;
 
-            outerGrid.Width = this.holderWin.Width;
-            outerGrid.Height = this.holderWin.Height;
+            outerGrid.Width = holderWin.Width;
+            outerGrid.Height = holderWin.Height;
 
-            this.holderWin.PreviewKeyDown += this.keyPressed;
-
-            this.startAnimation();
+            base.Loaded_Event(sender, e);
 
         }
 
-        private void keyPressed(object sender, KeyEventArgs e)
+        protected override void whatHappenWhenAnimationStop(object sender, System.Timers.ElapsedEventArgs e)
         {
-            if (e.Key == Key.Escape)
-            {
-                EscapeDialog win = new EscapeDialog();
-                //win.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                win.holderWindow = this.holderWin;
-                win.ShowDialog();
-            }
-        }
-
-        private void Unloaded_Event(object sender, RoutedEventArgs e)
-        {
-            this.holderWin.PreviewKeyDown -= this.keyPressed;
+            game.Start();
+            base.whatHappenWhenAnimationStop(sender, e);
         }
     }
 }

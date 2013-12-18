@@ -65,6 +65,7 @@
     <Compile Include="AdvancedGUI\EscapeDialog.xaml.cs">
       <DependentUpon>EscapeDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AdvancedGUI\GameContainerPage.cs" />
     <Compile Include="AdvancedGUI\GameModeSelectionPage.xaml.cs">
       <DependentUpon>GameModeSelectionPage.xaml</DependentUpon>
     </Compile>
@@ -77,8 +78,8 @@
     <Compile Include="AdvancedGUI\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AdvancedGUI\GamePage.xaml.cs">
-      <DependentUpon>GamePage.xaml</DependentUpon>
+    <Compile Include="AdvancedGUI\GameGrid.xaml.cs">
+      <DependentUpon>GameGrid.xaml</DependentUpon>
     </Compile>
     <Compile Include="AdvancedGUI\SingleModePage.xaml.cs">
       <DependentUpon>SingleModePage.xaml</DependentUpon>
@@ -111,6 +112,7 @@
     <Compile Include="TimerEngine.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UserController.cs" />
     <Page Include="AdvancedGUI\AchievementPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -151,7 +153,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdvancedGUI\GamePage.xaml">
+    <Page Include="AdvancedGUI\GameGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
