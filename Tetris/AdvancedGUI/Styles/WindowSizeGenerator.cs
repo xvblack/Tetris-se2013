@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace Tetris.AdvancedGUI.Styles
 {
     static class WindowSizeGenerator

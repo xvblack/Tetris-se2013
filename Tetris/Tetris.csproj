@@ -61,6 +61,8 @@
     <Compile Include="AdvancedGUI\AchievementPage.xaml.cs">
       <DependentUpon>AchievementPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AdvancedGUI\Animation\FadeInFadeOut.cs" />
+    <Compile Include="AdvancedGUI\Animation\WindowNavigationEffect.cs" />
     <Compile Include="AdvancedGUI\CrocodileGen.cs" />
     <Compile Include="AdvancedGUI\DualModePage.xaml.cs">
       <DependentUpon>DualModePage.xaml</DependentUpon>
