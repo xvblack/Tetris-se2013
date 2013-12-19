@@ -56,7 +56,7 @@ namespace Tetris.AdvancedGUI
                 aCol.Width = _gridLen;
                 this.ColumnDefinitions.Add(aCol);
             }
-                        
+            this.Background = new SolidColorBrush(Colors.White);
             // add squares into the grid
             for (i = 0; i < gridHeight; i++) 
                 for (j = 0; j < gridWidth; j++) 

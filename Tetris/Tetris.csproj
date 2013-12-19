@@ -39,6 +39,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -59,6 +61,7 @@
     <Compile Include="AdvancedGUI\AchievementPage.xaml.cs">
       <DependentUpon>AchievementPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AdvancedGUI\CrocodileGen.cs" />
     <Compile Include="AdvancedGUI\DualModePage.xaml.cs">
       <DependentUpon>DualModePage.xaml</DependentUpon>
     </Compile>
@@ -75,6 +78,10 @@
     <Compile Include="AdvancedGUI\NavigationPage.xaml.cs">
       <DependentUpon>NavigationPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AdvancedGUI\PicGen.cs" />
+    <Compile Include="AdvancedGUI\PicGenGrid.xaml.cs">
+      <DependentUpon>PicGenGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AdvancedGUI\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
@@ -89,8 +96,12 @@
     </Compile>
     <Compile Include="AdvancedGUI\Styles\SquareGenerator.cs" />
     <Compile Include="AdvancedGUI\Styles\WindowSizeGenerator.cs" />
-    <Compile Include="AdvancedGUI\TestClasses\TestWindow.xaml.cs">
+    <Compile Include="AdvancedGUI\Styles\TestClasses\TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\SunGen.cs" />
+    <Compile Include="AdvancedGUI\SwitchEffect.xaml.cs">
+      <DependentUpon>SwitchEffect.xaml</DependentUpon>
     </Compile>
     <Compile Include="AIController.cs" />
     <Compile Include="GameGrid.xaml.cs">
@@ -137,6 +148,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="AdvancedGUI\PicGenGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AdvancedGUI\SettingPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -157,7 +172,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdvancedGUI\TestClasses\TestWindow.xaml">
+    <Page Include="AdvancedGUI\Styles\TestClasses\TestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\SwitchEffect.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

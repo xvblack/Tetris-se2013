@@ -54,6 +54,7 @@ namespace Tetris.AdvancedGUI
             outerGrid.RowDefinitions.Add(aRow);
 
             aCanvas.Children.Add(outerGrid);
+            outerGrid.SetValue(Canvas.ZIndexProperty, 1);
         }
 
         protected void startAnimation()
@@ -79,6 +80,8 @@ namespace Tetris.AdvancedGUI
                 (outerGrid.Width - welcomeString.getWidth()) / 2);
             Canvas.SetTop(welcomeString,
                 (outerGrid.Height - welcomeString.getHeight()) / 2);
+            Canvas.SetZIndex(welcomeString, 10);
+
             aCanvas.Children.Add(welcomeString);
             welcomeString.startAnimation(timeStep, timeStart);
 
@@ -91,6 +94,8 @@ namespace Tetris.AdvancedGUI
                 (holderWin.Width - welcomeString.getWidth()) / 2);
             Canvas.SetTop(welcomeString,
                 (holderWin.Height - welcomeString.getHeight()) / 2);
+            Canvas.SetZIndex(welcomeString, 10);
+
             aCanvas.Children.Add(welcomeString);
             welcomeString.startAnimation(timeStep, timeDelay + timeStart);
 

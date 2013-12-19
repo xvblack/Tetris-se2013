@@ -60,6 +60,31 @@ namespace Tetris.AdvancedGUI
             outerGrid.Children.Add(border);
             border.SetValue(Grid.RowProperty, 1);
             border.SetValue(Grid.ColumnProperty, 1);
+
+            PicGen pic = new CrocodileGen();
+
+            PicGenGrid pg1 = new PicGenGrid(pic, Styles.SquareGenerator.picSquareSize);
+            aCanvas.Children.Add(pg1);
+            pg1.SetValue(Canvas.ZIndexProperty, 0);
+
+            Canvas.SetLeft(pg1, 20);
+            Canvas.SetBottom(pg1, 50);
+
+            pic = new CrocodileGen();
+            PicGenGrid pg2 = new PicGenGrid(pic, Styles.SquareGenerator.picSquareSize);
+            aCanvas.Children.Add(pg2);
+            pg2.SetValue(Canvas.ZIndexProperty, 0);
+
+            Canvas.SetLeft(pg2, 350);
+            Canvas.SetBottom(pg2, 50);
+
+            pic = new SunGen();
+            PicGenGrid pg3 = new PicGenGrid(pic, Styles.SquareGenerator.picSquareSize/1.5);
+            aCanvas.Children.Add(pg3);
+            pg3.SetValue(Canvas.ZIndexProperty, 0);
+
+            Canvas.SetLeft(pg3, -50);
+            Canvas.SetTop(pg3, -50);
         }
 
         protected override void Loaded_Event(object sender, RoutedEventArgs e)

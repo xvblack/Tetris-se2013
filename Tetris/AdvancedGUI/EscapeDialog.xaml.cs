@@ -25,6 +25,7 @@ namespace Tetris.AdvancedGUI
         {
             InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            this.Topmost = true;
         }
         private void okayClicked(object sender, RoutedEventArgs e) {
             Console.WriteLine("okayclikced");

@@ -22,6 +22,7 @@ namespace Tetris.AdvancedGUI.Styles
         const int _colorNum = 9;
         static int _squareContainerSize = 30;
         static int _squareSize = 40;
+        static public int picSquareSize = 13;
         Color[] colorMap;
 
         public SquareGenerator() { 
@@ -40,7 +41,7 @@ namespace Tetris.AdvancedGUI.Styles
             colorMap[4] = Color.FromArgb(255, 51, 181, 229);    // blue
             colorMap[5] = Color.FromArgb(255, 170, 102, 204);   // purple
             colorMap[6] = Color.FromArgb(255, 255, 136, 51);    // orange ? // We should drop out some colors
-            colorMap[7] = Colors.WhiteSmoke;
+            colorMap[7] = Colors.Gray;
             colorMap[8] = Color.FromArgb(100, 0, 0, 0);   // black for dao ju
 
             return colorMap;

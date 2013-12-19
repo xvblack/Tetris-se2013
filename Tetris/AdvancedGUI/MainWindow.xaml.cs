@@ -29,6 +29,20 @@ namespace Tetris.AdvancedGUI
         public MainWindow()
         {
             InitializeComponent();
+            
+            // which window size is used?
+            if (Styles.WindowSizeGenerator.windowSize == "Maximum")
+            {
+                this.WindowState = WindowState.Maximized;
+                this.ResizeMode = System.Windows.ResizeMode.NoResize;
+                this.WindowStyle = System.Windows.WindowStyle.None;
+                this.Topmost = true;
+            }
+            else
+            {
+                this.WindowState = WindowState.Normal;
+            }
+
             this.MinHeight = Styles.WindowSizeGenerator.mainWindowMinHeight;
             this.MinWidth = Styles.WindowSizeGenerator.mainWindowMinWidth;
             this.Height = this.MinHeight;
@@ -44,7 +58,7 @@ namespace Tetris.AdvancedGUI
                 e.Cancel = true;
                 _navArgs = e;
                 this.IsHitTestVisible = false;
-                DoubleAnimation da = new DoubleAnimation(0.1d, new Duration(TimeSpan.FromMilliseconds(300)));
+                DoubleAnimation da = new DoubleAnimation(0.0d, new Duration(TimeSpan.FromMilliseconds(300)));
                 da.Completed += FadeOutCompleted;
                 this.BeginAnimation(OpacityProperty, da);
             }
