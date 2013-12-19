@@ -68,19 +68,25 @@ namespace Tetris
             ran = new Random();
         }
 
+        public void StopEngine()
+        {
+            _engine.Enabled = false;
+        }
+
         public TetrisGame NewGame(IController controller=null,bool withItem=true)
         {
             var id = games.Count;          
-            TetrisFactory factory;
+            ITetrisFactory factory;
             if (withItem)
             {
-                factory = new TetrisItemFactory(Square.Styles(styles), ran);
+                factory = new CacheFactory(Square.Styles(styles), ran);
                 (factory as TetrisItemFactory).GenSpecialBlock = true;
             }
             else
             {
                 factory = new TetrisFactory(Square.Styles(styles), ran);
-            } 
+            }
+            
             var game = new TetrisGame(id,Square.Styles(styles), _engine, factory,10,15,1);
             game.SetController(controller);
             ItemSystem.Bind(game);

@@ -82,11 +82,11 @@ namespace Tetris.GameBase
         }
     }
 
-    public class TetrisFactory
+    public class TetrisFactory : ITetrisFactory
     {
         readonly List<SquareArray> _styles;
         readonly Random _random;
-        public TetrisGame Game;
+        public TetrisGame Game { get; set; }
         public TetrisFactory(IEnumerable<SquareArray> styles, Random random){
             _styles = new List<SquareArray>(styles);
             _random=random;
