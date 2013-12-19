@@ -99,7 +99,7 @@ namespace Tetris.GameBase
         private volatile int _state;         // 0 for game ending, 1 for looping, 2 for pause
         private Stack<Square> _newSquares = new Stack<Square>();
 
-        public TetrisFactory Factory{get { return _factory; }}
+        public ITetrisFactory Factory{get { return _factory; }}
         public SquareArray UnderLying
         {
             get { return _underLying; }
@@ -121,7 +121,7 @@ namespace Tetris.GameBase
         }
 
         #region Reference to External Objects
-        private readonly TetrisFactory _factory;
+        private readonly ITetrisFactory _factory;
         private IController _controller;
         #endregion
 
@@ -135,7 +135,7 @@ namespace Tetris.GameBase
         public event AddToUnderlyingCallback AddToUnderlyingEvent;
         #endregion
 
-        public TetrisGame(int id, IEnumerable<SquareArray> styles, IEngine engine, TetrisFactory factory, int w, int h, int gameSpeed)
+        public TetrisGame(int id, IEnumerable<SquareArray> styles, IEngine engine, ITetrisFactory factory, int w, int h, int gameSpeed)
         {
             _w = w;
             _h = h;
@@ -144,6 +144,10 @@ namespace Tetris.GameBase
             _underLying = new SquareArray(h,w);
             _factory=factory;
             _factory.Game = this;
+            if (_factory is CacheFactory)
+            {
+                (_factory as CacheFactory).Init();
+            }
             InitTickAPI();
             Id = id;
             _tick = 0;

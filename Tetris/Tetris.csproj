@@ -73,6 +73,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AIController.cs" />
+    <Compile Include="CacheFactory.cs" />
     <Compile Include="GameGrid.xaml.cs">
       <DependentUpon>GameGrid.xaml</DependentUpon>
     </Compile>
@@ -80,6 +81,7 @@
     <Compile Include="Block.cs" />
     <Compile Include="GameAPI.cs" />
     <Compile Include="ItemSystem.cs" />
+    <Compile Include="ITetrisFactory.cs" />
     <Compile Include="SimpleEngine.cs" />
     <Compile Include="Square.cs" />
     <Compile Include="TetrisGame.cs" />

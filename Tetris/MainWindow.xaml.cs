@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Tetris.GameBase;
 using Tetris.GameGUI;
+using Tetris.GameSystem;
 
 namespace Tetris
 {
@@ -31,13 +32,15 @@ namespace Tetris
         private bool dual = true; // is dual?
         private ColumnDefinition[] _oriGridCol;
         private Grid child;
+        private Tetrisor t;
 
         public MainWindow()
         {
             InitializeComponent();
-            var t = new Tetrisor();
+            t = new Tetrisor();
             _oriGridCol = this.Grid.ColumnDefinitions.ToArray<ColumnDefinition>();
             child = this.grid_count2;
+            AchievementSystem.Load();
 
             if (dual)
             {
@@ -122,7 +125,14 @@ namespace Tetris
                 game.Start();
             }
         }
-        
+
+        protected override void OnClosed(EventArgs e)
+        {
+            AchievementSystem.Save();
+            t.StopEngine();
+            base.OnClosed(e);
+        }
+
         private readonly Key[] Keys = new Key[]
         {
             Key.Left,
