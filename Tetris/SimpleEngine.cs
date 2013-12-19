@@ -22,7 +22,14 @@ namespace Tetris
             set
             {
                 _enabled = value;
-                if (_enabled) thread.Start();
+                if (_enabled)
+                {
+                    thread.Start();
+                }
+                else
+                {
+                    thread.Abort();
+                }
             }
         }
 
