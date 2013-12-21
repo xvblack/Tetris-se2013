@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Xml;
 using Tetris.GameBase;
 
 namespace Tetris.GameControl
@@ -29,6 +31,58 @@ namespace Tetris.GameControl
             this.Put(Key.Right, TetrisGame.GameAction.Right);
         }
 
+        /**
+         * 读取配置文件，参数为文件名
+         */
+        public void Load(String path)
+        {
+            XmlReader reader = null;
+            TetrisGame.GameAction __action;
+            Key __key;
+            this.Clear();
+            reader = XmlReader.Create(path);
+            reader.ReadStartElement("Dict");
+            while (true)
+            {
+                if (reader.GetAttribute("Key") == null) break;  //读取完毕则退出循环
+                String __keyString = reader.GetAttribute("Key");
+                String __actionStr = reader.GetAttribute("Action");
+                __key = (Key)int.Parse(__keyString);
+                __action = (TetrisGame.GameAction)int.Parse(__actionStr);
+                this.Put(__key, __action);
+                reader.ReadStartElement("Pair"); //读取下一个节点
+            }
+            reader.ReadEndElement();
+            reader.Close();
+        }
+
+        /**
+         * 将当前的配置保存到路径为path的文件中
+         */ 
+        public Boolean Save(String path)
+        {
+            Dictionary<Key, TetrisGame.GameAction>.Enumerator enumerator = this.GetEnumerator();
+            XmlWriter writer = XmlWriter.Create(path);
+            writer.WriteStartDocument(true); 
+            writer.WriteStartElement("Dict");
+            
+            while(enumerator.MoveNext())
+            {
+                writer.WriteStartElement("Pair");
+                writer.WriteAttributeString("Key",((int)enumerator.Current.Key).ToString());
+                writer.WriteAttributeString("Action",((int)enumerator.Current.Value).ToString());
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
+            writer.WriteEndDocument();
+            writer.Close();
+            return true;
+        }
+
+        /**
+         * 注意：添加新的按键映射时，不检查对应的GameAction是否已经存在，
+         * 可能造成多个按键同时映射同一个功能的情况，可以通过Clear方法清楚所有映射再重新写入解决。
+         */
         public void Put(Key key, TetrisGame.GameAction action)
         {
             //如果已存在这种映射，就先将他覆盖掉，再加入新的映射关系.

@@ -58,6 +58,7 @@
     </ApplicationDefinition>
     <Compile Include="AIController.cs" />
     <Compile Include="ControllerConfig.cs" />
+    <Compile Include="Dictionary.cs" />
     <Compile Include="GameGrid.xaml.cs">
       <DependentUpon>GameGrid.xaml</DependentUpon>
     </Compile>
