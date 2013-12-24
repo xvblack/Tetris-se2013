@@ -1,14 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using System.Windows.Shapes;
 using Tetris.GameBase;
 
 namespace Tetris
 {
+    partial class GameColor
+    {
+        public const int GunSquare = 10;
+        public const int InverseGunSquare = 11;
+        public const int TonSquare = 12;
+        public const int InverseControlSquare = 14;
+        public const int GunBlock = 20;
+        public const int InverseGunBlock = 21;
+        public const int TonBlock = 22;
+        public const int InverseGunFillSquare = 25;
+        public const int BlockOne = 30;
+        public const int BlockThree = 31;
+        public const int BlockFive = 32;
+    }
     public class ItemBlock : Block
     {
         public void ResetDirection()
@@ -28,15 +44,30 @@ namespace Tetris
 
     public class ItemSquare : Square
     {
+        static int GetColorByItemId(int itemId)
+        {
+            switch (itemId)
+            {
+                case 0:
+                    return GameColor.GunSquare;
+                case 1:
+                    return GameColor.InverseGunSquare;
+                case 2:
+                    return GameColor.TonSquare;
+                case 3:
+                    return GameColor.InverseControlSquare;
+            }
+            return 0;
+        }
         public int ItemId;
-        public ItemSquare(int color,int itemId) : base(color)
+        public ItemSquare(int itemId):base(GetColorByItemId(itemId))
         {
             ItemId = itemId;
         }
 
         public override Square Clone()
         {
-            return new ItemSquare(Color,ItemId);
+            return new ItemSquare(ItemId);
         }
     }
 
@@ -67,13 +98,22 @@ namespace Tetris
     public class TetrisItemFactory : TetrisFactory
     {
         public readonly Queue<Block> ItemQueue;
-        private static readonly List<SquareArray> ItemStyles = Square.Styles(new int[][,] { new int[,] { { 10 } }, new int[,] { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } } });
-        private static readonly List<SquareArray> SpecialStyles = Square.Styles(new int[][,] { new int[,] { { 11 } }, new int[,] { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } }, new int[,] { { 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1 }} });
-        private SquareArray oneStyle = ItemStyles[0];
-        private SquareArray threeStyle = ItemStyles[1];
+        private static readonly List<SquareArray> ItemStyles = new List<SquareArray>();
+        private static readonly List<SquareArray> SpecialStyles =new List<SquareArray>();
         readonly Random _random;
         private int[] _itemIds;
         public bool GenSpecialBlock;
+
+        static TetrisItemFactory()
+        {
+            ItemStyles.Add(Square.BuildStyle(1,1,GameColor.GunBlock));
+            ItemStyles.Add(Square.BuildStyle(1, 1, GameColor.InverseGunBlock));
+            ItemStyles.Add(Square.BuildStyle(3, 3, GameColor.TonBlock));
+
+            SpecialStyles.Add(Square.BuildStyle(1,1,GameColor.BlockOne));
+            SpecialStyles.Add(Square.BuildStyle(3, 3, GameColor.BlockThree));
+            //SpecialStyles.Add(Square.BuildStyle(5, 5, GameColor.BlockFive));
+        }
 
         public TetrisItemFactory(IEnumerable<SquareArray> styles,Random ran, bool isDuel=false)
             : base(styles, ran)
@@ -98,7 +138,7 @@ namespace Tetris
 
         private ItemSquare GenItemSquare()
         {
-            return new ItemSquare(10,_itemIds[rand(_itemIds.Length)]);
+            return new ItemSquare(_itemIds[rand(_itemIds.Length)]);
         }
 
         public override Block GenTetris()
@@ -137,17 +177,17 @@ namespace Tetris
 
         public void PushGun()
         {
-            ItemQueue.Enqueue(new GunItemBlock(oneStyle));
+            ItemQueue.Enqueue(new GunItemBlock(ItemStyles[0]));
         }
 
         public void PushInverseGun()
         {
-            ItemQueue.Enqueue(new InverseGunItemBlock(oneStyle));
+            ItemQueue.Enqueue(new InverseGunItemBlock(ItemStyles[1]));
         }
 
         public void PushTon()
         {
-            ItemQueue.Enqueue(new TonItemBlock(threeStyle));
+            ItemQueue.Enqueue(new TonItemBlock(ItemStyles[2]));
         }
     }
     class ItemSystem
@@ -229,7 +269,7 @@ namespace Tetris
                                 break;
                             }
                         }
-                        game.UnderLying[i + 1, j] = new Square(1);
+                        game.UnderLying[i + 1, j] = new Square(GameColor.InverseGunFillSquare);
                         block.ResetDirection();
                     }
 

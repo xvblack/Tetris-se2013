@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Tetris.GameBase
 {
-    public partial class Block:CSprite
+    public partial class Block:ISprite
     {
         private static int _id=0;
         public int Width

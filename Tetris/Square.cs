@@ -25,10 +25,10 @@ namespace Tetris.GameBase
 
         private static SquareArray Style(int[,] style)
         {
-            var result=new SquareArray(style.GetUpperBound(0)+1,style.GetUpperBound(1)+1);
-            for (int i = 0; i < style.GetUpperBound(0)+1; i++)
+            var result = new SquareArray(style.GetUpperBound(0) + 1, style.GetUpperBound(1) + 1);
+            for (int i = 0; i < style.GetUpperBound(0) + 1; i++)
                 for (int j = 0; j < style.GetUpperBound(1) + 1; j++)
-                    result[style.GetUpperBound(0)-i, j] = style[i, j] != 0 ? new Square(style[i, j]) : null;
+                    result[style.GetUpperBound(0) - i, j] = style[i, j] != 0 ? new Square(style[i, j]) : null;
             return result;
         }
 
@@ -46,7 +46,16 @@ namespace Tetris.GameBase
         {
             return new Square(Color);
         }
-    }
+
+        public static SquareArray BuildStyle(int m, int n, int color)
+        {
+            int[,] result=new int[m,n];
+            for (var i=0;i<m;i++)
+                for (var j = 0; j < n; j++)
+                    result[i, j] = color;
+            return Style(result);
+        }
+}
 
 
     public class SquareArray

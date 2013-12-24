@@ -33,9 +33,6 @@ namespace Tetris.GameBase
             TickClearedBars = 0;
         }
         #endregion
-        #region UnderlyingAPI
-
-        #endregion
         #region Score System Api
         public ScoreSystem ScoreSystem;
         #endregion
