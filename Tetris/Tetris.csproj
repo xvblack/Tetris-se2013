@@ -74,6 +74,8 @@
     </ApplicationDefinition>
     <Compile Include="AIController.cs" />
     <Compile Include="CacheFactory.cs" />
+    <Compile Include="Color.cs" />
+    <Compile Include="ConsoleDisplay.cs" />
     <Compile Include="GameGrid.xaml.cs">
       <DependentUpon>GameGrid.xaml</DependentUpon>
     </Compile>
@@ -89,7 +91,7 @@
     <Compile Include="ScoreSystem.cs" />
     <Compile Include="IController.cs" />
     <Compile Include="IDisplay.cs" />
-    <Compile Include="CSprite.cs" />
+    <Compile Include="ISprite.cs" />
     <Compile Include="Tetrisor.cs" />
     <Compile Include="TimerEngine.cs">
       <SubType>Component</SubType>

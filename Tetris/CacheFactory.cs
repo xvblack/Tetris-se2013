@@ -25,7 +25,7 @@ namespace Tetris
            } 
         }
 
-        public Block GenTetris()
+        public override Block GenTetris()
         {
             _blocks.Enqueue(base.GenTetris());
             return _blocks.Dequeue();

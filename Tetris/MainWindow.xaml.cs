@@ -23,7 +23,7 @@ namespace Tetris
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : Window, IDisplay
+    public partial class MainWindow : Window
     {
         private Square[,] _image;
         private readonly Controller _controller;
@@ -87,6 +87,8 @@ namespace Tetris
                 games.Item1.AddDisplay(gameGrid1);
                 games.Item2.AddDisplay(gameGrid2);
 
+                games.Item1.AddDisplay(new ConsoleDisplay());
+
                 _aiController2 = new AIController(games.Item1, 100);
                 games.Item1.SetController(_aiController2);
                 //_controller = new Controller();
@@ -126,6 +128,11 @@ namespace Tetris
             }
         }
 
+        public ConsoleDisplay ConsoleDisplay
+        {
+            get { return _consoleDisplay; }
+        }
+
         protected override void OnClosed(EventArgs e)
         {
             AchievementSystem.Save();
@@ -159,22 +166,6 @@ namespace Tetris
             }
         }
 
-        public void OnDrawing(TetrisGame game, TetrisGame.DrawEventArgs e)
-        {
-            _image = game.Image;
-            Console.Clear();
-            Console.WriteLine(game.ScoreSystem.Score);
-            Console.WriteLine("============");
-            for (int i = 0; i < 15; i++)
-            {
-                Console.Write("|");
-                for (int j = 0; j < 10; j++)
-                    Console.Out.Write(_image[i, j] == null ? " " : (_image[i,j].Color>=5? "I" : "#"));
-                Console.Out.WriteLine("|");
-            }
-            Console.WriteLine("============");
-        }
-        
         static readonly Dictionary<TetrisGame.GameAction,Key> Ht=new Dictionary<TetrisGame.GameAction, Key>()
         {
             {TetrisGame.GameAction.Left,Key.Left},
@@ -182,6 +173,8 @@ namespace Tetris
             {TetrisGame.GameAction.Down,Key.Down},
             {TetrisGame.GameAction.Rotate,Key.Up}
         };
+
+        private readonly ConsoleDisplay _consoleDisplay;
 
         class Controller : IController
         {
@@ -199,8 +192,8 @@ namespace Tetris
             }
             public bool Act(TetrisGame.GameAction action)
             {
-                var result= KeyState[Ht[action]];
-                KeyState[Ht[action]] = false;
+                var result= KeyState[MainWindow.Ht[action]];
+                KeyState[MainWindow.Ht[action]] = false;
                 return result;
             }
 

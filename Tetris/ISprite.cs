@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tetris
 {
-    interface CSprite
+    interface ISprite
     {
         int LPos { get; set; }
         int RPos { get; set; }
