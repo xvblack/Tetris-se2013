@@ -83,7 +83,7 @@ namespace Tetris
                 factory = new TetrisFactory(Square.Styles(styles), ran);
             }
             
-            var game = new TetrisGame(id,Square.Styles(styles), _engine, factory,10,15,1);
+            var game = new TetrisGame(id,Square.Styles(styles), _engine, factory,10,15,2);
             game.SetController(controller);
             ItemSystem.Bind(game);
             ScoreSystem.Bind(game);

@@ -13,20 +13,26 @@ namespace Tetris
 
         string GetChar(int color)
         {
+            if (color == -2)
+            {
+                return "N";
+            }
             if (color == -1)
             {
                 return " ";
-            }else
+            }
             if (color>=0 && color < 10)
             {
                 return "#";
-            }else if (color >= 10 && color < 20)
+            }
+            if (color >= 10 && color < 20)
             {
                 return "I";
-            }else if (color >= 20 && color < 30)
+            }
+            if (color >= 20 && color < 30)
             {
                 return "B";
-            }else
+            }
             {
                 return "F";
             }
@@ -37,12 +43,13 @@ namespace Tetris
             _image = game.Image;
             Console.Clear();
             Console.WriteLine(game.ScoreSystem.Score);
+            Console.WriteLine(game.GameSpeed);
             Console.WriteLine("============");
             for (int i = 0; i < 15; i++)
             {
                 Console.Write("|");
                 for (int j = 0; j < 10; j++)
-                    Console.Out.Write(_image[i, j] == null ? " " : GetChar(_image[i,j].Color));
+                    Console.Out.Write(_image[i, j] == null ? " " : GetChar(_image[i, j].NewSquare ? -2 : _image[i, j].Color));
                 Console.Out.WriteLine("|");
             }
             Console.WriteLine("============");

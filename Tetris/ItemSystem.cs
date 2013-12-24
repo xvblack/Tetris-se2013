@@ -193,21 +193,27 @@ namespace Tetris
     }
     class ItemSystem
     {
+        private int _nextSpeedUp = 20;
         public static void Bind(TetrisGame game)
         {
-            game.UpdateBeginEvent += ProcessItem;
-            game.AddToUnderlyingEvent += ProcessUnderlyingItem;
-            game.BeforeClearBarEvent += ProcessItemSquare;
-            game.BeforeClearBarEvent += ProcessLine;
-            game.UpdateBeginEvent += ProcessSpeedUp;
+            var system = new ItemSystem();
+            game.UpdateBeginEvent += system.ProcessItem;
+            game.AddToUnderlyingEvent += system.ProcessUnderlyingItem;
+            game.BeforeClearBarEvent += system.ProcessItemSquare;
+            game.BeforeClearBarEvent += system.ProcessLine;
+            game.UpdateBeginEvent += system.ProcessSpeedUp;
         }
 
-        private static void ProcessSpeedUp(TetrisGame game, TetrisGame.UpdateBeginEventArgs e)
+        private void ProcessSpeedUp(TetrisGame game, TetrisGame.UpdateBeginEventArgs e)
         {
-            if (game.ScoreSystem.Score>20) game.GameSpeed=2;
+            if (game.ScoreSystem.Score >= _nextSpeedUp)
+            {
+                game.GameSpeed++;
+                _nextSpeedUp += 20;
+            }
         }
 
-        private static void ProcessItemSquare(TetrisGame game, TetrisGame.ClearBarEventArgs e)
+        private void ProcessItemSquare(TetrisGame game, TetrisGame.ClearBarEventArgs e)
         {
             foreach (var s in e.Squares)
             {
@@ -235,7 +241,7 @@ namespace Tetris
             }
         }
 
-        public static void ProcessItem(TetrisGame game, TetrisGame.UpdateBeginEventArgs e)
+        public void ProcessItem(TetrisGame game, TetrisGame.UpdateBeginEventArgs e)
         {
             if (game.Block is ItemBlock)
             {
@@ -279,7 +285,7 @@ namespace Tetris
             }
         }
 
-        public static void ProcessUnderlyingItem(TetrisGame game, TetrisGame.AddToUnderlyingEventArgs e)
+        public void ProcessUnderlyingItem(TetrisGame game, TetrisGame.AddToUnderlyingEventArgs e)
         {
             if (game.Block is TonItemBlock)
             {
@@ -299,7 +305,7 @@ namespace Tetris
             }
         }
 
-        private static void ProcessLine(TetrisGame sender, TetrisGame.ClearBarEventArgs e)
+        private void ProcessLine(TetrisGame sender, TetrisGame.ClearBarEventArgs e)
         {
             if (sender.IsDuelGame)
             {

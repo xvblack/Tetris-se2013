@@ -94,7 +94,7 @@ namespace Tetris.GameBase
         public Block Block { get; private set; }
         private int _tick;
         private readonly int _w, _h;
-        private const int RoundTicks = 30;   // round tick numbers
+        private const int RoundTicks = 24;   // round tick numbers
         public int GameSpeed { get; set; }
         private volatile int _state;         // 0 for game ending, 1 for looping, 2 for pause
         private Stack<Square> _newSquares = new Stack<Square>();
@@ -210,7 +210,7 @@ namespace Tetris.GameBase
         }
         private void PerRound(int times, UpdateCallback cb)
         {
-            if (_tick%(RoundTicks/times) == 0)
+            if (times>=RoundTicks||_tick%(RoundTicks/times) == 0)
             {
                 cb();
             }

@@ -87,6 +87,8 @@ namespace Tetris
                 games.Item1.AddDisplay(gameGrid1);
                 games.Item2.AddDisplay(gameGrid2);
 
+                games.Item2.AddDisplay(new ConsoleDisplay());
+
                 // speed: 0~15 (速度，0为完全不按加速)
                 // error: 0~100 （每次犯错的概率）
                 // errorCount: >=0 （每几次才可能犯错一次，0为不犯错，1为每次都可能犯错）
@@ -95,7 +97,7 @@ namespace Tetris
                 games.Item1.SetController(_aiController2);
                 //_controller = new Controller();
                 //games.Item1.SetController(_controller);
-                _aiController = new AIController(games.Item2, 15, 5);
+                _aiController = new AIController(games.Item2, 15);
                 games.Item2.SetController(_aiController);
 
                 games.Item1.Start();

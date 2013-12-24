@@ -52,7 +52,7 @@ namespace Tetris.GameBase
 
         public bool IsDuelGame = false;
         public TetrisGame DuelGame = null;
-        private Queue<Square[]> _pendingLines=new Queue<Square[]>();
+        private Stack<Square[]> _pendingLines=new Stack<Square[]>();
 
         private void DevoidBlock()
         {
@@ -61,7 +61,7 @@ namespace Tetris.GameBase
 
         public void PushLine(Square[] line)
         {
-            _pendingLines.Enqueue(line);
+            _pendingLines.Push(line);
         }
 
         private void PushLines()
