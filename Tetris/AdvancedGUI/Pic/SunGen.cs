@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Tetris.AdvancedGUI
+namespace Tetris.AdvancedGUI.Pic
 {
     public class SunGen : PicGen
     {
@@ -23,7 +23,7 @@ namespace Tetris.AdvancedGUI
         protected override void setPicMatrix()
         {
             //base.setPicMatrix();
-            int[,] colorIndexMatrix = new int[,]{
+            colorIndexMatrix = new int[,]{
                 {5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5},
                 {5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,3,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5},
                 {5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,3,3,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5},

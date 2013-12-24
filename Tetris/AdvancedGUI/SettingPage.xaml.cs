@@ -26,6 +26,33 @@ namespace Tetris.AdvancedGUI
         public SettingPage()
         {
             InitializeComponent();
+
+            ButtonsGrid.Width = 300;
+
+            double buttonHeight = 50;
+            double buttonWidth = 200;
+
+            int colorNum = 6;
+            int[] colorIndex = (new Styles.SquareGenerator()).randomColorIndex(colorNum);
+
+            CustomizedButton2 singleModeButton =
+                new CustomizedButton2("单人游戏", buttonHeight, buttonWidth, colorIndex[0]);
+            singleModeButton.button.Click += selDualMode_Click;
+            singleModeButton.SetValue(Grid.RowProperty, 0);
+
+            CustomizedButton2 dualModeButton =
+                new CustomizedButton2("双人游戏", buttonHeight, buttonWidth, colorIndex[1]);
+            dualModeButton.button.Click += selDualMode_Click;
+            dualModeButton.SetValue(Grid.RowProperty, 1);
+            
+            CustomizedButton2 backButton =
+                new CustomizedButton2("后  退", buttonHeight, buttonWidth, colorIndex[2]);
+            backButton.button.Click += back_Click;
+            backButton.SetValue(Grid.RowProperty, 3);
+
+            ButtonsGrid.Children.Add(singleModeButton);
+            ButtonsGrid.Children.Add(dualModeButton);
+            ButtonsGrid.Children.Add(backButton);
         }
 
         // NOT FINISEHD!!!

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Animation;
+using Tetris.AdvancedGUI.Pic;
 
 namespace Tetris.AdvancedGUI
 {
@@ -24,6 +25,8 @@ namespace Tetris.AdvancedGUI
         private Tetrisor t = new Tetrisor();
         private GameGrid gameGrid;
         private Tetris.GameBase.TetrisGame game;
+
+        private ScoreGrid score;
 
         public SingleModePage():base()
         {
@@ -85,6 +88,19 @@ namespace Tetris.AdvancedGUI
 
             Canvas.SetLeft(pg3, -50);
             Canvas.SetTop(pg3, -50);
+
+            double scoreHeight = 150;
+            double scoreWidth = 200;
+            double scoreRightLoc = 50;
+            double scoreTopLoc = 50;
+            score = new ScoreGrid(scoreHeight, scoreWidth);
+
+            aCanvas.Children.Add(score);
+            score.SetValue(Canvas.RightProperty, scoreRightLoc + scoreHeight);
+            score.SetValue(Canvas.TopProperty, scoreTopLoc);
+
+            score.DataContext = game.ScoreSystem;
+
         }
 
         protected override void Loaded_Event(object sender, RoutedEventArgs e)

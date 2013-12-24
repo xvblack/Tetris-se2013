@@ -25,6 +25,40 @@ namespace Tetris.AdvancedGUI
        
         public NavigationPage() {
             InitializeComponent();
+
+            ButtonsGrid.Width = 300;
+
+            double buttonHeight = 50;
+            double buttonWidth = 200;
+
+            int colorNum = 6;
+            
+            int[] colorIndex = (new Styles.SquareGenerator()).randomColorIndex(colorNum);
+
+            CustomizedButton2 exitButton = 
+                new CustomizedButton2("退  出", buttonHeight, buttonWidth, colorIndex[0]);
+            exitButton.button.Click += exitGame_Click;
+            exitButton.SetValue(Grid.RowProperty, 3);
+
+            CustomizedButton2 startGameButton =
+                new CustomizedButton2("开始游戏", buttonHeight, buttonWidth, colorIndex[1]);
+            startGameButton.button.Click += gotoGameModeSel_Click;
+            startGameButton.SetValue(Grid.RowProperty, 0);
+
+            CustomizedButton2 achievementButton =
+                new CustomizedButton2("成就系统", buttonHeight, buttonWidth, colorIndex[2]);
+            achievementButton.button.Click += gotoAchievement_Click;
+            achievementButton.SetValue(Grid.RowProperty, 1);
+
+            CustomizedButton2 settingsButton =
+                new CustomizedButton2("设  置", buttonHeight, buttonWidth, colorIndex[3]);
+            settingsButton.button.Click += gotoSetting_Click;
+            settingsButton.SetValue(Grid.RowProperty, 2);
+  
+            ButtonsGrid.Children.Add(startGameButton);
+            ButtonsGrid.Children.Add(achievementButton);
+            ButtonsGrid.Children.Add(settingsButton);
+            ButtonsGrid.Children.Add(exitButton);
         }
 
         // Click the button to go to Achievement

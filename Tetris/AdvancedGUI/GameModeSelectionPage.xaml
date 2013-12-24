@@ -21,23 +21,13 @@
             <ColumnDefinition Width="100" />
             <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
-        <Grid Grid.Row="2" Grid.Column="2">
+        <Grid Name ="ButtonsGrid" Grid.Row="2" Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="20" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Button Name="singleModeButton" Content="单人游戏" Grid.Row="0"
-                    Style="{StaticResource ButtonTheme}" 
-                    Click="selSingleMode_Click"/>
-            <Button Name="dualModeButton" Content="双人游戏" Grid.Row="1"
-                    Style="{StaticResource ButtonTheme}"
-                    Click="selDualMode_Click" />
-            <Button Name="backButton" Content="后退" Grid.Row="3"
-                    Style="{StaticResource ButtonTheme}"
-                    Click="back_Click" />
         </Grid>
-
     </Grid>
 </Page>

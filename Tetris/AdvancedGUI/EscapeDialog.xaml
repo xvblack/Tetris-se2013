@@ -20,7 +20,7 @@
         <Label Name="leaveOrNotLabel" Content="您想离开游戏吗？" 
                Grid.Row="1" Grid.Column="1" 
                HorizontalAlignment="Center" VerticalAlignment="Center"
-               Style="{StaticResource LabelTheme}"/>
+               Style="{StaticResource LabelTheme1}"/>
         <Grid Grid.Row="3" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />

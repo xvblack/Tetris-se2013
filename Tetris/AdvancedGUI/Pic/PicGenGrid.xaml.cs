@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Tetris.AdvancedGUI
+namespace Tetris.AdvancedGUI.Pic
 {
     /// <summary>
     /// PicGenGrid.xaml 的交互逻辑
