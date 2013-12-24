@@ -96,6 +96,8 @@ namespace Tetris
         {
             var game1 = NewGame(null,withItem);
             var game2 = NewGame(null,withItem);
+            (game1.Factory as TetrisItemFactory).IsDuel = true;
+            (game2.Factory as TetrisItemFactory).IsDuel = true;
             // preserved for duel game
             return new DuelGame(game1,game2);
         }

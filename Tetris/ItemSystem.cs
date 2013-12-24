@@ -103,6 +103,24 @@ namespace Tetris
         readonly Random _random;
         private int[] _itemIds;
         public bool GenSpecialBlock;
+        private bool _isDuel;
+
+        public bool IsDuel
+        {
+            get { return _isDuel; }
+            set
+            {
+                _isDuel = value;
+                if (!_isDuel)
+                {
+                    _itemIds = new int[] { 0, 1, 2 };
+                }
+                else
+                {
+                    _itemIds = new int[] { 0, 1, 2, 3 };
+                }
+            }
+        }
 
         static TetrisItemFactory()
         {
@@ -115,20 +133,13 @@ namespace Tetris
             //SpecialStyles.Add(Square.BuildStyle(5, 5, GameColor.BlockFive));
         }
 
-        public TetrisItemFactory(IEnumerable<SquareArray> styles,Random ran, bool isDuel=false)
+        public TetrisItemFactory(IEnumerable<SquareArray> styles,Random ran)
             : base(styles, ran)
         {
             ItemQueue = new Queue<Block>();
-            if (isDuel)
-            {
-                _itemIds=new int[]{0,1,2};
-            }
-            else
-            {
-                _itemIds=new int[]{0,1,2,3};
-            }
             GenSpecialBlock = false;
             _random = ran;
+            IsDuel = false;
         }
 
         private int rand(int max)
@@ -138,8 +149,8 @@ namespace Tetris
 
         private ItemSquare GenItemSquare()
         {
+            if (IsDuel) return new ItemSquare(_itemIds[3]);
             return new ItemSquare(_itemIds[rand(_itemIds.Length)]);
-            //return new ItemSquare(10, _itemIds[1]);
         }
 
         public override Block GenTetris()
@@ -235,6 +246,7 @@ namespace Tetris
                         case 3:
                             Debug.Assert(game.IsDuelGame);
                             game.DuelGame.Controller.InverseControl();
+                            game.Later(10*TetrisGame.RoundTicks, () => game.DuelGame.Controller.InverseControl());
                             break;
                     }
                 }
@@ -277,7 +289,9 @@ namespace Tetris
                                 break;
                             }
                         }
-                        game.UnderLying[i + 1, j] = new Square(GameColor.InverseGunFillSquare);
+                        var s = new Square(GameColor.InverseGunFillSquare);
+                        game.UnderLying[i + 1, j] = s;
+                        game.PushNewSquare(s);
                         block.ResetDirection();
                     }
 

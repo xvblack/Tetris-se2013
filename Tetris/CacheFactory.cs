@@ -11,8 +11,8 @@ namespace Tetris
     {
         private Queue<Block> _blocks = new Queue<Block>();
 
-        public CacheFactory(IEnumerable<SquareArray> styles, Random ran, bool isDuel = false)
-            : base(styles,ran,isDuel)
+        public CacheFactory(IEnumerable<SquareArray> styles, Random ran)
+            : base(styles,ran)
         {
         }
 

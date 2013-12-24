@@ -21,6 +21,10 @@ namespace Tetris
             {
                 return " ";
             }
+            if (color == 14)
+            {
+                return "C";
+            }
             if (color>=0 && color < 10)
             {
                 return "#";

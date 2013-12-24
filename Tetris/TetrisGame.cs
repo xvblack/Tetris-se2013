@@ -94,7 +94,7 @@ namespace Tetris.GameBase
         public Block Block { get; private set; }
         private int _tick;
         private readonly int _w, _h;
-        private const int RoundTicks = 24;   // round tick numbers
+        public const int RoundTicks = 24;   // round tick numbers
         public int GameSpeed { get; set; }
         private volatile int _state;         // 0 for game ending, 1 for looping, 2 for pause
         private Stack<Square> _newSquares = new Stack<Square>();
@@ -126,13 +126,13 @@ namespace Tetris.GameBase
         #endregion
 
         #region Events
-        public event UpdateBeginCallback UpdateBeginEvent;
-        public event ClearBarCallback ClearBarEvent;
-        public event ClearBarCallback BeforeClearBarEvent;
-        public event UpdateEndCallback UpdateEndEvent;
+        public event UpdateBeginCallback UpdateBeginEvent = delegate { };
+        public event ClearBarCallback ClearBarEvent = delegate { };
+        public event ClearBarCallback BeforeClearBarEvent = delegate { };
+        public event UpdateEndCallback UpdateEndEvent = delegate { };
         public event DrawCallback DrawEvent= delegate { };
-        public event GameEndCallback GameEndEvent;
-        public event AddToUnderlyingCallback AddToUnderlyingEvent;
+        public event GameEndCallback GameEndEvent = delegate { };
+        public event AddToUnderlyingCallback AddToUnderlyingEvent = delegate { };
         #endregion
 
         public TetrisGame(int id, IEnumerable<SquareArray> styles, IEngine engine, ITetrisFactory factory, int w, int h, int gameSpeed)
@@ -216,6 +216,11 @@ namespace Tetris.GameBase
             }
         }
 
+        public void PushNewSquare(Square s)
+        {
+            _newSquares.Push(s);
+        }
+
         private bool Valid(int i, int j ,bool UpperBound=true)
         {
             if (UpperBound)
@@ -247,6 +252,18 @@ namespace Tetris.GameBase
             Block = null;
         }
 
+        public delegate void LaterCallback();
+        private Dictionary<int,List<LaterCallback>> _laterCallbacks=new Dictionary<int, List<LaterCallback>>();
+
+        public void Later(int tick, LaterCallback cb)
+        {
+            if (!_laterCallbacks.ContainsKey(_tick + tick))
+            {
+                _laterCallbacks[_tick+tick]=new List<LaterCallback>();
+            }
+            _laterCallbacks[_tick+tick].Add(cb);
+        }
+
         private void UpdateDispatch(object sender,int tick)
         {
             DrawEvent.Invoke(this, new DrawEventArgs(_tick));
@@ -261,7 +278,7 @@ namespace Tetris.GameBase
                 if (_state == 0) 
                     return;    // Check ending caused by cannot generate new block
                 if (_state == 2) return;    // Check for pause
-                foreach (Square newSquare in _newSquares)
+                foreach (var newSquare in _newSquares)
                 {
                     newSquare.Devoid();
                 }
@@ -269,6 +286,7 @@ namespace Tetris.GameBase
                 _tick++;                    // internal tick add
                 UpdateBeginEvent.Invoke(this, new UpdateBeginEventArgs(_tick));
                 Debug.Assert(Block != null, "loop continue when Block is null");
+                //Debug.Assert(Block.LPos>=0);
                 Debug.Assert(Block.Id!=Block.TempId,"loop using a temp block");
                 Block.FallSpeed = FallingSpeed;    // Use the Game FallingSpeed as the block fall speed
                 PerRound(8, HandleAction);
