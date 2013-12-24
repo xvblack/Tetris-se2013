@@ -139,6 +139,7 @@ namespace Tetris
         private ItemSquare GenItemSquare()
         {
             return new ItemSquare(_itemIds[rand(_itemIds.Length)]);
+            //return new ItemSquare(10, _itemIds[1]);
         }
 
         public override Block GenTetris()
