@@ -27,8 +27,16 @@ namespace Tetris
 
         public override Block GenTetris()
         {
-            _blocks.Enqueue(base.GenTetris());
-            return _blocks.Dequeue();
+            var block = base.GenTetris();
+            if (block is ItemBlock)
+            {
+                return block;
+            }
+            else
+            {
+                _blocks.Enqueue(block);
+                return _blocks.Dequeue();
+            }
         }
 
         public Block NextBlock()

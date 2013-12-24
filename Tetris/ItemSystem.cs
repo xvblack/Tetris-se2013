@@ -212,6 +212,7 @@ namespace Tetris
             {
                 if (s is ItemSquare)
                 {
+                    Debug.Assert(game.Factory is TetrisItemFactory);
                     var si = s as ItemSquare;
                     switch (si.ItemId)
                     {
