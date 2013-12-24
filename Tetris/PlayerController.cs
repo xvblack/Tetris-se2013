@@ -15,12 +15,14 @@ namespace Tetris.GameControl
         //用于存储用户输入的操作序列,每读取一个操作消除最后一个序列;
         private Stack<TetrisGame.GameAction> actionStack;
         private ControllerConfig config;
+        private Boolean _isInversed = false;  //是否设置反转左右按键
 
         //构造方法，初始化序列，读取配置文件
         public PlayerController()
         {
             actionStack = new Stack<TetrisGame.GameAction>();
             config = new ControllerConfig();//如果未制定则使用默认配置. 
+            _isInversed = false;
         }
         //接受外界输入的设置参数创建controller
         public PlayerController(ControllerConfig config)
@@ -46,6 +48,20 @@ namespace Tetris.GameControl
             //如果能在config表中找到对应按键的对应动作，就把该动作添加到动作清单里.
             if (config.TryGetValue(e.Key,out newAction))
             {
+                //检查是否反转左右按键
+                if (_isInversed)
+                {
+                    if (newAction == TetrisGame.GameAction.Left)
+                    {
+                        newAction = TetrisGame.GameAction.Right;
+                    }
+                    else if (newAction == TetrisGame.GameAction.Right)
+                    {
+                        newAction = TetrisGame.GameAction.Left;
+                    }
+                }
+
+
                 if (actionStack.Count > 0)
                 {
                     if ((tempAction = actionStack.Pop()) != newAction)
@@ -86,6 +102,12 @@ namespace Tetris.GameControl
             
 
             return false;
+        }
+
+        //调用此方法反转左右按键
+        public void InverseControl()
+        {
+            _isInversed = !_isInversed;
         }
 
     }
