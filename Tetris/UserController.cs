@@ -77,5 +77,10 @@ namespace Tetris
                     this.KeyState[Key.Left] = false;
             }
         }
+
+        public void InverseControl()
+        {
+            
+        }
     }
 }
