@@ -55,6 +55,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -72,6 +74,53 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AdvancedGUI\AchievementPage.xaml.cs">
+      <DependentUpon>AchievementPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\Animation\FadeInFadeOut.cs" />
+    <Compile Include="AdvancedGUI\Animation\WindowNavigationEffect.cs" />
+    <Compile Include="AdvancedGUI\CrocodileGen.cs" />
+    <Compile Include="AdvancedGUI\DualModePage.xaml.cs">
+      <DependentUpon>DualModePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\EscapeDialog.xaml.cs">
+      <DependentUpon>EscapeDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\GameContainerPage.cs" />
+    <Compile Include="AdvancedGUI\GameModeSelectionPage.xaml.cs">
+      <DependentUpon>GameModeSelectionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\NavigationPage.xaml.cs">
+      <DependentUpon>NavigationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\PicGen.cs" />
+    <Compile Include="AdvancedGUI\PicGenGrid.xaml.cs">
+      <DependentUpon>PicGenGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\SettingPage.xaml.cs">
+      <DependentUpon>SettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\GameGrid.xaml.cs">
+      <DependentUpon>GameGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\SingleModePage.xaml.cs">
+      <DependentUpon>SingleModePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\StartWelcomeString.xaml.cs">
+      <DependentUpon>StartWelcomeString.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\Styles\SquareGenerator.cs" />
+    <Compile Include="AdvancedGUI\Styles\WindowSizeGenerator.cs" />
+    <Compile Include="AdvancedGUI\Styles\TestClasses\TestWindow.xaml.cs">
+      <DependentUpon>TestWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\SunGen.cs" />
+    <Compile Include="AdvancedGUI\SwitchEffect.xaml.cs">
+      <DependentUpon>SwitchEffect.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AIController.cs" />
     <Compile Include="CacheFactory.cs" />
     <Compile Include="Color.cs" />
@@ -96,6 +145,63 @@
     <Compile Include="TimerEngine.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UserController.cs" />
+    <Page Include="AdvancedGUI\AchievementPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\DualModePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\EscapeDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\GameModeSelectionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\NavigationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\PicGenGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\SettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\SingleModePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\StartWelcomeString.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\Styles\GUIStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\GameGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\Styles\TestClasses\TestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\SwitchEffect.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GameGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -161,6 +267,7 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+    <Resource Include="AdvancedGUI\Styles\logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

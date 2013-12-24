@@ -52,6 +52,10 @@ namespace Tetris
 
                 var games = t.NewDuelGame();
                 GameGrid gameGrid1 = new GameGrid(games.Item1.Height, games.Item1.Width);
+                // test code
+                Console.WriteLine(games.Item1.Height);
+                Console.WriteLine(gameGrid1.Height);
+                // end
                 this.Grid.Children.Add(gameGrid1);
                 Grid.SetRow(gameGrid1, 1);
                 Grid.SetColumn(gameGrid1, 1);
@@ -59,24 +63,6 @@ namespace Tetris
                 this.Grid.Children.Add(gameGrid2);
                 Grid.SetRow(gameGrid2, 1);
                 Grid.SetColumn(gameGrid2, 5);
-
-                games.DuelGameEndEvent += delegate(DuelGame game, int winner)
-                {
-                    if (winner == 0)
-                    {
-                        WinnerBlock.Dispatcher.Invoke(new Action(delegate()
-                        {
-                            WinnerBlock.Text = "Left";
-                        }));
-                    }
-                    else
-                    {
-                        WinnerBlock.Dispatcher.Invoke(new Action(delegate()
-                        {
-                            WinnerBlock.Text = "Right";
-                        }));
-                    }
-                };
 
                 this.Height = 50 + gameGrid1.Height + 30 + 10 + 20;
                 this.Width = 200 + gameGrid1.Width * 2 + 10 * 2 + 150 + 5;
@@ -149,6 +135,7 @@ namespace Tetris
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
+            Console.WriteLine("onkeydon");
             if (Keys.Contains(e.Key))
             {
                 _controller.KeyState[e.Key] = true;
@@ -189,8 +176,8 @@ namespace Tetris
             }
             public bool Act(TetrisGame.GameAction action)
             {
-                var result= KeyState[MainWindow.Ht[action]];
-                KeyState[MainWindow.Ht[action]] = false;
+                var result= KeyState[Ht[action]];
+                KeyState[Ht[action]] = false;
                 return result;
             }
 
