@@ -31,6 +31,11 @@ namespace Tetris
             return _blocks.Dequeue();
         }
 
+        public Block NextBlock()
+        {
+            return _blocks.Peek();
+        }
+
     }
 
 }
