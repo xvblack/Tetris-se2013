@@ -1,45 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using System.Xml.Serialization;
 using Tetris.GameBase;
 
 namespace Tetris.GameSystem
 {
-
-
-    public static class XMLHelper
-    {
-        public static XElement ToXElement<T>(this object obj)
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-                using (TextWriter streamWriter = new StreamWriter(memoryStream))
-                {
-                    var xmlSerializer = new XmlSerializer(typeof(T));
-                    xmlSerializer.Serialize(streamWriter, obj);
-                    return XElement.Parse(Encoding.ASCII.GetString(memoryStream.ToArray()));
-                }
-            }
-        }
-
-        public static T FromXElement<T>(this XElement xElement)
-        {
-            using (var memoryStream = new MemoryStream(Encoding.ASCII.GetBytes(xElement.ToString())))
-            {
-                var xmlSerializer = new XmlSerializer(typeof(T));
-                return (T)xmlSerializer.Deserialize(memoryStream);
-            }
-        }
-    }
     public class AchievementSystem
     {
 
-        public class AchievementState
+        public class AchievementState // 单个用户的成就状态
         {
             public int HighScore=0;
             public int TotalClearBar=0;
@@ -49,12 +20,12 @@ namespace Tetris.GameSystem
             public bool HighestTotalClearBar = false;
         }
 
-        public abstract class BindSystem
+        public abstract class BindSystem // 成就系统的绑定子系统
         {
-            public abstract void Bind(TetrisGame game);
+            public abstract void Bind(TetrisGame game); // 将实例绑定到游戏
         }
 
-        public class SeqClearBind:BindSystem
+        private class SeqClearBind:BindSystem // 连续消除三次两行的成就
         {
             private int state = 0;
             public SeqClearBind()
@@ -80,14 +51,13 @@ namespace Tetris.GameSystem
                 };
             }
         }
-
-        public class HardSurviveBind : BindSystem
+        private class HardSurviveBind : BindSystem // 困难模式存活30轮的成就
         {
             private int state = 0;
             public override void Bind(TetrisGame game)
             {
                 if (game.AchievementState.HardSurvive) return;
-                if (game.GameSpeed >= 2)
+                if (game.GameSpeed >= 3)
                 {
                     state++;
                     if (state == 30)
@@ -100,36 +70,41 @@ namespace Tetris.GameSystem
                     state = 0;
                 }
             }
-        }
+        } 
 
-        private static readonly IDictionary<string, AchievementState> States=new Dictionary<string, AchievementState>();
+        private static readonly IDictionary<string, AchievementState> States=new Dictionary<string, AchievementState>(); // 全体成就状态
 
-        public static void Bind(TetrisGame game, string name="")
+        public static void Bind(TetrisGame game, string name="") // 静态方法，绑定游戏
         {
-            if (!States.ContainsKey(name))
+            if (!States.ContainsKey(name)) // 如果没有现在的用户，设定为新用户
             {
                 States[name]=new AchievementState();
             }
             game.AchievementState = States[name];
-            game.GameEndEvent += new TetrisGame.GameEndCallback(
+            game.GameEndEvent += new TetrisGame.GameEndCallback( // 更新最高分
                 delegate(object sender, TetrisGame.GameEndEventArgs e)
                 {
                     if (e.Score > game.AchievementState.HighScore)
                         game.AchievementState.HighScore = e.Score;
                 }
                 );
-            game.UpdateEndEvent += new TetrisGame.UpdateEndCallback(
+            game.UpdateEndEvent += new TetrisGame.UpdateEndCallback( // 更新总消除行数
                 delegate(TetrisGame sender, TetrisGame.UpdateEndEventArgs e)
                 {
                     game.AchievementState.TotalClearBar += game.TickClearedBars;
                     AchievementSystem.UpdateHighest();
                 });
-            new SeqClearBind().Bind(game);
+            new SeqClearBind().Bind(game); // 绑定子系统
             new HardSurviveBind().Bind(game);
 
         }
 
-        private const string savePath = ".\\save.xml";
+        /// 储存与载入
+        /// 
+        /// 使用XML存储在SavePath处
+
+        private const string SavePath = ".\\save.xml"; // 成就存储位置
+
         public static void Save()
         {
             try
@@ -143,7 +118,7 @@ namespace Tetris.GameSystem
                     users.Add(elem);
                 }
                 doc.Add(users);
-                doc.Save(savePath);
+                doc.Save(SavePath);
 
             }
             catch
@@ -156,7 +131,7 @@ namespace Tetris.GameSystem
         {
             try
             {
-                var doc = XDocument.Load(savePath);
+                var doc = XDocument.Load(SavePath);
                 var users = doc.Element("Users");
                 foreach (var user in users.Elements("User"))
                 {
@@ -172,7 +147,7 @@ namespace Tetris.GameSystem
             }
         }
 
-        private static void UpdateHighest()
+        private static void UpdateHighest() // 更新全体用户的最高分
         {
             int hs = 0, htcb = 0;
             foreach (var state in States)

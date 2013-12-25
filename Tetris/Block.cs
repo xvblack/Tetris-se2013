@@ -34,7 +34,7 @@ namespace Tetris.GameBase
         public int Id { get; private set; } // 方块Id
         public int LPos { get; set; } // 方块左下角所在行数
         public int RPos { get; set; } // 方块左下角所在列数
-        protected int Direction { get; set; }  // 方块方向
+        public int Direction { get; set; }  // 方块方向
         public int FallSpeed { get; set; } // 下落速度
 
         public const int TempId = -2; // 临时方块Id
@@ -58,7 +58,7 @@ namespace Tetris.GameBase
         }
         public void CounterRotate() // 逆时针旋转
         {
-            Direction = (Direction - 1) % 4;
+            Direction = (Direction - 1+ 4) % 4;
         }
 
         public Block Clone() // 浅复制方块

@@ -131,21 +131,26 @@
     <Compile Include="IEngine.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="GameAPI.cs" />
+    <Compile Include="ItemColor.cs" />
     <Compile Include="ItemSystem.cs" />
     <Compile Include="ITetrisFactory.cs" />
+    <Compile Include="Randomor.cs" />
     <Compile Include="SimpleEngine.cs" />
     <Compile Include="Square.cs" />
+    <Compile Include="TetrisFactory.cs" />
     <Compile Include="TetrisGame.cs" />
     <Compile Include="AchievementSystem.cs" />
     <Compile Include="ScoreSystem.cs" />
     <Compile Include="IController.cs" />
     <Compile Include="IDisplay.cs" />
     <Compile Include="ISprite.cs" />
+    <Compile Include="TetrisItemFactory.cs" />
     <Compile Include="Tetrisor.cs" />
     <Compile Include="TimerEngine.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserController.cs" />
+    <Compile Include="XMLHelper.cs" />
     <Page Include="AdvancedGUI\AchievementPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -238,6 +243,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

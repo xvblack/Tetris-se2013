@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
@@ -11,20 +9,6 @@ using Tetris.GameBase;
 
 namespace Tetris
 {
-    partial class GameColor
-    {
-        public const int GunSquare = 10;
-        public const int InverseGunSquare = 11;
-        public const int TonSquare = 12;
-        public const int InverseControlSquare = 14;
-        public const int GunBlock = 20;
-        public const int InverseGunBlock = 21;
-        public const int TonBlock = 22;
-        public const int InverseGunFillSquare = 25;
-        public const int BlockOne = 30;
-        public const int BlockThree = 31;
-        public const int BlockFive = 32;
-    }
     public class ItemBlock : Block
     {
         public void ResetDirection()
@@ -95,113 +79,7 @@ namespace Tetris
 
         }
     }
-    public class TetrisItemFactory : TetrisFactory
-    {
-        public readonly Queue<Block> ItemQueue;
-        private static readonly List<SquareArray> ItemStyles = new List<SquareArray>();
-        private static readonly List<SquareArray> SpecialStyles =new List<SquareArray>();
-        readonly Random _random;
-        private int[] _itemIds;
-        public bool GenSpecialBlock;
-        private bool _isDuel;
 
-        public bool IsDuel
-        {
-            get { return _isDuel; }
-            set
-            {
-                _isDuel = value;
-                if (!_isDuel)
-                {
-                    _itemIds = new int[] { 0, 1, 2 };
-                }
-                else
-                {
-                    _itemIds = new int[] { 0, 1, 2, 3 };
-                }
-            }
-        }
-
-        static TetrisItemFactory()
-        {
-            ItemStyles.Add(Square.BuildStyle(1,1,GameColor.GunBlock));
-            ItemStyles.Add(Square.BuildStyle(1, 1, GameColor.InverseGunBlock));
-            ItemStyles.Add(Square.BuildStyle(3, 3, GameColor.TonBlock));
-
-            SpecialStyles.Add(Square.BuildStyle(1,1,GameColor.BlockOne));
-            SpecialStyles.Add(Square.BuildStyle(3, 3, GameColor.BlockThree));
-            //SpecialStyles.Add(Square.BuildStyle(5, 5, GameColor.BlockFive));
-        }
-
-        public TetrisItemFactory(IEnumerable<SquareArray> styles,Random ran)
-            : base(styles, ran)
-        {
-            ItemQueue = new Queue<Block>();
-            GenSpecialBlock = false;
-            _random = ran;
-            IsDuel = false;
-        }
-
-        private int rand(int max)
-        {
-            return _random.Next(max);
-        }
-
-        private ItemSquare GenItemSquare()
-        {
-            //if (IsDuel) return new ItemSquare(_itemIds[3]);
-            return new ItemSquare(_itemIds[rand(_itemIds.Length)]);
-        }
-
-        public override Block GenTetris()
-        {
-            //if ((new Random()).Next(10)>8) ItemQueue.Enqueue(new GunItemBlock(oneStyle));
-            //if ((new Random()).Next(10) > 8) ItemQueue.Enqueue(new TonItemBlock(threeStyle));
-            //if ((new Random()).Next(10) > 8) ItemQueue.Enqueue(new InverseGunItemBlock(oneStyle));
-            if (ItemQueue.Count > 0)
-                return ItemQueue.Dequeue();
-            else
-            {
-                var block=base.GenTetris();
-                if (GenSpecialBlock&&rand(100) > 90)
-                {
-                    block=new Block(SpecialStyles[rand(SpecialStyles.Count)]);
-                }
-                if (rand(100) > 90)
-                {
-                    var i = rand(block.Height);
-                    var j = 0;
-                    while (block.SquareAt(i, j) == null)
-                    {
-                        j++;
-                    }
-                    block.Style = block.Style.Clone();
-                    block.Style[i, j] = GenItemSquare();
-                }
-                return block;
-            }
-        }
-
-        public void PushItem(Block b)
-        {
-            ItemQueue.Enqueue(b);
-        }
-
-        public void PushGun()
-        {
-            ItemQueue.Enqueue(new GunItemBlock(ItemStyles[0]));
-        }
-
-        public void PushInverseGun()
-        {
-            ItemQueue.Enqueue(new InverseGunItemBlock(ItemStyles[1]));
-        }
-
-        public void PushTon()
-        {
-            ItemQueue.Enqueue(new TonItemBlock(ItemStyles[2]));
-        }
-    }
     class ItemSystem
     {
         private int _nextSpeedUp = 20;
@@ -232,16 +110,17 @@ namespace Tetris
                 {
                     Debug.Assert(game.Factory is TetrisItemFactory);
                     var si = s as ItemSquare;
+                    var f = game.Factory as TetrisItemFactory;
                     switch (si.ItemId)
                     {
                         case 0:
-                            (game.Factory as TetrisItemFactory).PushGun();
+                            f.PushGun();
                             break;
                         case 1:
-                            (game.Factory as TetrisItemFactory).PushInverseGun();
+                            f.PushInverseGun();
                             break;
                         case 2:
-                            (game.Factory as TetrisItemFactory).PushTon();
+                            f.PushTon();
                             break;
                         case 3:
                             Debug.Assert(game.IsDuelGame);
@@ -253,7 +132,7 @@ namespace Tetris
             }
         }
 
-        public void ProcessItem(TetrisGame game, TetrisGame.UpdateBeginEventArgs e)
+        private void ProcessItem(TetrisGame game, TetrisGame.UpdateBeginEventArgs e)
         {
             if (game.Block is ItemBlock)
             {
@@ -299,7 +178,7 @@ namespace Tetris
             }
         }
 
-        public void ProcessUnderlyingItem(TetrisGame game, TetrisGame.AddToUnderlyingEventArgs e)
+        private void ProcessUnderlyingItem(TetrisGame game, TetrisGame.AddToUnderlyingEventArgs e)
         {
             if (game.Block is TonItemBlock)
             {
@@ -326,6 +205,7 @@ namespace Tetris
                 var line = e.Squares.Clone() as Square[];
                 for(int i=0;i<e.Squares.Length;i++)
                 {
+                    Debug.Assert(line != null, "line != null");
                     if (line[i].NewSquare)
                     {
                         line[i] = null;

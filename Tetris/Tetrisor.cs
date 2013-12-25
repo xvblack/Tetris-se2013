@@ -9,10 +9,10 @@ using Tetris.GameSystem;
 
 namespace Tetris
 {
-    class DuelGame : Tuple<TetrisGame, TetrisGame>
+    public class DuelGame : Tuple<TetrisGame, TetrisGame>
     {
         public int Winner { get; private set; }
-        internal delegate void DuelGameEndHandler(DuelGame game,int winner) ;
+        public delegate void DuelGameEndHandler(DuelGame game,int winner) ;
         public event DuelGameEndHandler DuelGameEndEvent;
         private volatile bool ended = false;
 
@@ -47,7 +47,8 @@ namespace Tetris
 
         }
     }
-    class Tetrisor
+
+    public class Tetrisor
     {
         private readonly IEngine _engine;
         private Dictionary<int,TetrisGame> games;
@@ -100,6 +101,11 @@ namespace Tetris
             (game2.Factory as TetrisItemFactory).IsDuel = true;
             // preserved for duel game
             return new DuelGame(game1,game2);
+        }
+
+        public TetrisFactory NewFactory()
+        {
+            return new TetrisFactory(Square.Styles(styles));
         }
 
         public void Dispose()

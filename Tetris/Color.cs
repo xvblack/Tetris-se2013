@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tetris
 {
-    partial class GameColor
+    static partial class GameColor // 颜色
     {
     }
 }

@@ -7,9 +7,9 @@ using Tetris.GameBase;
 
 namespace Tetris
 {
-    internal class CacheFactory:TetrisItemFactory
+    internal class CacheFactory:TetrisItemFactory // 可以预览下一个方块的工厂
     {
-        private Queue<Block> _blocks = new Queue<Block>();
+        private Queue<Block> _blocks = new Queue<Block>(); // 方块缓存
 
         public CacheFactory(IEnumerable<SquareArray> styles, Random ran)
             : base(styles,ran)

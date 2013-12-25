@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
+using Tetris.GameSystem;
 
 namespace Tetris
 {
@@ -21,6 +22,12 @@ namespace Tetris
         {
             AllocConsole();
             base.OnStartup(e);
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            AchievementSystem.Save();
+            base.OnExit(e);
         }
     }
 }

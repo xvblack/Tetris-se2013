@@ -7,11 +7,16 @@ namespace Tetris.GameBase
     public class TetrisFactory : ITetrisFactory // Block的工厂类
     {
         private readonly List<SquareArray> _styles; // 供选择的方块样式
-        private readonly Random _random; // 随机数生成器
         public TetrisGame Game { get; set; } // 绑定的游戏
-        public TetrisFactory(IEnumerable<SquareArray> styles, Random random){
+
+        [Obsolete("please use the constructor without random")]
+        public TetrisFactory(IEnumerable<SquareArray> styles, Random random=null){ // preserved
             _styles = new List<SquareArray>(styles);
-            _random=random;
+        }
+
+        public TetrisFactory(IEnumerable<SquareArray> styles)
+        { // preserved
+            _styles = new List<SquareArray>(styles);
         }
 
         public virtual Block GenTetris(){ // 生成方块
