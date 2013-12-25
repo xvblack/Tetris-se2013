@@ -28,6 +28,10 @@ namespace Tetris.AdvancedGUI
         int gridWidth;
         int id = -1;
 
+        int _squareContainerSize =
+                Styles.SquareGenerator.squareContainerSize();
+        int _squareSize = Styles.SquareGenerator.squareSize();
+
         // height or width means the maximum number of squares contained
         public NextBlockGrid(int[] gridSize)
         {
@@ -37,9 +41,7 @@ namespace Tetris.AdvancedGUI
             squaresMatrix = new Rectangle[gridHeight, gridWidth];
 
             // size definitions
-            int _squareContainerSize =
-                Styles.SquareGenerator.squareContainerSize();
-            int _squareSize = Styles.SquareGenerator.squareSize();
+            
             GridLength _gridLen = new GridLength(1,
                 GridUnitType.Auto);  // square size
             // initialize the grid
@@ -71,6 +73,13 @@ namespace Tetris.AdvancedGUI
                     squaresMatrix[i, j].Height = _squareSize;
                     squaresMatrix[i, j].Margin = new Thickness(1, 1, 1, 1);
                 }
+        }
+
+        public double[] getSize() 
+        {
+            double height = gridHeight * _squareSize;
+            double width = gridWidth * _squareSize;
+            return (new double[2] { height, width });
         }
 
         public void OnDrawing(Tetris.GameBase.TetrisGame game,

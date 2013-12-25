@@ -33,10 +33,10 @@ namespace Tetris.AdvancedGUI
             // which window size is used?
             if (Styles.WindowSizeGenerator.windowSize == "Maximum")
             {
-                this.WindowState = WindowState.Maximized;
+                //this.WindowState = WindowState.Maximized;
                 this.ResizeMode = System.Windows.ResizeMode.NoResize;
                 this.WindowStyle = System.Windows.WindowStyle.None;
-                this.Topmost = true;
+                //this.Topmost = true;
             }
             else
             {
