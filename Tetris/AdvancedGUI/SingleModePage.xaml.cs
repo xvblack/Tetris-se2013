@@ -53,8 +53,9 @@ namespace Tetris.AdvancedGUI
             gameGrid = new GameGrid(gridSize);
 
             game.AddDisplay(gameGrid);
-            AIController _aiController = new AIController(game, 100);
-            game.SetController(_aiController);
+            //AIController _aiController = new AIController(game, 100);
+            //game.SetController(_aiController);
+            game.SetController(_controller);
 
             border.Child = gameGrid;
             outerGrid.Children.Add(border);

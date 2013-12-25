@@ -266,7 +266,7 @@ namespace Tetris.GameBase
 
         private void UpdateDispatch(object sender,int tick)
         {
-            DrawEvent.Invoke(this, new DrawEventArgs(_tick));
+            //DrawEvent.Invoke(this, new DrawEventArgs(_tick));
             //lock (this)
             {
                 if (Block != null && Block.IsVoid) Block = null;
@@ -359,6 +359,7 @@ namespace Tetris.GameBase
                 {
                     Block.CounterRotate();
                 }
+                else DrawEvent.Invoke(this, new DrawEventArgs(_tick));
             }
 
             if (_controller.Act(GameAction.Left))
@@ -368,6 +369,7 @@ namespace Tetris.GameBase
                 {
                     Block.RPos++;
                 }
+                else DrawEvent.Invoke(this, new DrawEventArgs(_tick));
             }
             if (_controller.Act(GameAction.Right))
             {
@@ -376,6 +378,7 @@ namespace Tetris.GameBase
                 {
                     Block.RPos--;
                 }
+                else DrawEvent.Invoke(this, new DrawEventArgs(_tick));
             }
         }
 
@@ -389,6 +392,7 @@ namespace Tetris.GameBase
             {
                 AddToUnderlying();
             }
+            DrawEvent.Invoke(this, new DrawEventArgs(_tick));
         }
 
         private void AddToUnderlying()

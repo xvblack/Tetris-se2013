@@ -96,6 +96,9 @@
     <Compile Include="AdvancedGUI\NavigationPage.xaml.cs">
       <DependentUpon>NavigationPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AdvancedGUI\NextBlockGrid.xaml.cs">
+      <DependentUpon>NextBlockGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AdvancedGUI\PicGen.cs" />
     <Compile Include="AdvancedGUI\PicGenGrid.xaml.cs">
       <DependentUpon>PicGenGrid.xaml</DependentUpon>
@@ -167,6 +170,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AdvancedGUI\NavigationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\NextBlockGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

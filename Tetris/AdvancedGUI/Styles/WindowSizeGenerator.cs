@@ -23,6 +23,7 @@ namespace Tetris.AdvancedGUI.Styles
         static readonly public int dualModePageWidth = 1200;
         static readonly public int singleModePageWidth = 1000;
         static readonly public String windowSize = "Maximum";
+        //static readonly public String windowSize = "";
 
         static readonly public double screenSize = 
             System.Windows.SystemParameters.FullPrimaryScreenWidth;

@@ -18,18 +18,25 @@ namespace Tetris.GameBase
         }
         public Square SquareAt(int i,int j)
         {
-            switch (_direction)
+            try
             {
-                case 0:
-                    return _style[i, j];
-                case 1:
-                    return _style[j, _style.GetUpperBound(1) - i];
-                case 2:
-                    return _style[_style.GetUpperBound(0) - i, _style.GetUpperBound(1) - j];
-                case 3:
-                    return _style[_style.GetUpperBound(0) - j, i];
+                switch (_direction)
+                {
+                    case 0:
+                        return _style[i, j];
+                    case 1:
+                        return _style[j, _style.GetUpperBound(1) - i];
+                    case 2:
+                        return _style[_style.GetUpperBound(0) - i, _style.GetUpperBound(1) - j];
+                    case 3:
+                        return _style[_style.GetUpperBound(0) - j, i];
+                }
+                return null;
             }
-            return null;
+            catch
+            {
+                return null;
+            }
         }
 
         public SquareArray _style;
