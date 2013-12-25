@@ -6,6 +6,7 @@ namespace Tetris.GameSystem
 {
     /// <summary>
     /// 得分系统
+    /// INotifyPropertyChanged 用于GUI
     /// </summary>
     public class ScoreSystem : INotifyPropertyChanged
     {
@@ -22,8 +23,8 @@ namespace Tetris.GameSystem
             get 
             { 
                 return _score; 
-            } 
-            set 
+            }
+            private set 
             {
                 if (value != _score)
                 {
