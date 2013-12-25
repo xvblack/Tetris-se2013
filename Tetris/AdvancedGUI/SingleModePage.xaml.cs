@@ -32,6 +32,8 @@ namespace Tetris.AdvancedGUI
         {
             InitializeComponent();
 
+            int[] nextBlockSize = new int[] { 7, 7 };
+
             ColumnDefinition aCol = new ColumnDefinition();
             aCol.Width = new GridLength(50, GridUnitType.Star);
             outerGrid.ColumnDefinitions.Add(aCol);
@@ -53,12 +55,14 @@ namespace Tetris.AdvancedGUI
 
             int[] gridSize = new int[2] { game.Height, game.Width };
 
+            NextBlockGrid gameGrid2 = new NextBlockGrid(nextBlockSize);
+
             gameGrid = new GameGrid(gridSize);
 
             game.AddDisplay(gameGrid);
-            //AIController _aiController = new AIController(game, 100);
-            //game.SetController(_aiController);
-            game.SetController(_controller);
+            AIController _aiController = new AIController(game, 100);
+            game.SetController(_aiController);
+            //game.SetController(_controller);
 
             border.Child = gameGrid;
             outerGrid.Children.Add(border);

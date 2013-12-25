@@ -39,7 +39,7 @@ namespace Tetris.AdvancedGUI
 
             CustomizedButton2 singleModeButton =
                 new CustomizedButton2("单人游戏", buttonHeight, buttonWidth, colorIndex[0]);
-            singleModeButton.button.Click += selDualMode_Click;
+            singleModeButton.button.Click += selSingleMode_Click;
             singleModeButton.SetValue(Grid.RowProperty, 0);
 
             CustomizedButton2 dualModeButton =

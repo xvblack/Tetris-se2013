@@ -109,13 +109,9 @@
     <Compile Include="AdvancedGUI\Pic\Mao4.cs" />
     <Compile Include="AdvancedGUI\Pic\MonkeyGen.cs" />
     <Compile Include="AdvancedGUI\Pic\PicGen.cs" />
-    <Compile Include="AdvancedGUI\Pic\PicGenGrid.xaml.cs">
+    <Compile Include="AdvancedGUI\Pic\PicGenGrid.xaml.cs" />
     <Compile Include="AdvancedGUI\NextBlockGrid.xaml.cs">
       <DependentUpon>NextBlockGrid.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="AdvancedGUI\PicGen.cs" />
-    <Compile Include="AdvancedGUI\PicGenGrid.xaml.cs">
-      <DependentUpon>PicGenGrid.xaml</DependentUpon>
     </Compile>
     <Compile Include="AdvancedGUI\Pic\TestPic.xaml.cs">
       <DependentUpon>TestPic.xaml</DependentUpon>
@@ -171,7 +167,6 @@
     <Compile Include="TimerEngine.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserController.cs" />
     <Page Include="AdvancedGUI\AchievementPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -212,12 +207,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdvancedGUI\ScoreGrid.xaml">
+    <Page Include="AdvancedGUI\ScoreGrid.xaml" />
     <Page Include="AdvancedGUI\NextBlockGrid.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="AdvancedGUI\PicGenGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
