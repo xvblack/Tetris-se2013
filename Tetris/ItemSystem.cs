@@ -175,8 +175,8 @@ namespace Tetris
                     {
                         j++;
                     }
-                    block._style = block._style.Clone();
-                    block._style[i, j] = GenItemSquare();
+                    block.Style = block.Style.Clone();
+                    block.Style[i, j] = GenItemSquare();
                 }
                 return block;
             }

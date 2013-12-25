@@ -3,7 +3,7 @@ using System;
 
 namespace Tetris.GameBase
 {
-    public class Square
+    public class Square // 小方块
     {
         public Square(int color)
         {
@@ -11,19 +11,19 @@ namespace Tetris.GameBase
             Color = color;
         }
 
-        public int Color
+        public int Color // 方块颜色
         {
             get; set;
         }
 
-        public bool NewSquare { get; private set; }
+        public bool NewSquare { get; private set; } // 是否是下落中或刚刚落下的方块
 
-        public void Devoid()
+        public void Devoid() // 标记为旧方块
         {
             NewSquare = false;
         }
 
-        private static SquareArray Style(int[,] style)
+        private static SquareArray Style(int[,] style) // 根据传进的整数矩阵生成SquareArray类
         {
             var result = new SquareArray(style.GetUpperBound(0) + 1, style.GetUpperBound(1) + 1);
             for (int i = 0; i < style.GetUpperBound(0) + 1; i++)
@@ -32,7 +32,7 @@ namespace Tetris.GameBase
             return result;
         }
 
-        public static List<SquareArray> Styles(int[][,] styles)
+        public static List<SquareArray> Styles(int[][,] styles) // 根据传进的整数矩阵数组生成SquareArray的List
         {
             var result = new SquareArray[styles.Length];
             for (int i = 0; i < styles.Length; i++)
@@ -42,12 +42,12 @@ namespace Tetris.GameBase
             return new List<SquareArray>(result);
         }
 
-        public virtual Square Clone()
+        public virtual Square Clone() // 复制Square
         {
             return new Square(Color);
         }
 
-        public static SquareArray BuildStyle(int m, int n, int color)
+        public static SquareArray BuildStyle(int m, int n, int color) // 生成m*n的方型SquareArray
         {
             int[,] result=new int[m,n];
             for (var i=0;i<m;i++)
@@ -58,36 +58,36 @@ namespace Tetris.GameBase
 }
 
 
-    public class SquareArray
+    public class SquareArray // Square矩阵，以左下角为原点
     {
         private int _m = 0;
         private int _n = 0;
 
-        public Square[,] Storage
+        public Square[,] Storage // 内部存储数组
         {
             get; private set;
         }
 
-        public SquareArray(int m, int n)
+        public SquareArray(int m, int n) // 生成m*n大小的空的SquareArray
         {
             Storage=new Square[m,n];
             _m = m - 1;
             _n = n - 1;
         }
 
-        public SquareArray(Square[,] _squares)
+        public SquareArray(Square[,] _squares) // 生成以传入数组为Storage的SquareArray
         {
             Storage = _squares;
             _m = Storage.GetUpperBound(0);
             _n = Storage.GetUpperBound(1);
         }
 
-        public SquareArray Clone()
+        public SquareArray Clone() // 浅复制SquareArray
         {
             return new SquareArray(Storage.Clone() as Square[,]);
         }
 
-        public int GetUpperBound(int i)
+        public int GetUpperBound(int i) // 实现与Square[,]相同的获得一个方向上最大index的函数
         {
             //return Storage.GetUpperBound(i);
             if (i == 0)
@@ -95,7 +95,7 @@ namespace Tetris.GameBase
             return _n;
         }
 
-        public Square this[int i, int j]
+        public Square this[int i, int j] // 获得以左下角为原点的i行j列的方块
         {
             get
             {
