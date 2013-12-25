@@ -16,7 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Tetris.GameBase;
 using Tetris.GameGUI;
-using Tetris.GameSystem;
+using Tetris.GameControl;
 
 namespace Tetris
 {
@@ -26,7 +26,7 @@ namespace Tetris
     public partial class MainWindow : Window
     {
         private Square[,] _image;
-        private readonly Controller _controller;
+        private readonly PlayerController _controller;
         private readonly AIController _aiController;
         private readonly AIController _aiController2;
         private bool dual = true; // is dual?
@@ -135,21 +135,12 @@ namespace Tetris
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            Console.WriteLine("onkeydon");
-            if (Keys.Contains(e.Key))
-            {
-                _controller.KeyState[e.Key] = true;
-                if (e.Key == Key.Left) _controller.KeyState[Key.Right] = false;
-                if (e.Key == Key.Right) _controller.KeyState[Key.Left] = false;
-            }
+            _controller.OnKeyDown(e);
         }
 
         protected override void OnKeyUp(KeyEventArgs e)
         {
-            if (Keys.Contains(e.Key))
-            {
-               // _controller.KeyState[e.Key] = false;
-            }
+            _controller.OnKeyUp(e);
         }
 
         static readonly Dictionary<TetrisGame.GameAction,Key> Ht=new Dictionary<TetrisGame.GameAction, Key>()

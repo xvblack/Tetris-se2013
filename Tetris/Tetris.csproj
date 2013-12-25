@@ -128,6 +128,8 @@
     <Compile Include="CacheFactory.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="ConsoleDisplay.cs" />
+    <Compile Include="ControllerConfig.cs" />
+    <Compile Include="Dictionary.cs" />
     <Compile Include="GameGrid.xaml.cs">
       <DependentUpon>GameGrid.xaml</DependentUpon>
     </Compile>
@@ -136,6 +138,7 @@
     <Compile Include="GameAPI.cs" />
     <Compile Include="ItemSystem.cs" />
     <Compile Include="ITetrisFactory.cs" />
+    <Compile Include="PlayerController.cs" />
     <Compile Include="SimpleEngine.cs" />
     <Compile Include="Square.cs" />
     <Compile Include="TetrisGame.cs" />
