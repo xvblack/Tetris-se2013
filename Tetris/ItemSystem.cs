@@ -149,7 +149,7 @@ namespace Tetris
 
         private ItemSquare GenItemSquare()
         {
-            if (IsDuel) return new ItemSquare(_itemIds[3]);
+            //if (IsDuel) return new ItemSquare(_itemIds[3]);
             return new ItemSquare(_itemIds[rand(_itemIds.Length)]);
         }
 
