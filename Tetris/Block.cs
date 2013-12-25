@@ -16,9 +16,10 @@ namespace Tetris.GameBase
         {
             get { return Style.GetUpperBound(Direction%2)+1; }
         }
-        public Square SquareAt(int i,int j) // 获得以左下角为原点的i行j列的方块，包括旋转
+
+        public Square SquareAt(int i, int j) // 获得以左下角为原点的i行j列的方块，包括旋转
         {
-            Debug.Assert(Direction>=0&&Direction<=3);
+            Debug.Assert(Direction >= 0 && Direction <= 3);
             switch (Direction)
             {
                 case 0:
@@ -31,35 +32,6 @@ namespace Tetris.GameBase
                     return Style[Style.GetUpperBound(0) - j, i];
             }
             return null;
-        public int Width
-        {
-            get{return _style.GetUpperBound(1-_direction%2)+1;}
-        }
-        public int Height
-        {
-            get { return _style.GetUpperBound(_direction%2)+1; }
-        }
-        public Square SquareAt(int i,int j)
-        {
-            try
-            {
-                switch (_direction)
-                {
-                    case 0:
-                        return _style[i, j];
-                    case 1:
-                        return _style[j, _style.GetUpperBound(1) - i];
-                    case 2:
-                        return _style[_style.GetUpperBound(0) - i, _style.GetUpperBound(1) - j];
-                    case 3:
-                        return _style[_style.GetUpperBound(0) - j, i];
-                }
-                return null;
-            }
-            catch
-            {
-                return null;
-            }
         }
 
         public SquareArray Style; // 方块样式

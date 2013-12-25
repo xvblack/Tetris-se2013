@@ -171,7 +171,6 @@
     <Compile Include="TimerEngine.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserController.cs" />
     <Compile Include="XMLHelper.cs" />
     <Page Include="AdvancedGUI\AchievementPage.xaml">
       <SubType>Designer</SubType>

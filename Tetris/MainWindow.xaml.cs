@@ -115,7 +115,7 @@ namespace Tetris
 
                 //_aiController = new AIController(game, 100);
                 //game.SetController(_aiController);
-                _controller=new Controller();
+                _controller=new PlayerController();
                 game.SetController(_controller);
 
                 game.Start();
