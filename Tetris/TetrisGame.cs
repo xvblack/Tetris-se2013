@@ -281,7 +281,7 @@ namespace Tetris.GameBase
 
         private void UpdateDispatch(object sender,int tick)
         {
-            DrawEvent.Invoke(this, new DrawEventArgs(_tick));
+            //DrawEvent.Invoke(this, new DrawEventArgs(_tick));
             HandlePause();
             //lock (this)
             {
@@ -347,6 +347,7 @@ namespace Tetris.GameBase
                     i--;
                 }
             }
+            DrawEvent.Invoke(this, new DrawEventArgs(_tick));
         }
         private int FallingSpeed
         {
@@ -394,6 +395,7 @@ namespace Tetris.GameBase
                 {
                     Block.RPos++;
                 }
+                else DrawEvent.Invoke(this, new DrawEventArgs(_tick));
             }
             if (_controller.Act(GameAction.Right))
             {
@@ -402,6 +404,7 @@ namespace Tetris.GameBase
                 {
                     Block.RPos--;
                 }
+                else DrawEvent.Invoke(this, new DrawEventArgs(_tick));
             }
         }
 
@@ -415,6 +418,7 @@ namespace Tetris.GameBase
             {
                 AddToUnderlying();
             }
+            DrawEvent.Invoke(this, new DrawEventArgs(_tick));
         }
 
         private void AddToUnderlying()
