@@ -9,7 +9,7 @@ namespace Tetris.GameBase
     public partial class TetrisGame
     {
 
-        public enum GameAction { Rotate, Left, Right, Down };
+        public enum GameAction { Rotate, Left, Right, Down, Pause };
 
         #region Event Args and Callback Declare
 
@@ -168,6 +168,21 @@ namespace Tetris.GameBase
         {
             _state = 1;
         }
+
+        private void PauseOrContinue()
+        {
+            if (_state == 1)
+            {
+                Pause();
+                if (IsDuelGame) DuelGame.Pause();
+            }
+            else
+            {
+                Continue();
+                if (IsDuelGame) DuelGame.Continue();
+            }
+        }
+
         public void End()
         {
             _state = 0;
@@ -267,6 +282,7 @@ namespace Tetris.GameBase
         private void UpdateDispatch(object sender,int tick)
         {
             DrawEvent.Invoke(this, new DrawEventArgs(_tick));
+            HandlePause();
             //lock (this)
             {
                 if (Block != null && Block.IsVoid) Block = null;
@@ -294,6 +310,15 @@ namespace Tetris.GameBase
                 ClearBar();
                 UpdateEndEvent.Invoke(this,new UpdateEndEventArgs(_tick));
                 if (_state == 0) return;
+            }
+        }
+
+        private void HandlePause()
+        {
+            if (_controller == null) return;
+            if (_controller.Act(GameAction.Pause))
+            {
+                this.PauseOrContinue();
             }
         }
 

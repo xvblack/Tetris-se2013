@@ -450,6 +450,7 @@ namespace Tetris
         }
         public bool Act(TetrisGame.GameAction action)
         {
+            if (action == TetrisGame.GameAction.Pause) return false;
             if (_game.Block == null)
                 return false;
             if (_running)

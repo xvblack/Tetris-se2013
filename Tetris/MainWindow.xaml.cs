@@ -111,8 +111,10 @@ namespace Tetris
                 grid_count.DataContext = game.ScoreSystem;
                 game.AddDisplay(gameGrid);
 
-                _aiController = new AIController(game, 100);
-                game.SetController(_aiController);
+                //_aiController = new AIController(game, 100);
+                //game.SetController(_aiController);
+                _controller=new Controller();
+                game.SetController(_controller);
 
                 game.Start();
             }
@@ -130,7 +132,8 @@ namespace Tetris
             Key.Left,
             Key.Right,
             Key.Up,
-            Key.Down
+            Key.Down,
+            Key.Escape
         };
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -157,7 +160,8 @@ namespace Tetris
             {TetrisGame.GameAction.Left,Key.Left},
             {TetrisGame.GameAction.Right,Key.Right},
             {TetrisGame.GameAction.Down,Key.Down},
-            {TetrisGame.GameAction.Rotate,Key.Up}
+            {TetrisGame.GameAction.Rotate,Key.Up},
+            {TetrisGame.GameAction.Pause,Key.Escape}
         };
 
         class Controller : IController
@@ -167,7 +171,8 @@ namespace Tetris
                 {Key.Left,false},
                 {Key.Right,false},
                 {Key.Up,false},
-                {Key.Down,false}
+                {Key.Down,false},
+                {Key.Escape,false}
             };
 
             public Dictionary<Key, bool> KeyState

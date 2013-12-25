@@ -11,7 +11,7 @@ namespace UnitTestProject
         private static TetrisGame _game;
         private static ITetrisFactory _factory;
         [ClassInitialize]
-        public static void SetupFactory()
+        public static void SetupFactory(TestContext t)
         {
             _game = (new Tetrisor()).NewGame();
             _factory = _game.Factory;
