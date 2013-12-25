@@ -7,24 +7,47 @@ namespace Tetris.GameSystem
     /// <summary>
     /// 得分系统
     /// </summary>
-    public class ScoreSystem
+    public class ScoreSystem : INotifyPropertyChanged
     {
+        private int _score = 0;
         public static void Bind(TetrisGame game)
         {
             var ss = new ScoreSystem();
             game.ScoreSystem = ss;
-            game.ClearBarEvent += ss.OnClearBar;
+            game.UpdateEndEvent += ss.OnUpdateEnd;
+            //game.ClearBarEvent += ss.OnUpdateEnd;
         }
-        public int Score
+        public int Score 
         {
-            get; private set;
+            get 
+            { 
+                return _score; 
+            } 
+            set 
+            {
+                if (value != _score)
+                {
+                    _score = value;
+                    Notify("Score");
+                }
+            } 
         }
 
-        private void OnClearBar(object sender, TetrisGame.ClearBarEventArgs e)
+       // private void OnUpdateEnd(object sender, TetrisGame.ClearBarEventArgs e)
+        private void OnUpdateEnd(object sender, TetrisGame.UpdateEndEventArgs e)
         {
             var game = (TetrisGame) sender;
-            Score += game.TickClearedBars * game.TickClearedBars; // 如果消除行，加行数的平方分
+            Score += game.TickClearedBars * game.TickClearedBars;
             
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        void Notify(string propName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }
         }
     }
 }
