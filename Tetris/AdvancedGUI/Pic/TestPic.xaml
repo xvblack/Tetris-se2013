@@ -1,0 +1,8 @@
+﻿<Window x:Class="Tetris.AdvancedGUI.Pic.TestPic"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TestPic" Height="Auto" Width="Auto">
+    <Grid>
+        
+    </Grid>
+</Window>

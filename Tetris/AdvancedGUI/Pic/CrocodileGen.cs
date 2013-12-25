@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Tetris.AdvancedGUI
+namespace Tetris.AdvancedGUI.Pic
 {
     public class CrocodileGen: PicGen
     {
@@ -23,7 +23,7 @@ namespace Tetris.AdvancedGUI
         protected override void setPicMatrix()
         {
             //base.setPicMatrix();
-            int[,] colorIndexMatrix = new int[,]{
+            colorIndexMatrix = new int[,]{
                 {6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,2,6,6,6,2,6,6,6,6,6,6,6,6,6,6,6},
                 {6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,2,6,6,2,2,2,6,2,2,2,6,2,2,6,6,6,6,6,6,6},
                 {6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,2,6,6,6,2,2,2,6,3,3,3,3,3,3,3,3,3,3,6,2,2,6,6,6,6},

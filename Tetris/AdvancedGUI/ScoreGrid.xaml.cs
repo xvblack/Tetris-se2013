@@ -10,21 +10,23 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Tetris.AdvancedGUI.TestClasses
+namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// TestWindow.xaml 的交互逻辑
+    /// ScoreGrid.xaml 的交互逻辑
     /// </summary>
-    public partial class TestWindow : Window
+    public partial class ScoreGrid : Grid
     {
-        public TestWindow()
+        public ScoreGrid(double height, double width)
         {
             InitializeComponent();
-            CustomizedButton b = new CustomizedButton(100, 200, "hello", 2);
-            grid.Children.Add(b);
 
+            this.Height = height;
+            this.Width = width;
+            //score.Content = "0";
         }
     }
 }

@@ -22,7 +22,6 @@ namespace Tetris.AdvancedGUI
     {
         Color[] colorMap = (new Styles.SquareGenerator()).getColorMap();
         Rectangle[,] squaresMatrix; // hold the squares
-
         int gridHeight;
         int gridWidth;
 
@@ -80,7 +79,6 @@ namespace Tetris.AdvancedGUI
                 }
            // this.testSquares();
         }
-            
         public void OnDrawing(Tetris.GameBase.TetrisGame game,
             Tetris.GameBase.TetrisGame.DrawEventArgs e) 
         {

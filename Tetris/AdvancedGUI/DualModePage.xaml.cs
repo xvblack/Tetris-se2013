@@ -70,6 +70,7 @@ namespace Tetris.AdvancedGUI
             border1.SetValue(Grid.ColumnProperty, 1);
 
             GameGrid gameGrid2 = new GameGrid(gridSize);
+            //NextBlockGrid gameGrid2 = new NextBlockGrid(new int[2]{7, 7});
             border2.Child = gameGrid2;
             outerGrid.Children.Add(border2);
             border2.SetValue(Grid.RowProperty, 1);
@@ -77,6 +78,7 @@ namespace Tetris.AdvancedGUI
 
             games.Item1.AddDisplay(gameGrid1);
             games.Item2.AddDisplay(gameGrid2);
+            //Add Display of NextBlockGrid
 
             games.Item1.SetController(_controller);
             //AIController _aiController1 = new AIController(games.Item1, 100);

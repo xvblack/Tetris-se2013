@@ -46,6 +46,27 @@ namespace Tetris.AdvancedGUI.Styles
 
             return colorMap;
         }
+
+        public int[] randomColorIndex(int colorNum)
+        {
+            int[] colorIndex = new int[colorNum];
+            Random ran = new Random();
+            int i = 0;
+            for (i = 0; i < colorNum; i++)
+            {
+                colorIndex[i] = i + 1;
+            }
+            int tmp = 0;
+            int num = 0;
+            for (i = 0; i < colorNum; i++)
+            {
+                num = ran.Next(colorNum - 1);
+                tmp = colorIndex[num];
+                colorIndex[num] = colorIndex[colorNum - 1 - num];
+                colorIndex[colorNum - 1 - num] = tmp;
+            }
+            return colorIndex;
+        }
         public static int squareSize() { return _squareSize; }
         public static int squareContainerSize() { return _squareContainerSize;  }
     }

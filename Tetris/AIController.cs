@@ -44,6 +44,11 @@ namespace Tetris
         {
             _running = true;
             // To controll the difficulty, we can random to make an error, or down times
+            if ((_game == null) || (_game.Block == null))
+            {
+                _running = false;
+                return;
+            }
             Block block = _game.Block.Clone();
             Console.WriteLine(_countError);
             if (_countError >= _count)

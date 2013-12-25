@@ -384,6 +384,7 @@ namespace Tetris.GameBase
                 {
                     Block.CounterRotate();
                 }
+                else DrawEvent.Invoke(this, new DrawEventArgs(_tick));
             }
 
             if (_controller.Act(GameAction.Left))

@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Tetris.AdvancedGUI
+namespace Tetris.AdvancedGUI.Pic
 {
     public class PicGen
     {
@@ -25,6 +25,8 @@ namespace Tetris.AdvancedGUI
 
         protected Color[] colorMap;
         protected int colorNum { set; get; }
+
+        public int[,] colorIndexMatrix;
 
         protected SolidColorBrush[,] picMatrix;
 

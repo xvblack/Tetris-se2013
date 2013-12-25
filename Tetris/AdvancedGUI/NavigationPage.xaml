@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignHeight="400" d:DesignWidth="1000"
 	Title="NavigationPage"
       Loaded="Page_Loaded_1">
 
@@ -12,7 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -24,23 +24,11 @@
         </Grid.ColumnDefinitions>
         <Grid Name="ButtonsGrid" Grid.Row="2" Grid.Column="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Button Name="startGameButton" Grid.Row="0" Content="开始游戏" 
-                    Style="{StaticResource ButtonTheme}"
-                    Click="gotoGameModeSel_Click"/>
-            <Button Name="achievementButton" Grid.Row="1" Content="成就系统" 
-                    Style="{StaticResource ButtonTheme}"
-                    Click="gotoAchievement_Click"/>
-            <Button Name="settingsButton" Grid.Row="2" Content="设置"
-                    Style="{StaticResource ButtonTheme}"
-                    Click="gotoSetting_Click"/>
-            <Button Name="exitButton" Grid.Row="3" Content="退出"
-                    Style="{StaticResource ButtonTheme}"
-                    Click="exitGame_Click"/>
+                <RowDefinition Height="100" />
+                <RowDefinition Height="100" />
+                <RowDefinition Height="100" />
+                <RowDefinition Height="100" />
+            </Grid.RowDefinitions>            
         </Grid>
         <Image Grid.Row="1" Grid.Column="2" Source="Styles/logo.png" />
         

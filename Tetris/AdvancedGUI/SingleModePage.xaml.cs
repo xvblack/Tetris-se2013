@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Animation;
+using Tetris.AdvancedGUI.Pic;
 
 namespace Tetris.AdvancedGUI
 {
@@ -25,9 +26,13 @@ namespace Tetris.AdvancedGUI
         private GameGrid gameGrid;
         private Tetris.GameBase.TetrisGame game;
 
+        private ScoreGrid score;
+
         public SingleModePage():base()
         {
             InitializeComponent();
+
+            int[] nextBlockSize = new int[] { 7, 5 };
 
             ColumnDefinition aCol = new ColumnDefinition();
             aCol.Width = new GridLength(50, GridUnitType.Star);
@@ -55,6 +60,7 @@ namespace Tetris.AdvancedGUI
             game.AddDisplay(gameGrid);
             AIController _aiController = new AIController(game, 100);
             game.SetController(_aiController);
+            //game.SetController(_controller);
 
             border.Child = gameGrid;
             outerGrid.Children.Add(border);
@@ -85,6 +91,50 @@ namespace Tetris.AdvancedGUI
 
             Canvas.SetLeft(pg3, -50);
             Canvas.SetTop(pg3, -50);
+
+
+
+            double scoreHeight = 150;
+            double scoreWidth = 200;
+            double scoreRightLoc = 50;
+            double scoreTopLoc = 50;
+            score = new ScoreGrid(scoreHeight, scoreWidth);
+
+
+            double nextRightLoc = scoreRightLoc;
+            double nextTopLoc = scoreTopLoc + scoreHeight + 10;
+            NextBlockGrid nextGrid = new NextBlockGrid(nextBlockSize);
+
+            Border border2 = new Border();
+
+            border2.BorderBrush = new SolidColorBrush(Colors.Black);
+            border2.BorderThickness = new Thickness(1, 1, 1, 1);
+
+            double[] nextSize = nextGrid.getSize();
+
+            border2.Height = nextSize[0] - (nextSize[0] / nextBlockSize[0] - 1) / 2;;
+            border2.Width = nextSize[1];
+
+            border2.Child = nextGrid;
+            aCanvas.Children.Add(border2);
+            border2.SetValue(Canvas.RightProperty, 10.0);
+            border2.SetValue(Canvas.TopProperty, 400.0);
+
+            //aCanvas.Children.Add(nextGrid);
+            //nextGrid.SetValue(Canvas.RightProperty, nextRightLoc + scoreWidth);
+            //nextGrid.SetValue(Canvas.TagProperty, nextTopLoc + 1000);
+
+            game.AddDisplay(nextGrid);
+
+            aCanvas.Children.Add(score);
+            score.SetValue(Canvas.RightProperty, scoreRightLoc + scoreWidth);
+            score.SetValue(Canvas.TopProperty, scoreTopLoc);
+
+            score.DataContext = game.ScoreSystem;
+
+
+            
+
         }
 
         protected override void Loaded_Event(object sender, RoutedEventArgs e)

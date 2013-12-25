@@ -79,7 +79,17 @@
     </Compile>
     <Compile Include="AdvancedGUI\Animation\FadeInFadeOut.cs" />
     <Compile Include="AdvancedGUI\Animation\WindowNavigationEffect.cs" />
-    <Compile Include="AdvancedGUI\CrocodileGen.cs" />
+    <Compile Include="AdvancedGUI\CustomizedButton.xaml.cs">
+      <DependentUpon>CustomizedButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\CustomizedButton2.xaml.cs">
+      <DependentUpon>CustomizedButton2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\Pic\Cat3Gen.cs" />
+    <Compile Include="AdvancedGUI\Pic\Cat5Gen.cs" />
+    <Compile Include="AdvancedGUI\Pic\CatGen.cs" />
+    <Compile Include="AdvancedGUI\Pic\Cat2Gen.cs" />
+    <Compile Include="AdvancedGUI\Pic\CrocodileGen.cs" />
     <Compile Include="AdvancedGUI\DualModePage.xaml.cs">
       <DependentUpon>DualModePage.xaml</DependentUpon>
     </Compile>
@@ -96,9 +106,18 @@
     <Compile Include="AdvancedGUI\NavigationPage.xaml.cs">
       <DependentUpon>NavigationPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AdvancedGUI\PicGen.cs" />
-    <Compile Include="AdvancedGUI\PicGenGrid.xaml.cs">
-      <DependentUpon>PicGenGrid.xaml</DependentUpon>
+    <Compile Include="AdvancedGUI\Pic\Mao4.cs" />
+    <Compile Include="AdvancedGUI\Pic\MonkeyGen.cs" />
+    <Compile Include="AdvancedGUI\Pic\PicGen.cs" />
+    <Compile Include="AdvancedGUI\Pic\PicGenGrid.xaml.cs" />
+    <Compile Include="AdvancedGUI\NextBlockGrid.xaml.cs">
+      <DependentUpon>NextBlockGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\Pic\TestPic.xaml.cs">
+      <DependentUpon>TestPic.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\ScoreGrid.xaml.cs">
+      <DependentUpon>ScoreGrid.xaml</DependentUpon>
     </Compile>
     <Compile Include="AdvancedGUI\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
@@ -117,14 +136,16 @@
     <Compile Include="AdvancedGUI\Styles\TestClasses\TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AdvancedGUI\SunGen.cs" />
-    <Compile Include="AdvancedGUI\SwitchEffect.xaml.cs">
+    <Compile Include="AdvancedGUI\Pic\SunGen.cs" />
+    <Compile Include="AdvancedGUI\Animation\SwitchEffect.xaml.cs">
       <DependentUpon>SwitchEffect.xaml</DependentUpon>
     </Compile>
     <Compile Include="AIController.cs" />
     <Compile Include="CacheFactory.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="ConsoleDisplay.cs" />
+    <Compile Include="ControllerConfig.cs" />
+    <Compile Include="Dictionary.cs" />
     <Compile Include="GameGrid.xaml.cs">
       <DependentUpon>GameGrid.xaml</DependentUpon>
     </Compile>
@@ -135,6 +156,7 @@
     <Compile Include="ItemSystem.cs" />
     <Compile Include="ITetrisFactory.cs" />
     <Compile Include="Randomor.cs" />
+    <Compile Include="PlayerController.cs" />
     <Compile Include="SimpleEngine.cs" />
     <Compile Include="Square.cs" />
     <Compile Include="TetrisFactory.cs" />
@@ -152,6 +174,14 @@
     <Compile Include="UserController.cs" />
     <Compile Include="XMLHelper.cs" />
     <Page Include="AdvancedGUI\AchievementPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\CustomizedButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\CustomizedButton2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -175,7 +205,16 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdvancedGUI\PicGenGrid.xaml">
+    <Page Include="AdvancedGUI\Pic\PicGenGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\Pic\TestPic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\ScoreGrid.xaml" />
+    <Page Include="AdvancedGUI\NextBlockGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -203,7 +242,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdvancedGUI\SwitchEffect.xaml">
+    <Page Include="AdvancedGUI\Animation\SwitchEffect.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
