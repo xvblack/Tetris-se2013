@@ -41,6 +41,7 @@ namespace Tetris
             _oriGridCol = this.Grid.ColumnDefinitions.ToArray<ColumnDefinition>();
             child = this.grid_count2;
             AchievementSystem.Load();
+            Console.WriteLine(AchievementSystem.GetAchievementState().HighScore);
 
             if (dual)
             {
@@ -73,7 +74,7 @@ namespace Tetris
                 games.Item1.AddDisplay(gameGrid1);
                 games.Item2.AddDisplay(gameGrid2);
 
-                games.Item2.AddDisplay(new ConsoleDisplay());
+                //games.Item2.AddDisplay(new ConsoleDisplay());
 
                 // speed: 0~15 (速度，0为完全不按加速)
                 // error: 0~100 （每次犯错的概率）

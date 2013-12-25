@@ -20,7 +20,12 @@ namespace Tetris.GameSystem
             public bool HighestTotalClearBar = false;
         }
 
-        public abstract class BindSystem // 成就系统的绑定子系统
+        public static AchievementState GetAchievementState(string name = "")
+        {
+            return States[name];
+        }
+
+        private abstract class BindSystem // 成就系统的绑定子系统
         {
             public abstract void Bind(TetrisGame game); // 将实例绑定到游戏
         }
@@ -76,6 +81,7 @@ namespace Tetris.GameSystem
 
         public static void Bind(TetrisGame game, string name="") // 静态方法，绑定游戏
         {
+            if (name == "AI") return;
             if (!States.ContainsKey(name)) // 如果没有现在的用户，设定为新用户
             {
                 States[name]=new AchievementState();
