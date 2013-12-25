@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tetris.GameBase;
 
 namespace Tetris
 {
-    public interface IController
+    interface ISprite
     {
-        bool Act(TetrisGame.GameAction action);
-
-        void InverseControl();
+        int LPos { get; set; }
+        int RPos { get; set; }
+        int FallSpeed { get; set; }
     }
 }

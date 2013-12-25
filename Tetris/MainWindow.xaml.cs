@@ -16,28 +16,32 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Tetris.GameBase;
 using Tetris.GameGUI;
+using Tetris.GameControl;
+using Tetris.GameSystem;
 
 namespace Tetris
 {
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : Window, IDisplay
+    public partial class MainWindow : Window
     {
         private Square[,] _image;
-        private readonly Controller _controller;
+        private readonly PlayerController _controller;
         private readonly AIController _aiController;
         private readonly AIController _aiController2;
         private bool dual = true; // is dual?
         private ColumnDefinition[] _oriGridCol;
         private Grid child;
+        private Tetrisor t;
 
         public MainWindow()
         {
             InitializeComponent();
-            var t = new Tetrisor();
+            t = new Tetrisor();
             _oriGridCol = this.Grid.ColumnDefinitions.ToArray<ColumnDefinition>();
             child = this.grid_count2;
+            AchievementSystem.Load();
 
             if (dual)
             {
@@ -70,11 +74,17 @@ namespace Tetris
                 games.Item1.AddDisplay(gameGrid1);
                 games.Item2.AddDisplay(gameGrid2);
 
-                //_aiController2 = new AIController(games.Item1, 100);
+                games.Item2.AddDisplay(new ConsoleDisplay());
+
+                // speed: 0~15 (速度，0为完全不按加速)
+                // error: 0~100 （每次犯错的概率）
+                // errorCount: >=0 （每几次才可能犯错一次，0为不犯错，1为每次都可能犯错）
+                // 根据这三个参数可以调节AI的难度，最后选三个作为三种难度就行 by 郭亨凯
+                //_aiController2 = new AIController(games.Item1, 15);
                 //games.Item1.SetController(_aiController2);
-                _controller = new Controller();
+                _controller = new PlayerController();
                 games.Item1.SetController(_controller);
-                _aiController = new AIController(games.Item2, 100);
+                _aiController = new AIController(games.Item2, 15);
                 games.Item2.SetController(_aiController);
 
                 games.Item1.Start();
@@ -108,7 +118,14 @@ namespace Tetris
                 game.Start();
             }
         }
-        
+
+        protected override void OnClosed(EventArgs e)
+        {
+            AchievementSystem.Save();
+            t.StopEngine();
+            base.OnClosed(e);
+        }
+
         private readonly Key[] Keys = new Key[]
         {
             Key.Left,
@@ -119,39 +136,14 @@ namespace Tetris
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            Console.WriteLine("onkeydon");
-            if (Keys.Contains(e.Key))
-            {
-                _controller.KeyState[e.Key] = true;
-                if (e.Key == Key.Left) _controller.KeyState[Key.Right] = false;
-                if (e.Key == Key.Right) _controller.KeyState[Key.Left] = false;
-            }
+            _controller.OnKeyDown(e);
         }
 
         protected override void OnKeyUp(KeyEventArgs e)
         {
-            if (Keys.Contains(e.Key))
-            {
-               // _controller.KeyState[e.Key] = false;
-            }
+            _controller.OnKeyUp(e);
         }
 
-        public void OnDrawing(TetrisGame game, TetrisGame.DrawEventArgs e)
-        {
-            _image = game.Image;
-            Console.Clear();
-            Console.WriteLine(game.ScoreSystem.Score);
-            Console.WriteLine("============");
-            for (int i = 0; i < 15; i++)
-            {
-                Console.Write("|");
-                for (int j = 0; j < 10; j++)
-                    Console.Out.Write(_image[i, j] == null ? " " : "#");
-                Console.Out.WriteLine("|");
-            }
-            Console.WriteLine("============");
-        }
-        
         static readonly Dictionary<TetrisGame.GameAction,Key> Ht=new Dictionary<TetrisGame.GameAction, Key>()
         {
             {TetrisGame.GameAction.Left,Key.Left},
@@ -179,6 +171,10 @@ namespace Tetris
                 var result= KeyState[Ht[action]];
                 KeyState[Ht[action]] = false;
                 return result;
+            }
+
+            public void InverseControl()
+            {
             }
         }
     }

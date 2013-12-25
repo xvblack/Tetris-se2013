@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Tetris.GameBase;
 using System.Timers;
+using Tetris.GameControl;
 
 namespace Tetris.AdvancedGUI
 {
@@ -30,7 +31,8 @@ namespace Tetris.AdvancedGUI
         protected Grid outerGrid = new Grid();
         protected Canvas aCanvas = new Canvas();
 
-        public UserController _controller = new UserController();
+        //public UserController _controller = new UserController();
+        public PlayerController _controller = new PlayerController();
 
         Timer whenGameBegin = new Timer();
 
@@ -126,14 +128,7 @@ namespace Tetris.AdvancedGUI
                 win.holderWindow = this.holderWin;
                 win.ShowDialog();
             }
-            for (int i = 0; i < UserController.Keys.Length; i++) {
-                if (e.Key == UserController.Keys[i]) {
-                    _controller.KeyState[e.Key] = true;
-                    if (e.Key == Key.Left) _controller.KeyState[Key.Right] = false;
-                    if (e.Key == Key.Right) _controller.KeyState[Key.Left] = false;
-                    break;
-                }
-            }
+            _controller.OnKeyDown(e);
         }
 
         protected void Unloaded_Event(object sender, RoutedEventArgs e)

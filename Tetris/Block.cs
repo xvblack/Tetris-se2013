@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Tetris.GameBase
 {
-    public class Block:CSprite
+    public partial class Block:ISprite
     {
         private static int _id=0;
         public int Width
@@ -18,21 +18,28 @@ namespace Tetris.GameBase
         }
         public Square SquareAt(int i,int j)
         {
-            switch (_direction)
+            try
             {
-                case 0:
-                    return _style[i, j];
-                case 1:
-                    return _style[j, _style.GetUpperBound(1) - i];
-                case 2:
-                    return _style[_style.GetUpperBound(0) - i, _style.GetUpperBound(1) - j];
-                case 3:
-                    return _style[_style.GetUpperBound(0) - j, i];
+                switch (_direction)
+                {
+                    case 0:
+                        return _style[i, j];
+                    case 1:
+                        return _style[j, _style.GetUpperBound(1) - i];
+                    case 2:
+                        return _style[_style.GetUpperBound(0) - i, _style.GetUpperBound(1) - j];
+                    case 3:
+                        return _style[_style.GetUpperBound(0) - j, i];
+                }
+                return null;
             }
-            return null;
+            catch
+            {
+                return null;
+            }
         }
 
-        private readonly SquareArray _style;
+        public SquareArray _style;
         public int Id { get; private set; }
         private float _l;
         private float _r;
@@ -40,6 +47,9 @@ namespace Tetris.GameBase
         private int _direction;
         public int LPos { get { return (int)_l; } set{ _l=value; } }
         public int RPos { get { return (int)_r; } set{ _r = value; } }
+
+        protected int Direction { get { return _direction; }
+            set { _direction = value; } }
         public int FallSpeed { get { return (int)_vl;} set{ _vl=value; } }
 
         // More universal constructor by Hengkai Guo
@@ -79,16 +89,16 @@ namespace Tetris.GameBase
         }
     }
 
-    public class TetrisFactory
+    public class TetrisFactory : ITetrisFactory
     {
         readonly List<SquareArray> _styles;
         readonly Random _random;
-        public TetrisGame Game;
+        public TetrisGame Game { get; set; }
         public TetrisFactory(IEnumerable<SquareArray> styles, Random random){
             _styles = new List<SquareArray>(styles);
             _random=random;
         }
-        public Block GenTetris(){
+        public virtual Block GenTetris(){
             int rr;
             int type = _random.Next(0, _styles.Count());
             var temp = _styles[type];
@@ -98,4 +108,5 @@ namespace Tetris.GameBase
             return t;
         }
     }
+
 }
