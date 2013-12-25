@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using Tetris.GameBase;
 using Tetris.GameGUI;
 using Tetris.GameControl;
+using Tetris.GameSystem;
 
 namespace Tetris
 {
@@ -81,7 +82,7 @@ namespace Tetris
                 // 根据这三个参数可以调节AI的难度，最后选三个作为三种难度就行 by 郭亨凯
                 //_aiController2 = new AIController(games.Item1, 15);
                 //games.Item1.SetController(_aiController2);
-                _controller = new Controller();
+                _controller = new PlayerController();
                 games.Item1.SetController(_controller);
                 _aiController = new AIController(games.Item2, 15);
                 games.Item2.SetController(_aiController);

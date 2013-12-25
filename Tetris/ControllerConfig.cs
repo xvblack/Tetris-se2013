@@ -20,7 +20,7 @@ namespace Tetris.GameControl
      * 
      */
 
-    class ControllerConfig : Dictionary<Key,TetrisGame.GameAction>
+    public class ControllerConfig : Dictionary<Key,TetrisGame.GameAction>
     {
         //构造方法,如果未指定则使用默认配置.
         public ControllerConfig():base()
