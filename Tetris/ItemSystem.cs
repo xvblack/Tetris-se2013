@@ -9,18 +9,21 @@ using Tetris.GameBase;
 
 namespace Tetris
 {
-    public class ItemBlock : Block
+    /// <summary>
+    /// 道具方块类
+    /// </summary>
+    public abstract class ItemBlock : Block 
     {
-        public void ResetDirection()
+        ///
+        public void ResetDirection() // 重置方向
         {
             Direction = 0;
-        }
-
-        public bool Acted()
+        } 
+        public bool Acted() // 方向键是否按下过
         {
             return Direction > 0;
-        }
-        public ItemBlock(SquareArray style, int blockId = -1)
+        } 
+        protected ItemBlock(SquareArray style, int blockId = -1)
             : base(style, blockId)
         {
         }
@@ -28,7 +31,7 @@ namespace Tetris
 
     public class ItemSquare : Square
     {
-        static int GetColorByItemId(int itemId)
+        static int GetColorByItemId(int itemId) // 按道具Id返回颜色
         {
             switch (itemId)
             {
@@ -42,8 +45,8 @@ namespace Tetris
                     return GameColor.InverseControlSquare;
             }
             return 0;
-        }
-        public int ItemId;
+        } 
+        public int ItemId; // 道具Id
         public ItemSquare(int itemId):base(GetColorByItemId(itemId))
         {
             ItemId = itemId;
@@ -93,7 +96,7 @@ namespace Tetris
             game.UpdateBeginEvent += system.ProcessSpeedUp;
         }
 
-        private void ProcessSpeedUp(TetrisGame game, TetrisGame.UpdateBeginEventArgs e)
+        private void ProcessSpeedUp(TetrisGame game, TetrisGame.UpdateBeginEventArgs e) // 按得分加速
         {
             if (game.ScoreSystem.Score >= _nextSpeedUp)
             {
@@ -102,7 +105,7 @@ namespace Tetris
             }
         }
 
-        private void ProcessItemSquare(TetrisGame game, TetrisGame.ClearBarEventArgs e)
+        private void ProcessItemSquare(TetrisGame game, TetrisGame.ClearBarEventArgs e) // ClearBar时检查是否有道具Square被消除
         {
             foreach (var s in e.Squares)
             {
@@ -132,7 +135,7 @@ namespace Tetris
             }
         }
 
-        private void ProcessItem(TetrisGame game, TetrisGame.UpdateBeginEventArgs e)
+        private void ProcessItem(TetrisGame game, TetrisGame.UpdateBeginEventArgs e) // 处理道具操作
         {
             if (game.Block is ItemBlock)
             {
@@ -178,7 +181,7 @@ namespace Tetris
             }
         }
 
-        private void ProcessUnderlyingItem(TetrisGame game, TetrisGame.AddToUnderlyingEventArgs e)
+        private void ProcessUnderlyingItem(TetrisGame game, TetrisGame.AddToUnderlyingEventArgs e) // 处理道具下落时的效果
         {
             if (game.Block is TonItemBlock)
             {
@@ -198,7 +201,7 @@ namespace Tetris
             }
         }
 
-        private void ProcessLine(TetrisGame sender, TetrisGame.ClearBarEventArgs e)
+        private void ProcessLine(TetrisGame sender, TetrisGame.ClearBarEventArgs e) // 将消除的行加入另一边
         {
             if (sender.IsDuelGame)
             {

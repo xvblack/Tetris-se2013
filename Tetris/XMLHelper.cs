@@ -5,6 +5,10 @@ using System.Xml.Serialization;
 
 namespace Tetris.GameSystem
 {
+    /// <summary>
+    /// XML辅助类
+    /// Source: Stack Overflow
+    /// </summary>
     public static class XMLHelper
     {
         public static XElement ToXElement<T>(this object obj)

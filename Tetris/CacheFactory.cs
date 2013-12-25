@@ -7,7 +7,10 @@ using Tetris.GameBase;
 
 namespace Tetris
 {
-    internal class CacheFactory:TetrisItemFactory // 可以预览下一个方块的工厂
+    /// <summary>
+    /// 可以预览下一个方块的工厂
+    /// </summary>
+    internal class CacheFactory:TetrisItemFactory
     {
         private Queue<Block> _blocks = new Queue<Block>(); // 方块缓存
 
@@ -16,7 +19,7 @@ namespace Tetris
         {
         }
 
-        public void Init()
+        public void Init() // 初始化
         {
             while (_blocks.Count < 2)
             {
@@ -25,7 +28,7 @@ namespace Tetris
            } 
         }
 
-        public override Block GenTetris()
+        public override Block GenTetris() // 生成方块，道具直接返回，其他缓存
         {
             var block = base.GenTetris();
             if (block is ItemBlock)

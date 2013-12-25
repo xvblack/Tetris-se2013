@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Tetris
 {
+    /// <summary>
+    /// 使用Sleep实现的简单引擎
+    /// </summary>
     class SimpleEngine : IEngine
     {
         public double Interval { set; private get; }
@@ -45,14 +48,14 @@ namespace Tetris
                     {
                         TickEvent.Invoke(this, 0);
                     }
-                    Thread.Sleep((int)(Interval * 1000));
+                    Thread.Sleep((int)(Interval * 1000)); // 至少等待Interval秒
                 }
             });
             var time = DateTime.Now;
             TickEvent += (sender, tick) =>
             {
                 var newtime = DateTime.Now;
-                //Trace.WriteLine(newtime-time);
+                //Trace.WriteLine(newtime-time); // 测试函数，显示间隔
                 time = newtime;
                 Trace.Flush();
             };

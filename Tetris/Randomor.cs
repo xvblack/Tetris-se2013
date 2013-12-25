@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Tetris
 {
+    /// <summary>
+    /// 全局随机数生成器
+    /// </summary>
     class Randomor
     {
         private static Random _random=new Random();

@@ -2,7 +2,10 @@
 
 namespace Tetris.GameBase
 {
-    public partial class Block:ISprite // 下落的方块
+    /// <summary>
+    /// 下落的方块
+    /// </summary>
+    public partial class Block:ISprite
     {
         private static int _id=0;
         public int Width // 宽度，包括旋转

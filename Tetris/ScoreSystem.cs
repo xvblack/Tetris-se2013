@@ -4,47 +4,27 @@ using System.Diagnostics;
 
 namespace Tetris.GameSystem
 {
-    public class ScoreSystem : INotifyPropertyChanged
+    /// <summary>
+    /// 得分系统
+    /// </summary>
+    public class ScoreSystem
     {
-        private int _score = 0;
         public static void Bind(TetrisGame game)
         {
             var ss = new ScoreSystem();
             game.ScoreSystem = ss;
-            //game.UpdateEndEvent += ss.OnUpdateEnd;
-            game.ClearBarEvent += ss.OnUpdateEnd;
+            game.ClearBarEvent += ss.OnClearBar;
         }
-        public int Score 
+        public int Score
         {
-            get 
-            { 
-                return _score; 
-            } 
-            set 
-            {
-                if (value != _score)
-                {
-                    _score = value;
-                    Notify("Score");
-                }
-            } 
+            get; private set;
         }
 
-        private void OnUpdateEnd(object sender, TetrisGame.ClearBarEventArgs e)
-        //private void OnUpdateEnd(object sender, TetrisGame.UpdateEndEventArgs e)
+        private void OnClearBar(object sender, TetrisGame.ClearBarEventArgs e)
         {
             var game = (TetrisGame) sender;
-            Score += game.TickClearedBars * game.TickClearedBars;
+            Score += game.TickClearedBars * game.TickClearedBars; // 如果消除行，加行数的平方分
             
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        void Notify(string propName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propName));
-            }
         }
     }
 }
