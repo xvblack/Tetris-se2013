@@ -20,11 +20,33 @@ namespace Tetris
         private int _error;
         private int _countError;
         private int _count;
-
-        public AIController(TetrisGame game, int speed = 0, int error = 0, int count = 0)
+        public enum AIType { Low, Middle, High };
+        public AIController(TetrisGame game, AIType type = AIType.High)
         {
             _game = game;
             _id = -1;
+            int speed = 0;
+            int error = 0;
+            int count = 0;
+            // speed: 0~15 (速度，0为完全不按加速)
+            // error: 0~100 （每次犯错的概率）
+            // count: >=0 （每几次才可能犯错一次，0为不犯错，1为每次都可能犯错）
+            if (type == AIType.High)
+            {
+                speed = 15;
+            }
+            else if (type == AIType.Middle)
+            {
+                speed = 12;
+                count = 2;
+                error = 10;
+            }
+            else if (type == AIType.Low)
+            {
+                speed = 12;
+                count = 1;
+                error = 30;
+            }
             _speed = speed;
             _error = error;
             _count = count;
