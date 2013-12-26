@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 using Tetris.GameSystem;
@@ -94,11 +95,12 @@ namespace Tetris.GameBase
         public Block Block { get; private set; }
         private int _tick;
         private readonly int _w, _h;
-        public const int RoundTicks = 24;   // round tick numbers
+        public const int RoundTicks = 48;   // round tick numbers
         public int GameSpeed { get; set; }
         private volatile int _state;         // 0 for game ending, 1 for looping, 2 for pause
         public volatile bool NeedDraw;
         private Stack<Square> _newSquares = new Stack<Square>();
+        public int Fps { get; set; }
 
         public ITetrisFactory Factory{get { return _factory; }}
         public SquareArray UnderLying
@@ -142,6 +144,10 @@ namespace Tetris.GameBase
             _h = h;
             GameSpeed = gameSpeed;
             engine.TickEvent += UpdateDispatch;
+            engine.PropertyChanged += delegate(object sender, PropertyChangedEventArgs e)
+            {
+                this.Fps = (sender as IEngine).Fps;
+            };
             _underLying = new SquareArray(h,w);
             _factory=factory;
             _factory.Game = this;
@@ -371,6 +377,7 @@ namespace Tetris.GameBase
                 return 1*GameSpeed;
             }
         }
+
         private void GenTetris()
         {
             if (_state == 0) return;
