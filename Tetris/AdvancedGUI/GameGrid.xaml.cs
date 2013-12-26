@@ -24,6 +24,7 @@ namespace Tetris.AdvancedGUI
         Rectangle[,] squaresMatrix; // hold the squares
         int gridHeight;
         int gridWidth;
+        private int[,] imageCache = null;
 
         // height or width means the maximum number of squares contained
         public GameGrid(int[] gridSize) 
@@ -83,23 +84,40 @@ namespace Tetris.AdvancedGUI
             Tetris.GameBase.TetrisGame.DrawEventArgs e) 
         {
                 Square[,] image = game.Image;
+            if (imageCache == null)
+            {
+                imageCache=new int[image.GetUpperBound(0)+1,image.GetUpperBound(1)+1];
+                Array.Clear(imageCache, 0, (image.GetUpperBound(0) + 1)*(image.GetUpperBound(1)+1));
+            }
                 int i, j;
 
                 for (i = 0; i < game.Height; i++)
                     for (j = 0; j < game.Width; j++)
                     {
-                        try
+                        if ((image[i, j] == null && imageCache[i, j] != 0) || (image[i, j] != null&&image[i, j].Color != imageCache[i, j]))
                         {
-                            squaresMatrix[i, j].Dispatcher.Invoke(
-                                new Action(
-                                    delegate
-                                    {
-                                        squaresMatrix[i, j].Fill = 
-                                            new SolidColorBrush(colorMap[image[i, j] == null ? 0 : (image[i, j].Color < colorMap.Length ? image[i, j].Color : colorMap.Length - 1)]);
-                                    }
-                            ));
+                            imageCache[i, j] = image[i,j]==null?0:image[i, j].Color;
+                            try
+                            {
+                                squaresMatrix[i, j].Dispatcher.Invoke(
+                                    new Action(
+                                        delegate
+                                        {
+                                            squaresMatrix[i, j].Fill =
+                                                new SolidColorBrush(
+                                                    colorMap[
+                                                        image[i, j] == null
+                                                            ? 0
+                                                            : (image[i, j].Color < colorMap.Length
+                                                                ? image[i, j].Color
+                                                                : colorMap.Length - 1)]);
+                                        }
+                                        ));
+                            }
+                            catch
+                            {
+                            }
                         }
-                        catch {}
                     }
         }
 
