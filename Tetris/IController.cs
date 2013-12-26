@@ -9,8 +9,7 @@ namespace Tetris
 {
     public interface IController
     {
-        bool Act(TetrisGame.GameAction action);
-
-        void InverseControl();
+        bool Act(TetrisGame.GameAction action); // 检查动作是否按下
+        void InverseControl(); // 反向
     }
 }

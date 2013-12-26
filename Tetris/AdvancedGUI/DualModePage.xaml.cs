@@ -84,11 +84,12 @@ namespace Tetris.AdvancedGUI
             games.Item2.AddDisplay(gameGrid2);
             //Add Display of NextBlockGrid
 
-            games.Item1.SetController(_controller);
-            //AIController _aiController1 = new AIController(games.Item1, 100);
-            AIController _aiController2 = new AIController(games.Item2, 100);
-            //games.Item1.SetController(_aiController1);
+            AIController _aiController1 = new AIController(games.Item1, AIController.AIType.Middle);
+            AIController _aiController2 = new AIController(games.Item2, AIController.AIType.Low);
+            games.Item1.SetController(_aiController1);
             games.Item2.SetController(_aiController2);
+            //games.Item1.SetController(_controller[0]);
+            //games.Item2.SetController(_controller[1]);
 
             // set left crocodile
             PicGen pic = new Cat3Gen();
@@ -193,6 +194,19 @@ namespace Tetris.AdvancedGUI
             games.Item2.Start();
             
             base.whatHappenWhenAnimationStop(sender, e);
+        }
+        protected override void keyPressed(object sender, KeyEventArgs e)
+        {
+            _controller[0].OnKeyDown(e);
+            _controller[1].OnKeyDown(e);
+            if (e.Key == Key.Escape)
+            {
+                games.Item1.Pause();
+                games.Item2.Pause();
+                EscapeDialog win = new EscapeDialog(games.Item1, games.Item2);
+                win.holderWindow = this.holderWin;
+                win.ShowDialog();
+            }
         }
     }
 }

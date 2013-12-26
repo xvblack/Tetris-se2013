@@ -22,14 +22,60 @@ namespace Tetris.GameControl
 
     public class ControllerConfig : Dictionary<Key,TetrisGame.GameAction>
     {
+        public enum ConfigType { Player1, Player2 };
+        static private Dictionary<TetrisGame.GameAction, Key>[] DefaultConfig = new Dictionary<TetrisGame.GameAction, Key>[2]
+        { new Dictionary<TetrisGame.GameAction, Key>() {
+            { TetrisGame.GameAction.Left,   Key.A     },
+            { TetrisGame.GameAction.Right,  Key.D     },
+            { TetrisGame.GameAction.Rotate, Key.W     },
+            { TetrisGame.GameAction.Down,   Key.S     },
+            { TetrisGame.GameAction.Pause,  Key.Space }},  
+          new Dictionary<TetrisGame.GameAction, Key>() {
+            { TetrisGame.GameAction.Left,   Key.Left  },
+            { TetrisGame.GameAction.Right,  Key.Right },
+            { TetrisGame.GameAction.Rotate, Key.Up    },
+            { TetrisGame.GameAction.Down,   Key.Down  },
+            { TetrisGame.GameAction.Pause,  Key.Enter }}
+        };
+
         //构造方法,如果未指定则使用默认配置.
         public ControllerConfig():base()
         {
-            this.Put(Key.Down, TetrisGame.GameAction.Down);
-            this.Put(Key.Up, TetrisGame.GameAction.Rotate);
-            this.Put(Key.Left, TetrisGame.GameAction.Left);
-            this.Put(Key.Right, TetrisGame.GameAction.Right);
+            this.Put(ControllerConfig.DefaultConfig[1][TetrisGame.GameAction.Down], TetrisGame.GameAction.Down);
+            this.Put(ControllerConfig.DefaultConfig[1][TetrisGame.GameAction.Rotate], TetrisGame.GameAction.Rotate);
+            this.Put(ControllerConfig.DefaultConfig[1][TetrisGame.GameAction.Left], TetrisGame.GameAction.Left);
+            this.Put(ControllerConfig.DefaultConfig[1][TetrisGame.GameAction.Right], TetrisGame.GameAction.Right);
+            this.Put(ControllerConfig.DefaultConfig[1][TetrisGame.GameAction.Pause], TetrisGame.GameAction.Pause);
         }
+        public ControllerConfig(ConfigType type)
+        {
+            if (ConfigType.Player1 == type)
+            {
+                this.Clear();
+                this.Put(ControllerConfig.DefaultConfig[0][TetrisGame.GameAction.Down], TetrisGame.GameAction.Down);
+                this.Put(ControllerConfig.DefaultConfig[0][TetrisGame.GameAction.Rotate], TetrisGame.GameAction.Rotate);
+                this.Put(ControllerConfig.DefaultConfig[0][TetrisGame.GameAction.Left], TetrisGame.GameAction.Left);
+                this.Put(ControllerConfig.DefaultConfig[0][TetrisGame.GameAction.Right], TetrisGame.GameAction.Right);
+                this.Put(ControllerConfig.DefaultConfig[0][TetrisGame.GameAction.Pause], TetrisGame.GameAction.Pause);
+            }
+            else if (ConfigType.Player2 == type)
+            {
+                this.Clear();
+                this.Put(ControllerConfig.DefaultConfig[1][TetrisGame.GameAction.Down], TetrisGame.GameAction.Down);
+                this.Put(ControllerConfig.DefaultConfig[1][TetrisGame.GameAction.Rotate], TetrisGame.GameAction.Rotate);
+                this.Put(ControllerConfig.DefaultConfig[1][TetrisGame.GameAction.Left], TetrisGame.GameAction.Left);
+                this.Put(ControllerConfig.DefaultConfig[1][TetrisGame.GameAction.Right], TetrisGame.GameAction.Right);
+                this.Put(ControllerConfig.DefaultConfig[1][TetrisGame.GameAction.Pause], TetrisGame.GameAction.Pause);
+            }
+        }
+
+        //以参数文件路径为参数的构造方法
+        public ControllerConfig(String path)
+            : base()
+        {
+            this.Load(path);
+        }
+
 
         /**
          * 读取配置文件，参数为文件名

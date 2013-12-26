@@ -4,14 +4,17 @@ using Tetris.GameBase;
 
 namespace Tetris
 {
-    public class ConsoleDisplay:IDisplay
+    /// <summary>
+    /// 命令行显示
+    /// </summary>
+    public class ConsoleDisplay:IDisplay 
     {
         private Square[,] _image;
         public ConsoleDisplay()
         {
         }
 
-        string GetChar(int color)
+        string GetChar(int color) // 根据颜色选择字符
         {
             if (color == -2)
             {
@@ -42,7 +45,7 @@ namespace Tetris
             }
         }
 
-        public void OnDrawing(TetrisGame game, TetrisGame.DrawEventArgs e)
+        public void OnDrawing(TetrisGame game, TetrisGame.DrawEventArgs e) // 绘制屏幕
         {
             _image = game.Image;
             Console.Clear();
@@ -57,7 +60,7 @@ namespace Tetris
                 Console.Out.WriteLine("|");
             }
             Console.WriteLine("============");
-            Debug.Assert(game.Factory is CacheFactory);
+            Debug.Assert(game.Factory is CacheFactory); // 显示下一个方块
             var factory = game.Factory as CacheFactory;
             Debug.Assert(factory.NextBlock()!=null);
             var block = factory.NextBlock();

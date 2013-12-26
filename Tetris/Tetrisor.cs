@@ -9,10 +9,10 @@ using Tetris.GameSystem;
 
 namespace Tetris
 {
-    class DuelGame : Tuple<TetrisGame, TetrisGame>
+    public class DuelGame : Tuple<TetrisGame, TetrisGame>
     {
         public int Winner { get; private set; }
-        internal delegate void DuelGameEndHandler(DuelGame game,int winner) ;
+        public delegate void DuelGameEndHandler(DuelGame game,int winner) ;
         public event DuelGameEndHandler DuelGameEndEvent;
         private volatile bool ended = false;
 
@@ -47,11 +47,13 @@ namespace Tetris
 
         }
     }
-    class Tetrisor
+
+    public class Tetrisor
     {
         private readonly IEngine _engine;
         private Dictionary<int,TetrisGame> games;
         private Random ran;
+        private static List<Tetrisor> tetrisors=new List<Tetrisor>();
         readonly int[][,] styles = {new int[2, 2]{{1, 1}, {1, 1}}, new int[1, 4]{{2, 2, 2, 2}}, new int[2, 3]{{0, 3, 0},{3, 3, 3}},
                                new int[2, 3]{{4, 0, 0}, {4, 4, 4}}, new int[2, 3]{{0, 0, 5}, {5, 5, 5}}, 
                                new int[2, 3]{{6, 6, 0}, {0, 6, 6}}, new int[2, 3]{{0, 7, 7}, {7, 7, 0}}};
@@ -62,6 +64,15 @@ namespace Tetris
             games=new Dictionary<int, TetrisGame>();
             _engine.Enabled = true;
             ran = new Random();
+            tetrisors.Add(this);
+        }
+
+        public static void StopEngines()
+        {
+            foreach (var tetrisor in tetrisors)
+            {
+                tetrisor.StopEngine();
+            }
         }
 
         public void StopEngine()
@@ -69,7 +80,7 @@ namespace Tetris
             _engine.Enabled = false;
         }
 
-        public TetrisGame NewGame(IController controller=null,bool withItem=true)
+        public TetrisGame NewGame(string user="",IController controller=null,bool withItem=true)
         {
             var id = games.Count;          
             ITetrisFactory factory;
@@ -87,19 +98,24 @@ namespace Tetris
             game.SetController(controller);
             ItemSystem.Bind(game);
             ScoreSystem.Bind(game);
-            AchievementSystem.Bind(game);
+            AchievementSystem.Bind(game,user);
             games[id] = game;
             return game;
         }
 
-        public DuelGame NewDuelGame(bool withItem=true)
+        public DuelGame NewDuelGame(string user1="",string user2="AI",bool withItem=true)
         {
-            var game1 = NewGame(null,withItem);
-            var game2 = NewGame(null,withItem);
+            var game1 = NewGame(user1,null,withItem);
+            var game2 = NewGame(user2,null,withItem);
             (game1.Factory as TetrisItemFactory).IsDuel = true;
             (game2.Factory as TetrisItemFactory).IsDuel = true;
             // preserved for duel game
             return new DuelGame(game1,game2);
+        }
+
+        public TetrisFactory NewFactory()
+        {
+            return new TetrisFactory(Square.Styles(styles));
         }
 
         public void Dispose()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using System.Timers;
 
 namespace Tetris
 {
+    [Obsolete]
     class TimerEngine : Timer,IEngine
     {
         private int _tick;
@@ -25,5 +27,7 @@ namespace Tetris
         }
 
         public event TickHandler TickEvent;
+        public int Fps { get; private set; }
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

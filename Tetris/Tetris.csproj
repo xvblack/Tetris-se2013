@@ -146,27 +146,33 @@
     <Compile Include="ConsoleDisplay.cs" />
     <Compile Include="ControllerConfig.cs" />
     <Compile Include="Dictionary.cs" />
+    <Compile Include="FixedEngine.cs" />
     <Compile Include="GameGrid.xaml.cs">
       <DependentUpon>GameGrid.xaml</DependentUpon>
     </Compile>
     <Compile Include="IEngine.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="GameAPI.cs" />
+    <Compile Include="ItemColor.cs" />
     <Compile Include="ItemSystem.cs" />
     <Compile Include="ITetrisFactory.cs" />
+    <Compile Include="Randomor.cs" />
     <Compile Include="PlayerController.cs" />
     <Compile Include="SimpleEngine.cs" />
     <Compile Include="Square.cs" />
+    <Compile Include="TetrisFactory.cs" />
     <Compile Include="TetrisGame.cs" />
     <Compile Include="AchievementSystem.cs" />
     <Compile Include="ScoreSystem.cs" />
     <Compile Include="IController.cs" />
     <Compile Include="IDisplay.cs" />
     <Compile Include="ISprite.cs" />
+    <Compile Include="TetrisItemFactory.cs" />
     <Compile Include="Tetrisor.cs" />
     <Compile Include="TimerEngine.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="XMLHelper.cs" />
     <Page Include="AdvancedGUI\AchievementPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -244,16 +250,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

@@ -31,8 +31,7 @@ namespace Tetris.AdvancedGUI
         protected Grid outerGrid = new Grid();
         protected Canvas aCanvas = new Canvas();
 
-        //public UserController _controller = new UserController();
-        public PlayerController _controller = new PlayerController();
+        public PlayerController[] _controller = new PlayerController[2];
 
         Timer whenGameBegin = new Timer();
 
@@ -57,6 +56,12 @@ namespace Tetris.AdvancedGUI
 
             aCanvas.Children.Add(outerGrid);
             outerGrid.SetValue(Canvas.ZIndexProperty, 1);
+
+            _controller[0] = new PlayerController();
+            _controller[0].SetConfig(new ControllerConfig(ControllerConfig.ConfigType.Player1));
+
+            _controller[1] = new PlayerController();
+            _controller[1].SetConfig(new ControllerConfig(ControllerConfig.ConfigType.Player2));
         }
 
         protected void startAnimation()
@@ -120,15 +125,10 @@ namespace Tetris.AdvancedGUI
             whenGameBegin.Stop();
         }
 
-        protected void keyPressed(object sender, KeyEventArgs e)
+        virtual protected void keyPressed(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape)
-            {
-                EscapeDialog win = new EscapeDialog();
-                win.holderWindow = this.holderWin;
-                win.ShowDialog();
-            }
-            _controller.OnKeyDown(e);
+            _controller[0].OnKeyDown(e);
+            _controller[1].OnKeyDown(e);   
         }
 
         protected void Unloaded_Event(object sender, RoutedEventArgs e)

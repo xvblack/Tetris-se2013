@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 using Tetris.GameSystem;
+using Tetris.Properties;
 
 namespace Tetris.GameBase
 {
     public partial class TetrisGame
     {
 
-        public enum GameAction { Rotate, Left, Right, Down };
+        public enum GameAction { Rotate, Left, Right, Down, Pause };
 
         #region Event Args and Callback Declare
 
@@ -94,10 +96,12 @@ namespace Tetris.GameBase
         public Block Block { get; private set; }
         private int _tick;
         private readonly int _w, _h;
-        public const int RoundTicks = 24;   // round tick numbers
+        public int RoundTicks = Properties.Settings.Default.RoundTicks;   // round tick numbers
         public int GameSpeed { get; set; }
         private volatile int _state;         // 0 for game ending, 1 for looping, 2 for pause
+        public volatile bool NeedDraw;
         private Stack<Square> _newSquares = new Stack<Square>();
+        public int Fps { get; set; }
 
         public ITetrisFactory Factory{get { return _factory; }}
         public SquareArray UnderLying
@@ -141,6 +145,10 @@ namespace Tetris.GameBase
             _h = h;
             GameSpeed = gameSpeed;
             engine.TickEvent += UpdateDispatch;
+            engine.PropertyChanged += delegate(object sender, PropertyChangedEventArgs e)
+            {
+                this.Fps = (sender as IEngine).Fps;
+            };
             _underLying = new SquareArray(h,w);
             _factory=factory;
             _factory.Game = this;
@@ -161,13 +169,28 @@ namespace Tetris.GameBase
         }
         public void Pause()
         {
-            Debug.Assert(_state==1,"Can Only Pause a Ongoing Game");
+            //Debug.Assert(_state==1,"Can Only Pause a Ongoing Game");
             _state = 2;
         }
         public void Continue()
         {
             _state = 1;
         }
+
+        public void PauseOrContinue()
+        {
+            if (_state == 1)
+            {
+                Pause();
+                if (IsDuelGame) DuelGame.Pause();
+            }
+            else
+            {
+                Continue();
+                if (IsDuelGame) DuelGame.Continue();
+            }
+        }
+
         public void End()
         {
             _state = 0;
@@ -266,7 +289,9 @@ namespace Tetris.GameBase
 
         private void UpdateDispatch(object sender,int tick)
         {
-            //DrawEvent.Invoke(this, new DrawEventArgs(_tick));
+            if (NeedDraw) DrawEvent.Invoke(this, new DrawEventArgs(_tick));
+            NeedDraw = false;
+            HandlePause();
             //lock (this)
             {
                 if (Block != null && Block.IsVoid) Block = null;
@@ -284,6 +309,14 @@ namespace Tetris.GameBase
                 }
                 _newSquares.Clear();
                 _tick++;                    // internal tick add
+                if (_laterCallbacks.ContainsKey(_tick))
+                {
+                    foreach (var cb in _laterCallbacks[_tick])
+                    {
+                        cb();
+                    }
+                    _laterCallbacks.Remove(_tick);
+                }
                 UpdateBeginEvent.Invoke(this, new UpdateBeginEventArgs(_tick));
                 Debug.Assert(Block != null, "loop continue when Block is null");
                 //Debug.Assert(Block.LPos>=0);
@@ -294,6 +327,15 @@ namespace Tetris.GameBase
                 ClearBar();
                 UpdateEndEvent.Invoke(this,new UpdateEndEventArgs(_tick));
                 if (_state == 0) return;
+            }
+        }
+
+        private void HandlePause()
+        {
+            if (_controller == null) return;
+            if (_controller.Act(GameAction.Pause))
+            {
+                this.PauseOrContinue();
             }
         }
 
@@ -322,6 +364,8 @@ namespace Tetris.GameBase
                     i--;
                 }
             }
+            // DrawEvent.Invoke(this, new DrawEventArgs(_tick));
+            NeedDraw = true;
         }
         private int FallingSpeed
         {
@@ -334,6 +378,7 @@ namespace Tetris.GameBase
                 return 1*GameSpeed;
             }
         }
+
         private void GenTetris()
         {
             if (_state == 0) return;
@@ -359,7 +404,10 @@ namespace Tetris.GameBase
                 {
                     Block.CounterRotate();
                 }
-                else DrawEvent.Invoke(this, new DrawEventArgs(_tick));
+                else
+                {
+                    NeedDraw = true;
+                }
             }
 
             if (_controller.Act(GameAction.Left))
@@ -369,7 +417,7 @@ namespace Tetris.GameBase
                 {
                     Block.RPos++;
                 }
-                else DrawEvent.Invoke(this, new DrawEventArgs(_tick));
+                else NeedDraw = true;
             }
             if (_controller.Act(GameAction.Right))
             {
@@ -378,7 +426,11 @@ namespace Tetris.GameBase
                 {
                     Block.RPos--;
                 }
-                else DrawEvent.Invoke(this, new DrawEventArgs(_tick));
+                else NeedDraw = true;
+            }
+            if (_controller.Act(GameAction.Pause))
+            {
+                HandlePause();
             }
         }
 
@@ -392,7 +444,7 @@ namespace Tetris.GameBase
             {
                 AddToUnderlying();
             }
-            DrawEvent.Invoke(this, new DrawEventArgs(_tick));
+            NeedDraw = true;
         }
 
         private void AddToUnderlying()
@@ -416,6 +468,7 @@ namespace Tetris.GameBase
                     }
                 Block = null;
             }
+            NeedDraw = true;
         }
     }
 }

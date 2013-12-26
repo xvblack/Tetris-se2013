@@ -20,11 +20,33 @@ namespace Tetris
         private int _error;
         private int _countError;
         private int _count;
-
-        public AIController(TetrisGame game, int speed = 0, int error = 0, int count = 0)
+        public enum AIType { Low, Middle, High };
+        public AIController(TetrisGame game, AIType type = AIType.High)
         {
             _game = game;
             _id = -1;
+            int speed = 0;
+            int error = 0;
+            int count = 0;
+            // speed: 0~15 (速度，0为完全不按加速)
+            // error: 0~100 （每次犯错的概率）
+            // count: >=0 （每几次才可能犯错一次，0为不犯错，1为每次都可能犯错）
+            if (type == AIType.High)
+            {
+                speed = 15;
+            }
+            else if (type == AIType.Middle)
+            {
+                speed = 12;
+                count = 2;
+                error = 10;
+            }
+            else if (type == AIType.Low)
+            {
+                speed = 12;
+                count = 1;
+                error = 30;
+            }
             _speed = speed;
             _error = error;
             _count = count;
@@ -146,63 +168,7 @@ namespace Tetris
             }
             _running = false;
         }
-        private void GenerateInverseGunControll()
-        {
-            if (_running)
-                return;
-            _running = true;
-            try
-            {               
-                int max_p = -1;
-                int min_count = 999;
-                int max_count = -2;
-                int h = _game.Height;
-                int w = _game.Width;
-                SquareArray underlying = _game.UnderLying;
-                int i, j;
-                for (i = 0; i < w; i++)
-                {
-                    j = h - 1;
-                    while ((j >= 0) && (underlying[j, i] == null))
-                    {
-                        j--;
-                    }
-                    if (j < min_count)
-                    {
-                        min_count = j;
-                        max_p = i;
-                    }
-                    if (j > max_count)
-                        max_count = j;
-                }
-                if (_game.Block.LPos < max_count + 1)
-                {
-                    _keyState[TetrisGame.GameAction.Down] = _speed;
-
-                }
-                else
-                {
-                    int mov = max_p - _game.Block.RPos;
-                    if (mov < 0)
-                    {
-                        _keyState[TetrisGame.GameAction.Left] = Math.Abs(mov);
-                    }
-                    else
-                    {
-                        _keyState[TetrisGame.GameAction.Right] = Math.Abs(mov);
-                    }
-                    _keyState[TetrisGame.GameAction.Rotate] = 1;
-                }
-            }
-            catch
-            {
-
-            }
-            finally
-            {          
-                _running = false;
-            }
-        }
+        
         private bool Intersect(Block block, SquareArray array)
         {
             if (block.LPos < 0) return true;
@@ -455,6 +421,7 @@ namespace Tetris
         }
         public bool Act(TetrisGame.GameAction action)
         {
+            if (action == TetrisGame.GameAction.Pause) return false;
             if (_game.Block == null)
                 return false;
             if (_running)
@@ -469,35 +436,9 @@ namespace Tetris
             }
             if (_game.Block is InverseGunItemBlock)
             {
-                if (_keyState[TetrisGame.GameAction.Left] + _keyState[TetrisGame.GameAction.Right]
-                    + _keyState[TetrisGame.GameAction.Rotate] + _keyState[TetrisGame.GameAction.Down] == 0)
-                {                   
-                        _id = _game.Block.Id;
-                        if (_countError >= _count)
-                        {
-                            _countError = 0;
-                        }
-                        else
-                        {
-                            _countError++;
-                        }
-                        if ((_countError == 0) && (_random.Next(100) < _error))
-                        {
-                            _keyState[TetrisGame.GameAction.Down] = 100;
-                            return false;
-                        }
-                        Thread th = new Thread(new ThreadStart(GenerateInverseGunControll));
-                        th.IsBackground = true;
-                        th.Start();
-                }
-                else
-                {
-                    if (_keyState[action] > 0)
-                    {
-                        result = true;
-                        _keyState[action]--;
-                    }
-                }
+                if (action == TetrisGame.GameAction.Down)
+                    return true;
+                return false;
             }
             else if (_game.Block is GunItemBlock)
             {

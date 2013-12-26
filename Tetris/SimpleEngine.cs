@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,10 @@ using System.Threading.Tasks;
 
 namespace Tetris
 {
-    class SimpleEngine : IEngine
+    /// <summary>
+    /// 使用Sleep实现的简单引擎
+    /// </summary>
+    class SimpleEngine : IEngine, INotifyPropertyChanged
     {
         public double Interval { set; private get; }
         public event TickHandler TickEvent;
@@ -33,6 +37,8 @@ namespace Tetris
             }
         }
 
+        public int Fps { get; private set; }
+
         public SimpleEngine()
         {
             _enabled = false;
@@ -45,17 +51,31 @@ namespace Tetris
                     {
                         TickEvent.Invoke(this, 0);
                     }
-                    Thread.Sleep((int)(Interval * 1000));
+                    Thread.Sleep((int)(Interval * 1000)); // 至少等待Interval秒
                 }
             });
             var time = DateTime.Now;
             TickEvent += (sender, tick) =>
             {
                 var newtime = DateTime.Now;
-                //Trace.WriteLine(newtime-time);
+                //Trace.WriteLine(newtime-time); // 测试函数，显示间隔
+#if DEBUG
+                Fps = (int)(1000/(newtime - time).TotalMilliseconds);
+                Notify("Fps");
+#endif
                 time = newtime;
                 Trace.Flush();
             };
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void Notify(string propName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this,new PropertyChangedEventArgs(propName));
+            }
         }
     }
 }
