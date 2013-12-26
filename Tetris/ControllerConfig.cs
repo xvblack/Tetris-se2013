@@ -22,7 +22,7 @@ namespace Tetris.GameControl
 
     public class ControllerConfig : Dictionary<Key,TetrisGame.GameAction>
     {
-        public static enum ConfigType { Single, DoubleLeft, DoubleRight };
+        public enum ConfigType { Single, DoubleLeft, DoubleRight };
 
         //构造方法,如果未指定则使用默认配置.
         public ControllerConfig():base()
@@ -42,7 +42,7 @@ namespace Tetris.GameControl
                 this.Put(Key.Up, TetrisGame.GameAction.Rotate);
                 this.Put(Key.Left, TetrisGame.GameAction.Left);
                 this.Put(Key.Right, TetrisGame.GameAction.Right);
-                this.Put(Key.Escape, TetrisGame.GameAction.Pause);
+                this.Put(Key.Escape, TetrisGame.GameAction.Pause);//按下escape自动暂停
             }
             else if (ConfigType.DoubleLeft == type)
             {
@@ -51,7 +51,7 @@ namespace Tetris.GameControl
                 this.Put(Key.W, TetrisGame.GameAction.Rotate);
                 this.Put(Key.A, TetrisGame.GameAction.Left);
                 this.Put(Key.R, TetrisGame.GameAction.Right);
-                this.Put(Key.Escape, TetrisGame.GameAction.Pause);
+                this.Put(Key.Escape, TetrisGame.GameAction.Pause);//按下escape自动暂停
             }
             else if (ConfigType.DoubleRight == type)
             {
@@ -60,7 +60,7 @@ namespace Tetris.GameControl
                 this.Put(Key.Up, TetrisGame.GameAction.Rotate);
                 this.Put(Key.Left, TetrisGame.GameAction.Left);
                 this.Put(Key.Right, TetrisGame.GameAction.Right);
-                this.Put(Key.Back, TetrisGame.GameAction.Pause);
+                this.Put(Key.Back, TetrisGame.GameAction.Pause);//双人游戏右边的玩家用back暂停
             }
         }
 
