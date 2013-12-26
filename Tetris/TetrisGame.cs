@@ -428,6 +428,10 @@ namespace Tetris.GameBase
                 }
                 else NeedDraw = true;
             }
+            if (_controller.Act(GameAction.Pause))
+            {
+                HandlePause();
+            }
         }
 
         private void HandleFalling()

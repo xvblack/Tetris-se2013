@@ -29,6 +29,7 @@ namespace Tetris.GameControl
         {
             actionStack = new Stack<TetrisGame.GameAction>();
             this.config = config;
+            _isInversed = false;
         }
 
         //设置和获取控制参数
@@ -108,6 +109,11 @@ namespace Tetris.GameControl
         public void InverseControl()
         {
             _isInversed = !_isInversed;
+        }
+
+        public void SetInversed(Boolean isInversed)
+        {
+            this._isInversed = isInversed;
         }
 
     }
