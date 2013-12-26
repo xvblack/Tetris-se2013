@@ -17,13 +17,14 @@ using System.Windows.Shapes;
 using Tetris.GameBase;
 using Tetris.GameGUI;
 using Tetris.GameControl;
+using Tetris.GameSystem;
 
 namespace Tetris
 {
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : Window, IDisplay
+    public partial class MainWindow : Window
     {
         private Square[,] _image;
         private readonly PlayerController _controller;
@@ -32,13 +33,16 @@ namespace Tetris
         private bool dual = true; // is dual?
         private ColumnDefinition[] _oriGridCol;
         private Grid child;
+        private Tetrisor t;
 
         public MainWindow()
         {
             InitializeComponent();
-            var t = new Tetrisor();
+            t = new Tetrisor();
             _oriGridCol = this.Grid.ColumnDefinitions.ToArray<ColumnDefinition>();
             child = this.grid_count2;
+            AchievementSystem.Load();
+            Console.WriteLine(AchievementSystem.GetAchievementState().HighScore);
 
             if (dual)
             {
@@ -50,6 +54,10 @@ namespace Tetris
 
                 var games = t.NewDuelGame();
                 GameGrid gameGrid1 = new GameGrid(games.Item1.Height, games.Item1.Width);
+                // test code
+                Console.WriteLine(games.Item1.Height);
+                Console.WriteLine(gameGrid1.Height);
+                // end
                 this.Grid.Children.Add(gameGrid1);
                 Grid.SetRow(gameGrid1, 1);
                 Grid.SetColumn(gameGrid1, 1);
@@ -67,11 +75,17 @@ namespace Tetris
                 games.Item1.AddDisplay(gameGrid1);
                 games.Item2.AddDisplay(gameGrid2);
 
-                //_aiController2 = new AIController(games.Item1, 100);
+                //games.Item2.AddDisplay(new ConsoleDisplay());
+
+                // speed: 0~15 (速度，0为完全不按加速)
+                // error: 0~100 （每次犯错的概率）
+                // errorCount: >=0 （每几次才可能犯错一次，0为不犯错，1为每次都可能犯错）
+                // 根据这三个参数可以调节AI的难度，最后选三个作为三种难度就行 by 郭亨凯
+                //_aiController2 = new AIController(games.Item1, 15);
                 //games.Item1.SetController(_aiController2);
                 _controller = new PlayerController();
                 games.Item1.SetController(_controller);
-                _aiController = new AIController(games.Item2, 100);
+                _aiController = new AIController(games.Item2, 15);
                 games.Item2.SetController(_aiController);
 
                 games.Item1.Start();
@@ -99,19 +113,29 @@ namespace Tetris
                 grid_count.DataContext = game.ScoreSystem;
                 game.AddDisplay(gameGrid);
 
-                _aiController = new AIController(game, 100);
-                game.SetController(_aiController);
+                //_aiController = new AIController(game, 100);
+                //game.SetController(_aiController);
+                _controller=new PlayerController();
+                game.SetController(_controller);
 
                 game.Start();
             }
         }
-        
+
+        protected override void OnClosed(EventArgs e)
+        {
+            AchievementSystem.Save();
+            t.StopEngine();
+            base.OnClosed(e);
+        }
+
         private readonly Key[] Keys = new Key[]
         {
             Key.Left,
             Key.Right,
             Key.Up,
-            Key.Down
+            Key.Down,
+            Key.Escape
         };
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -124,28 +148,13 @@ namespace Tetris
             _controller.OnKeyUp(e);
         }
 
-        public void OnDrawing(TetrisGame game, TetrisGame.DrawEventArgs e)
-        {
-            _image = game.Image;
-            Console.Clear();
-            Console.WriteLine(game.ScoreSystem.Score);
-            Console.WriteLine("============");
-            for (int i = 0; i < 15; i++)
-            {
-                Console.Write("|");
-                for (int j = 0; j < 10; j++)
-                    Console.Out.Write(_image[i, j] == null ? " " : "#");
-                Console.Out.WriteLine("|");
-            }
-            Console.WriteLine("============");
-        }
-        
         static readonly Dictionary<TetrisGame.GameAction,Key> Ht=new Dictionary<TetrisGame.GameAction, Key>()
         {
             {TetrisGame.GameAction.Left,Key.Left},
             {TetrisGame.GameAction.Right,Key.Right},
             {TetrisGame.GameAction.Down,Key.Down},
-            {TetrisGame.GameAction.Rotate,Key.Up}
+            {TetrisGame.GameAction.Rotate,Key.Up},
+            {TetrisGame.GameAction.Pause,Key.Escape}
         };
 
         class Controller : IController
@@ -155,7 +164,8 @@ namespace Tetris
                 {Key.Left,false},
                 {Key.Right,false},
                 {Key.Up,false},
-                {Key.Down,false}
+                {Key.Down,false},
+                {Key.Escape,false}
             };
 
             public Dictionary<Key, bool> KeyState
@@ -167,6 +177,10 @@ namespace Tetris
                 var result= KeyState[Ht[action]];
                 KeyState[Ht[action]] = false;
                 return result;
+            }
+
+            public void InverseControl()
+            {
             }
         }
     }

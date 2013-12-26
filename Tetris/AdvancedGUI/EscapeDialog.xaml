@@ -1,0 +1,39 @@
+﻿<Window x:Class="Tetris.AdvancedGUI.EscapeDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="确定离开" Height="200" Width="300"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Label Name="leaveOrNotLabel" Content="确定离开游戏？" 
+               Grid.Row="1" Grid.Column="1" 
+               HorizontalAlignment="Center" VerticalAlignment="Center"
+               Style="{StaticResource LabelTheme1}"/>
+        <Grid Grid.Row="3" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Name="ok" Content="确定" Grid.Column="0"
+                    Click="okayClicked"
+                    Style="{StaticResource ButtonThemeNarrow}"/>
+            <Button Name="cancel" Content="取消" Grid.Column="2"
+                    Click="cancelClicked"
+                    Style="{StaticResource ButtonThemeNarrow}" />
+        </Grid>
+
+    </Grid>
+</Window>

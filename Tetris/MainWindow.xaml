@@ -26,5 +26,6 @@
             <Label Content="得分:" Margin="0,5,0,32" HorizontalAlignment="Left" Width="58" FontSize="20" />
             <Label Content="{Binding Path=Score}" Name="label_score2" Margin="60,5,0,32" FontSize="20"/>
         </Grid>
+        <TextBlock Name="WinnerBlock" Grid.Column="3" HorizontalAlignment="Left" Margin="0,72.4,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="48"/>
     </Grid>
 </Window>

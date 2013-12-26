@@ -1,36 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 using Tetris.GameSystem;
+using Tetris.Properties;
 
 namespace Tetris.GameBase
 {
     public partial class TetrisGame
     {
 
-        public enum GameAction { Rotate, Left, Right, Down };
+        public enum GameAction { Rotate, Left, Right, Down, Pause };
 
         #region Event Args and Callback Declare
-        public class UpdateBeginEventArgs
-        {
-            public int Tick { get; private set; }
 
-            public UpdateBeginEventArgs(int tick)
+        public class TickEventArgs
+        {
+            public int Tick { get; protected set; }
+
+            public TickEventArgs(int tick)
             {
                 Tick = tick;
             }
         }
-        public class ClearBarEventArgs
+
+        public class UpdateBeginEventArgs : TickEventArgs
+        {
+            public UpdateBeginEventArgs(int tick) : base(tick)
+            {
+            }
+        }
+        public class ClearBarEventArgs : TickEventArgs
         {
             public int Line { get; private set; }
             public Square[] Squares { get; private set; }
-            public int Tick { get; private set; }
 
-            public ClearBarEventArgs(SquareArray underlying, int line, int tick)
+            public ClearBarEventArgs(SquareArray underlying, int line, int tick) : base(tick)
             {
                 Line = line;
-                Tick = tick;
                 Squares = new Square[underlying.GetUpperBound(1) + 1];
                 for (var j = 0; j < underlying.GetUpperBound(1) + 1; j++)
                 {
@@ -38,22 +46,18 @@ namespace Tetris.GameBase
                 }
             }
         }
-        public class UpdateEndEventArgs
+        public class UpdateEndEventArgs : TickEventArgs
         {
-            public int Tick { get; private set; }
 
-            public UpdateEndEventArgs(int tick)
+            public UpdateEndEventArgs(int tick) : base(tick)
             {
-                Tick = tick;
             }
         }
-        public class DrawEventArgs
+        public class DrawEventArgs : TickEventArgs
         {
-            public int Tick { get; private set; }
 
-            public DrawEventArgs(int tick)
+            public DrawEventArgs(int tick):base(tick)
             {
-                Tick = tick;
             }
         }
 
@@ -67,11 +71,22 @@ namespace Tetris.GameBase
             }
         }
 
-        public delegate void UpdateBeginCallback(object sender, UpdateBeginEventArgs e);
-        public delegate void ClearBarCallback(object sender, ClearBarEventArgs e);
-        public delegate void UpdateEndCallback(object sender, UpdateEndEventArgs e);
+        public class AddToUnderlyingEventArgs : TickEventArgs
+        {
+            public Block block { get; private set; }
+            public AddToUnderlyingEventArgs(int tick, Block addingBlock):base(tick)
+            {
+                block = addingBlock;
+            }
+        }
+
+        public delegate void UpdateBeginCallback(TetrisGame game, UpdateBeginEventArgs e);
+        public delegate void ClearBarCallback(TetrisGame sender, ClearBarEventArgs e);
+        public delegate void UpdateEndCallback(TetrisGame game, UpdateEndEventArgs e);
         public delegate void DrawCallback(TetrisGame sender, DrawEventArgs e);
         public delegate void GameEndCallback(object sender, GameEndEventArgs e);
+        public delegate void AddToUnderlyingCallback(TetrisGame game, AddToUnderlyingEventArgs e);
+
         #endregion
 
         private delegate void UpdateCallback();
@@ -81,11 +96,14 @@ namespace Tetris.GameBase
         public Block Block { get; private set; }
         private int _tick;
         private readonly int _w, _h;
-        private const int RoundTicks = 6;   // round tick numbers
-        private readonly int _gameSpeed;
+        public int RoundTicks = Properties.Settings.Default.RoundTicks;   // round tick numbers
+        public int GameSpeed { get; set; }
         private volatile int _state;         // 0 for game ending, 1 for looping, 2 for pause
-        public readonly object Updating = new object();
+        public volatile bool NeedDraw;
+        private Stack<Square> _newSquares = new Stack<Square>();
+        public int Fps { get; set; }
 
+        public ITetrisFactory Factory{get { return _factory; }}
         public SquareArray UnderLying
         {
             get { return _underLying; }
@@ -101,28 +119,43 @@ namespace Tetris.GameBase
             get { return _w; }
         }
 
+        public IController Controller
+        {
+            get { return _controller; }
+        }
+
         #region Reference to External Objects
-        private readonly TetrisFactory _factory;
+        private readonly ITetrisFactory _factory;
         private IController _controller;
         #endregion
 
         #region Events
-        public event UpdateBeginCallback UpdateBeginEvent;
-        public event ClearBarCallback ClearBarEvent;
-        public event UpdateEndCallback UpdateEndEvent;
-        public event DrawCallback DrawEvent;
-        public event GameEndCallback GameEndEvent;
+        public event UpdateBeginCallback UpdateBeginEvent = delegate { };
+        public event ClearBarCallback ClearBarEvent = delegate { };
+        public event ClearBarCallback BeforeClearBarEvent = delegate { };
+        public event UpdateEndCallback UpdateEndEvent = delegate { };
+        public event DrawCallback DrawEvent= delegate { };
+        public event GameEndCallback GameEndEvent = delegate { };
+        public event AddToUnderlyingCallback AddToUnderlyingEvent = delegate { };
         #endregion
 
-        public TetrisGame(int id, IEnumerable<SquareArray> styles, IEngine engine, TetrisFactory factory, int w, int h, int gameSpeed)
+        public TetrisGame(int id, IEnumerable<SquareArray> styles, IEngine engine, ITetrisFactory factory, int w, int h, int gameSpeed)
         {
             _w = w;
             _h = h;
-            _gameSpeed = gameSpeed;
+            GameSpeed = gameSpeed;
             engine.TickEvent += UpdateDispatch;
+            engine.PropertyChanged += delegate(object sender, PropertyChangedEventArgs e)
+            {
+                this.Fps = (sender as IEngine).Fps;
+            };
             _underLying = new SquareArray(h,w);
             _factory=factory;
             _factory.Game = this;
+            if (_factory is CacheFactory)
+            {
+                (_factory as CacheFactory).Init();
+            }
             InitTickAPI();
             Id = id;
             _tick = 0;
@@ -143,6 +176,21 @@ namespace Tetris.GameBase
         {
             _state = 1;
         }
+
+        private void PauseOrContinue()
+        {
+            if (_state == 1)
+            {
+                Pause();
+                if (IsDuelGame) DuelGame.Pause();
+            }
+            else
+            {
+                Continue();
+                if (IsDuelGame) DuelGame.Continue();
+            }
+        }
+
         public void End()
         {
             _state = 0;
@@ -185,15 +233,20 @@ namespace Tetris.GameBase
         }
         private void PerRound(int times, UpdateCallback cb)
         {
-            if (_tick%(RoundTicks/times) == 0)
+            if (times>=RoundTicks||_tick%(RoundTicks/times) == 0)
             {
                 cb();
             }
         }
 
-        private bool Valid(int i, int j ,bool upperBound=true)
+        public void PushNewSquare(Square s)
         {
-            if (upperBound)
+            _newSquares.Push(s);
+        }
+
+        private bool Valid(int i, int j ,bool UpperBound=true)
+        {
+            if (UpperBound)
             {
                 return (i >= 0) && (i < _h) && (j >= 0) && (j < _w);
             }
@@ -217,39 +270,78 @@ namespace Tetris.GameBase
             return false;
         }
 
+        public void ClearBlock()
+        {
+            Block = null;
+        }
+
+        public delegate void LaterCallback();
+        private Dictionary<int,List<LaterCallback>> _laterCallbacks=new Dictionary<int, List<LaterCallback>>();
+
+        public void Later(int tick, LaterCallback cb)
+        {
+            if (!_laterCallbacks.ContainsKey(_tick + tick))
+            {
+                _laterCallbacks[_tick+tick]=new List<LaterCallback>();
+            }
+            _laterCallbacks[_tick+tick].Add(cb);
+        }
+
         private void UpdateDispatch(object sender,int tick)
         {
-            lock (this)
+            if (NeedDraw) DrawEvent.Invoke(this, new DrawEventArgs(_tick));
+            NeedDraw = false;
+            HandlePause();
+            //lock (this)
             {
+                if (Block != null && Block.IsVoid) Block = null;
+                if (_pendingLines.Count>=2) PushLines();
+                _pendingLines.Clear();
                 if (_state == 0) return;
                 if (_state == 2) return;
                 if (Block == null) GenTetris();
                 if (_state == 0) 
                     return;    // Check ending caused by cannot generate new block
                 if (_state == 2) return;    // Check for pause
+                foreach (var newSquare in _newSquares)
+                {
+                    newSquare.Devoid();
+                }
+                _newSquares.Clear();
                 _tick++;                    // internal tick add
+                if (_laterCallbacks.ContainsKey(_tick))
+                {
+                    foreach (var cb in _laterCallbacks[_tick])
+                    {
+                        cb();
+                    }
+                    _laterCallbacks.Remove(_tick);
+                }
                 UpdateBeginEvent.Invoke(this, new UpdateBeginEventArgs(_tick));
                 Debug.Assert(Block != null, "loop continue when Block is null");
+                //Debug.Assert(Block.LPos>=0);
                 Debug.Assert(Block.Id!=Block.TempId,"loop using a temp block");
                 Block.FallSpeed = FallingSpeed;    // Use the Game FallingSpeed as the block fall speed
-                PerRound(6, HandleAction);
-                PerRound(1*Block.FallSpeed, delegate()
-                {
-                    HandleFalling();
-                    ClearBar();
-                    DrawEvent.Invoke(this, new DrawEventArgs(_tick)); // 在方块下落时才刷新界面
-                });
-                
+                PerRound(8, HandleAction);
+                PerRound(1*Block.FallSpeed, HandleFalling);
+                ClearBar();
                 UpdateEndEvent.Invoke(this,new UpdateEndEventArgs(_tick));
                 if (_state == 0) return;
-                
+            }
+        }
+
+        private void HandlePause()
+        {
+            if (_controller == null) return;
+            if (_controller.Act(GameAction.Pause))
+            {
+                this.PauseOrContinue();
             }
         }
 
         private void ClearBar()
         {
-            // Change bottom-up to top-down, in order to avoid bugs(by GHK)
-            for (var i = _h - 1; i >= 0; i--)
+            for (var i = 0; i < _h; i++)
             {
                 bool clear = true;
                 for (int j = 0; j < _w; j++)
@@ -258,7 +350,7 @@ namespace Tetris.GameBase
                 }
                 if (clear)
                 {
-                    Trace.WriteLine(i);
+                    BeforeClearBarEvent.Invoke(this, new ClearBarEventArgs(_underLying,i,_tick));
                     for(var s=i;s<_h-1;s++)
                         for (var j = 0; j < _w; j++)
                         {
@@ -269,8 +361,11 @@ namespace Tetris.GameBase
                         _underLying[_h-1, j] = null;
                     }
                     ClearBarEvent.Invoke(this, new ClearBarEventArgs(_underLying, i, _tick));
+                    i--;
                 }
             }
+            // DrawEvent.Invoke(this, new DrawEventArgs(_tick));
+            NeedDraw = true;
         }
         private int FallingSpeed
         {
@@ -278,13 +373,15 @@ namespace Tetris.GameBase
             {
                 if (_controller.Act(GameAction.Down))
                 {
-                    return 6*_gameSpeed;
+                    return 10*GameSpeed;
                 }
-                return 1*_gameSpeed;
+                return 1*GameSpeed;
             }
         }
+
         private void GenTetris()
         {
+            if (_state == 0) return;
             if (Block!=null) throw new Exception("multiple sprite generating");
             var b = _factory.GenTetris();
             b.LPos = _h - 1;
@@ -307,6 +404,10 @@ namespace Tetris.GameBase
                 {
                     Block.CounterRotate();
                 }
+                else
+                {
+                    NeedDraw = true;
+                }
             }
 
             if (_controller.Act(GameAction.Left))
@@ -316,6 +417,7 @@ namespace Tetris.GameBase
                 {
                     Block.RPos++;
                 }
+                else NeedDraw = true;
             }
             if (_controller.Act(GameAction.Right))
             {
@@ -324,10 +426,8 @@ namespace Tetris.GameBase
                 {
                     Block.RPos--;
                 }
+                else NeedDraw = true;
             }
-
-            //刷新界面以解决延迟感 by huangyuhan
-            DrawEvent.Invoke(this, new DrawEventArgs(_tick));
         }
 
         private void HandleFalling()
@@ -340,24 +440,31 @@ namespace Tetris.GameBase
             {
                 AddToUnderlying();
             }
+            NeedDraw = true;
         }
 
         private void AddToUnderlying()
         {
-            for (int i = 0; i < Block.Height; i++)
-                for(int j=0;j<Block.Width;j++)
-                {
-                    if (Block.SquareAt(i, j) != null)
+            AddToUnderlyingEvent.Invoke(this,new AddToUnderlyingEventArgs(_tick,Block));
+            if (Block != null)
+            {
+                for (int i = 0; i < Block.Height; i++)
+                    for (int j = 0; j < Block.Width; j++)
                     {
-                        if (!Valid(Block.LPos + i, Block.RPos + j))
+                        if (Block.SquareAt(i, j) != null)
                         {
-                            End();
-                            return;
+                            if (!Valid(Block.LPos + i, Block.RPos + j))
+                            {
+                                End();
+                                return;
+                            }
+                            _underLying[Block.LPos + i, Block.RPos + j] = Block.SquareAt(i, j).Clone();
+                            _newSquares.Push(_underLying[Block.LPos + i, Block.RPos + j]);
                         }
-                        _underLying[Block.LPos + i,Block.RPos + j] = Block.SquareAt(i, j);
                     }
-                }
-            Block = null;
+                Block = null;
+            }
+            NeedDraw = true;
         }
     }
 }

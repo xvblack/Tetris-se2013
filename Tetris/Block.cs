@@ -1,101 +1,86 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 
 namespace Tetris.GameBase
 {
-    public class Block:CSprite
+    /// <summary>
+    /// 下落的方块
+    /// </summary>
+    public partial class Block:ISprite
     {
         private static int _id=0;
-        public int Width
+        public int Width // 宽度，包括旋转
         {
-            get{return _style.GetUpperBound(1-_direction%2)+1;}
+            get{return Style.GetUpperBound(1-Direction%2)+1;}
         }
-        public int Height
+        public int Height // 高度，包括旋转
         {
-            get { return _style.GetUpperBound(_direction%2)+1; }
+            get { return Style.GetUpperBound(Direction%2)+1; }
         }
-        public Square SquareAt(int i,int j)
+
+        public Square SquareAt(int i, int j) // 获得以左下角为原点的i行j列的方块，包括旋转
         {
-            switch (_direction)
+            Debug.Assert(Direction >= 0 && Direction <= 3);
+            try
             {
-                case 0:
-                    return _style[i, j];
-                case 1:
-                    return _style[j, _style.GetUpperBound(1) - i];
-                case 2:
-                    return _style[_style.GetUpperBound(0) - i, _style.GetUpperBound(1) - j];
-                case 3:
-                    return _style[_style.GetUpperBound(0) - j, i];
+                switch (Direction)
+                {
+                    case 0:
+                        return Style[i, j];
+                    case 1:
+                        return Style[j, Style.GetUpperBound(1) - i];
+                    case 2:
+                        return Style[Style.GetUpperBound(0) - i, Style.GetUpperBound(1) - j];
+                    case 3:
+                        return Style[Style.GetUpperBound(0) - j, i];
+                }
+                return null;
             }
-            return null;
+            catch
+            {
+                return null;
+            }
         }
 
-        private readonly SquareArray _style;
-        public int Id { get; private set; }
-        private float _l;
-        private float _r;
-        private float _vl;
-        private int _direction;
-        public int LPos { get { return (int)_l; } set{ _l=value; } }
-        public int RPos { get { return (int)_r; } set{ _r = value; } }
-        public int FallSpeed { get { return (int)_vl;} set{ _vl=value; } }
+        public SquareArray Style; // 方块样式
+        public int Id { get; private set; } // 方块Id
+        public int LPos { get; set; } // 方块左下角所在行数
+        public int RPos { get; set; } // 方块左下角所在列数
+        public int Direction { get; set; }  // 方块方向
+        public int FallSpeed { get; set; } // 下落速度
 
-        // More universal constructor by Hengkai Guo
-        public const int TempId = -2;
+        public const int TempId = -2; // 临时方块Id
         public Block(SquareArray style, int blockId=-1)
         {
-            if (blockId==-1)
+            if (blockId==-1) // 如果没有指定Id，生成新Id
                 Id = _id++;
             else
-                Id = blockId;
-            _style = style;
+                Id = blockId; // 否则直接使用给定的Id
+            Style = style;
         }
 
-        public void Rotate()
+        public void Rotate() // 顺时针旋转
         {
-            _direction = (_direction + 1)%4;
+            Direction = (Direction + 1)%4;
         }
-        public Block Rotate(int x)
+        public Block Rotate(int x) //顺时针旋转指定次数
         {
-            _direction = (_direction + x) % 4;
+            Direction = (Direction + x) % 4;
             return this;
         }
-        public void CounterRotate()
+        public void CounterRotate() // 逆时针旋转
         {
-            _direction = (_direction - 1) % 4;
+            Direction = (Direction - 1+ 4) % 4;
         }
 
-        public Block Clone()
+        public Block Clone() // 浅复制方块
         {
-            return new Block(_style,blockId:TempId) { _direction = this._direction, _vl = this._vl, _l = this._l, _r = this._r };
+            return new Block(Style,blockId:TempId) { Direction = this.Direction, FallSpeed = this.FallSpeed, LPos = this.LPos, RPos = this.RPos };
         }
 
-        public Block Fall()
+        public Block Fall() // 方块下落
         {
             LPos--;
             return this;
-        }
-    }
-
-    public class TetrisFactory
-    {
-        readonly List<SquareArray> _styles;
-        readonly Random _random;
-        public TetrisGame Game;
-        public TetrisFactory(IEnumerable<SquareArray> styles, Random random){
-            _styles = new List<SquareArray>(styles);
-            _random=random;
-        }
-        public Block GenTetris(){
-            int rr;
-            int type = _random.Next(0, _styles.Count());
-            var temp = _styles[type];
-            rr = Game.Width / 2 - 1;
-            //Trace.WriteLine(String.Format("pos = {0}, style = {1}", rr, type));
-            var t = new Block(temp){RPos = rr};
-            return t;
         }
     }
 }

@@ -22,5 +22,17 @@ namespace Tetris.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("24")]
+        public int RoundTicks {
+            get {
+                return ((int)(this["RoundTicks"]));
+            }
+            set {
+                this["RoundTicks"] = value;
+            }
+        }
     }
 }

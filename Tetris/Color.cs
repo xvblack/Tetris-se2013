@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Tetris
 {
-    interface CSprite
+    /// <summary>
+    /// 颜色
+    /// </summary>
+    static partial class GameColor 
     {
-        int LPos { get; set; }
-        int RPos { get; set; }
-        int FallSpeed { get; set; }
     }
 }
