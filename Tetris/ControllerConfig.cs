@@ -31,7 +31,7 @@ namespace Tetris.GameControl
             this.Put(Key.Up, TetrisGame.GameAction.Rotate);
             this.Put(Key.Left, TetrisGame.GameAction.Left);
             this.Put(Key.Right, TetrisGame.GameAction.Right);            
-            this.Put(Key.Escape,TetrisGame.GameAction.Pause);
+            this.Put(Key.Enter,TetrisGame.GameAction.Pause);
         }
         public ControllerConfig(ConfigType type)
         {
@@ -42,7 +42,7 @@ namespace Tetris.GameControl
                 this.Put(Key.Up, TetrisGame.GameAction.Rotate);
                 this.Put(Key.Left, TetrisGame.GameAction.Left);
                 this.Put(Key.Right, TetrisGame.GameAction.Right);
-                this.Put(Key.Escape, TetrisGame.GameAction.Pause);//按下escape自动暂停
+                this.Put(Key.Enter, TetrisGame.GameAction.Pause);//按下escape自动暂停
             }
             else if (ConfigType.DoubleLeft == type)
             {
@@ -51,7 +51,7 @@ namespace Tetris.GameControl
                 this.Put(Key.W, TetrisGame.GameAction.Rotate);
                 this.Put(Key.A, TetrisGame.GameAction.Left);
                 this.Put(Key.R, TetrisGame.GameAction.Right);
-                this.Put(Key.Escape, TetrisGame.GameAction.Pause);//按下escape自动暂停
+                this.Put(Key.Space, TetrisGame.GameAction.Pause);//按下escape自动暂停
             }
             else if (ConfigType.DoubleRight == type)
             {
@@ -60,7 +60,7 @@ namespace Tetris.GameControl
                 this.Put(Key.Up, TetrisGame.GameAction.Rotate);
                 this.Put(Key.Left, TetrisGame.GameAction.Left);
                 this.Put(Key.Right, TetrisGame.GameAction.Right);
-                this.Put(Key.Back, TetrisGame.GameAction.Pause);//双人游戏右边的玩家用back暂停
+                this.Put(Key.Enter, TetrisGame.GameAction.Pause);//双人游戏右边的玩家用back暂停
             }
         }
 
