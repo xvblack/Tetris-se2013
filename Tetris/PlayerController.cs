@@ -110,5 +110,9 @@ namespace Tetris.GameControl
             _isInversed = !_isInversed;
         }
 
+        public void SetInversed(Boolean __isInversed)
+        {
+            this._isInversed = __isInversed;
+        }
     }
 }
