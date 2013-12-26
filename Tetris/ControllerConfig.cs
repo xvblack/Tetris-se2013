@@ -22,14 +22,55 @@ namespace Tetris.GameControl
 
     public class ControllerConfig : Dictionary<Key,TetrisGame.GameAction>
     {
+        public static enum ConfigType { Single, DoubleLeft, DoubleRight };
+
         //构造方法,如果未指定则使用默认配置.
         public ControllerConfig():base()
         {
             this.Put(Key.Down, TetrisGame.GameAction.Down);
             this.Put(Key.Up, TetrisGame.GameAction.Rotate);
             this.Put(Key.Left, TetrisGame.GameAction.Left);
-            this.Put(Key.Right, TetrisGame.GameAction.Right);
+            this.Put(Key.Right, TetrisGame.GameAction.Right);            
+            this.Put(Key.Escape,TetrisGame.GameAction.Pause);
         }
+        public ControllerConfig(ConfigType type)
+        {
+            if (ConfigType.Single == type)
+            {
+                this.Clear();
+                this.Put(Key.Down, TetrisGame.GameAction.Down);
+                this.Put(Key.Up, TetrisGame.GameAction.Rotate);
+                this.Put(Key.Left, TetrisGame.GameAction.Left);
+                this.Put(Key.Right, TetrisGame.GameAction.Right);
+                this.Put(Key.Escape, TetrisGame.GameAction.Pause);
+            }
+            else if (ConfigType.DoubleLeft == type)
+            {
+                this.Clear();
+                this.Put(Key.S, TetrisGame.GameAction.Down);
+                this.Put(Key.W, TetrisGame.GameAction.Rotate);
+                this.Put(Key.A, TetrisGame.GameAction.Left);
+                this.Put(Key.R, TetrisGame.GameAction.Right);
+                this.Put(Key.Escape, TetrisGame.GameAction.Pause);
+            }
+            else if (ConfigType.DoubleRight == type)
+            {
+                this.Clear();
+                this.Put(Key.Down, TetrisGame.GameAction.Down);
+                this.Put(Key.Up, TetrisGame.GameAction.Rotate);
+                this.Put(Key.Left, TetrisGame.GameAction.Left);
+                this.Put(Key.Right, TetrisGame.GameAction.Right);
+                this.Put(Key.Back, TetrisGame.GameAction.Pause);
+            }
+        }
+
+        //以参数文件路径为参数的构造方法
+        public ControllerConfig(String path)
+            : base()
+        {
+            this.Load(path);
+        }
+
 
         /**
          * 读取配置文件，参数为文件名

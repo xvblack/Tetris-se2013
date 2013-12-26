@@ -122,13 +122,13 @@ namespace Tetris.AdvancedGUI
 
         protected void keyPressed(object sender, KeyEventArgs e)
         {
+            _controller.OnKeyDown(e);
             if (e.Key == Key.Escape)
             {
                 EscapeDialog win = new EscapeDialog();
                 win.holderWindow = this.holderWin;
                 win.ShowDialog();
             }
-            _controller.OnKeyDown(e);
         }
 
         protected void Unloaded_Event(object sender, RoutedEventArgs e)
