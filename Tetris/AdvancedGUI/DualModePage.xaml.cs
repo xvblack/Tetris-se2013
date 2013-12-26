@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Animation;
+using Tetris.AdvancedGUI.Pic;
 
 namespace Tetris.AdvancedGUI
 {
@@ -30,38 +31,41 @@ namespace Tetris.AdvancedGUI
             InitializeComponent();
 
             ColumnDefinition aCol = new ColumnDefinition();
-            aCol.Width = new GridLength(50, GridUnitType.Star);
+            aCol.Width = new GridLength(1, GridUnitType.Star);
             outerGrid.ColumnDefinitions.Add(aCol);
 
             aCol = new ColumnDefinition();
-            aCol.Width = new GridLength(50, GridUnitType.Auto);
+            aCol.Width = new GridLength(1, GridUnitType.Auto);
             outerGrid.ColumnDefinitions.Add(aCol);
 
             aCol = new ColumnDefinition();
-            aCol.Width = new GridLength(200, GridUnitType.Pixel);
+            aCol.Width = new GridLength(480, GridUnitType.Pixel);
             outerGrid.ColumnDefinitions.Add(aCol);
 
             aCol = new ColumnDefinition();
-            aCol.Width = new GridLength(50, GridUnitType.Auto);
+            aCol.Width = new GridLength(10, GridUnitType.Auto);
             outerGrid.ColumnDefinitions.Add(aCol);
 
             aCol = new ColumnDefinition();
-            aCol.Width = new GridLength(50, GridUnitType.Star);
+            aCol.Width = new GridLength(10, GridUnitType.Star);
             outerGrid.ColumnDefinitions.Add(aCol);
 
+            //outerGrid.Width = Styles.WindowSizeGenerator.dualModePageWidth;
             Border border1 = new Border();
 
             border1.BorderBrush = new SolidColorBrush(Colors.Gray);
-            border1.BorderThickness = new Thickness(1, 1, 1, 1);
+            border1.BorderThickness = new Thickness(2, 2, 2, 2);
 
             Border border2 = new Border();
 
             border2.BorderBrush = new SolidColorBrush(Colors.Gray);
-            border2.BorderThickness = new Thickness(1, 1, 1, 1);
+            border2.BorderThickness = new Thickness(2, 2, 2, 2);
 
             games = t.NewDuelGame();
             int[] gridSize = new int[2] 
                 { games.Item1.Height, games.Item1.Width };
+
+            outerGrid.SetValue(Canvas.LeftProperty, 10.0);
 
             GameGrid gameGrid1 = new GameGrid(gridSize);
             border1.Child = gameGrid1;
@@ -85,6 +89,90 @@ namespace Tetris.AdvancedGUI
             AIController _aiController2 = new AIController(games.Item2, 100);
             //games.Item1.SetController(_aiController1);
             games.Item2.SetController(_aiController2);
+
+            // set left crocodile
+            PicGen pic = new Cat3Gen();
+
+            PicGenGrid pg1 = new PicGenGrid(pic, Styles.SquareGenerator.picSquareSize);
+            aCanvas.Children.Add(pg1);
+            pg1.SetValue(Canvas.ZIndexProperty, 0);
+
+            Canvas.SetLeft(pg1, 480);
+            Canvas.SetTop(pg1, 440);
+
+            /*
+            pic = new CatGen();
+
+            PicGenGrid pg2 = new PicGenGrid(pic, Styles.SquareGenerator.picSquareSize / 2.5);
+            aCanvas.Children.Add(pg2);
+            pg1.SetValue(Canvas.ZIndexProperty, 0);
+
+            Canvas.SetRight(pg2, 450);
+            Canvas.SetBottom(pg2, 60);
+            */
+
+            // set score board
+            double scoreHeight = 130;
+            double scoreWidth = 200;
+            double scoreRightLoc = 100;
+            double scoreTopLoc = 67;
+            ScoreGrid score1 = new ScoreGrid(scoreHeight, scoreWidth);
+            ScoreGrid score2 = new ScoreGrid(scoreHeight, scoreWidth);
+
+            // set next block board
+            int[] nextBlockSize = new int[] { 7, 5 };
+            double nextRightLoc;
+            double nextTopLoc = scoreTopLoc + scoreHeight + 10;
+            NextBlockGrid nextGrid1 = new NextBlockGrid(nextBlockSize);
+            NextBlockGrid nextGrid2 = new NextBlockGrid(nextBlockSize);
+
+            Border border2_1 = new Border();
+
+            border2_1.BorderBrush = new SolidColorBrush(Colors.Black);
+            border2_1.BorderThickness = new Thickness(3, 3, 3, 3);
+            border2_1.CornerRadius = new CornerRadius(10);
+            border2_1.Padding = new Thickness(3, 3, 3, 3);
+
+            Border border2_2 = new Border();
+
+            border2_2.BorderBrush = new SolidColorBrush(Colors.Black);
+            border2_2.BorderThickness = new Thickness(3, 3, 3, 3);
+            border2_2.CornerRadius = new CornerRadius(10);
+            border2_2.Padding = new Thickness(3, 3, 3, 3);
+
+            double[] nextSize = nextGrid1.getSize();
+
+            border2_1.Height = nextSize[0] - (nextSize[0] / nextBlockSize[0] - 1) / 2; ;
+            border2_1.Width = nextSize[1];
+
+            border2_2.Height = nextSize[0] - (nextSize[0] / nextBlockSize[0] - 1) / 2; ;
+            border2_2.Width = nextSize[1];
+
+            border2_1.Child = nextGrid1;
+            border2_2.Child = nextGrid2;
+            aCanvas.Children.Add(border2_1);
+            aCanvas.Children.Add(border2_2);
+
+            nextRightLoc = 0.5 * score1.Width - 0.5 * border2.Width + scoreRightLoc;
+            border2_1.SetValue(Canvas.LeftProperty, 450.0);
+            border2_1.SetValue(Canvas.TopProperty, 210.0);
+
+            border2_2.SetValue(Canvas.RightProperty,455.0);
+            border2_2.SetValue(Canvas.TopProperty, 210.0);
+
+            games.Item1.AddDisplay(nextGrid1);
+            games.Item2.AddDisplay(nextGrid2);
+
+            aCanvas.Children.Add(score1);
+            score1.SetValue(Canvas.LeftProperty, 450.0);
+            score1.SetValue(Canvas.TopProperty, scoreTopLoc);
+
+            aCanvas.Children.Add(score2);
+            score2.SetValue(Canvas.RightProperty, 455.0);
+            score2.SetValue(Canvas.TopProperty, scoreTopLoc);
+
+            score1.DataContext = games.Item1.ScoreSystem;
+            score2.DataContext = games.Item2.ScoreSystem;
 
         }
 

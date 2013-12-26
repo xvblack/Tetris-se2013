@@ -62,7 +62,17 @@ namespace Tetris.AdvancedGUI.Pic
             xNum = colorIndexMatrix.GetLength(0);
             yNum = colorIndexMatrix.GetLength(1);
 
-            picMatrix = new SolidColorBrush[xNum, yNum];
+            int[,] tmp = new int[xNum, yNum];
+            for (int i = 0; i < xNum; i++)
+            {
+                for (int j = 0; j < yNum; j++)
+                {
+                    tmp[i, j] = colorIndexMatrix[i, yNum - j - 1];
+                }
+            }
+            colorIndexMatrix = tmp;
+
+                picMatrix = new SolidColorBrush[xNum, yNum];
             for (int i = 0; i < xNum; i++)
             {
                 for (int j = 0; j < yNum; j++)

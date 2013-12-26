@@ -79,8 +79,8 @@ namespace Tetris.AdvancedGUI
                     rect[i, j].SetValue(Grid.RowProperty, i);
                     rect[i, j].SetValue(Grid.ColumnProperty, j);
 
-                    rect[i, j].Width = _squareSize / 2.5;
-                    rect[i, j].Height = _squareSize / 2.5;
+                    rect[i, j].Width = _squareSize / 2;
+                    rect[i, j].Height = _squareSize / 2;
                     rect[i, j].Margin = new Thickness(1, 1, 1, 1);
 
                     rect[i, j].Stroke = new SolidColorBrush(Colors.Transparent);

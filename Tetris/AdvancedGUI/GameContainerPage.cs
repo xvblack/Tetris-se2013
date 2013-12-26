@@ -79,7 +79,7 @@ namespace Tetris.AdvancedGUI
             }
 
             Canvas.SetLeft(welcomeString,
-                (outerGrid.Width - welcomeString.getWidth()) / 2);
+                (Styles.WindowSizeGenerator.screenSize - welcomeString.getWidth()) / 2);
             Canvas.SetTop(welcomeString,
                 (outerGrid.Height - welcomeString.getHeight()) / 2);
             Canvas.SetZIndex(welcomeString, 10);
@@ -93,7 +93,7 @@ namespace Tetris.AdvancedGUI
 
             welcomeString = new StartWelcomeString("GO");
             Canvas.SetLeft(welcomeString,
-                (holderWin.Width - welcomeString.getWidth()) / 2);
+                (Styles.WindowSizeGenerator.screenSize - welcomeString.getWidth()) / 2);
             Canvas.SetTop(welcomeString,
                 (holderWin.Height - welcomeString.getHeight()) / 2);
             Canvas.SetZIndex(welcomeString, 10);

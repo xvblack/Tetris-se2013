@@ -20,13 +20,15 @@ namespace Tetris.AdvancedGUI.Styles
     {
         static readonly public int mainWindowMinWidth = 800;
         static readonly public int mainWindowMinHeight = 700;
-        static readonly public int dualModePageWidth = 1200;
+        static readonly public int dualModePageWidth = 1400;
         static readonly public int singleModePageWidth = 1000;
         static readonly public String windowSize = "Maximum";
         //static readonly public String windowSize = "";
 
         static readonly public double screenSize = 
             System.Windows.SystemParameters.FullPrimaryScreenWidth;
+
+        
 
         static readonly public double mainWindowLocationLeft = 
             (screenSize - mainWindowMinWidth) / 2;

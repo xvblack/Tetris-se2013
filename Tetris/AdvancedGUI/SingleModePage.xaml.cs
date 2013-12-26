@@ -49,7 +49,7 @@ namespace Tetris.AdvancedGUI
             Border border = new Border();
 
             border.BorderBrush = new SolidColorBrush(Colors.Gray);
-            border.BorderThickness = new Thickness(1, 1, 1, 1);
+            border.BorderThickness = new Thickness(2, 2, 2, 2);
 
             game = t.NewGame();
 
@@ -62,53 +62,60 @@ namespace Tetris.AdvancedGUI
             game.SetController(_aiController);
             //game.SetController(_controller);
 
+            outerGrid.SetValue(Canvas.LeftProperty, Styles.WindowSizeGenerator.singleModePageLocationLeft);
+
             border.Child = gameGrid;
             outerGrid.Children.Add(border);
             border.SetValue(Grid.RowProperty, 1);
             border.SetValue(Grid.ColumnProperty, 1);
 
+
+            // set left crocodile
             PicGen pic = new CrocodileGen();
 
             PicGenGrid pg1 = new PicGenGrid(pic, Styles.SquareGenerator.picSquareSize);
             aCanvas.Children.Add(pg1);
             pg1.SetValue(Canvas.ZIndexProperty, 0);
 
-            Canvas.SetLeft(pg1, 20);
-            Canvas.SetBottom(pg1, 50);
+            Canvas.SetLeft(pg1, 150);
+            Canvas.SetBottom(pg1, 60);
 
+            // set right crocodile
             pic = new CrocodileGen();
             PicGenGrid pg2 = new PicGenGrid(pic, Styles.SquareGenerator.picSquareSize);
             aCanvas.Children.Add(pg2);
             pg2.SetValue(Canvas.ZIndexProperty, 0);
 
-            Canvas.SetLeft(pg2, 350);
-            Canvas.SetBottom(pg2, 50);
+            Canvas.SetLeft(pg2, 530);
+            Canvas.SetBottom(pg2, 60);
 
+            // set little sun
             pic = new SunGen();
-            PicGenGrid pg3 = new PicGenGrid(pic, Styles.SquareGenerator.picSquareSize/1.5);
+            PicGenGrid pg3 = new PicGenGrid(pic, Styles.SquareGenerator.picSquareSize / 1.2);
             aCanvas.Children.Add(pg3);
             pg3.SetValue(Canvas.ZIndexProperty, 0);
 
             Canvas.SetLeft(pg3, -50);
             Canvas.SetTop(pg3, -50);
 
-
-
+            // set score board
             double scoreHeight = 150;
             double scoreWidth = 200;
-            double scoreRightLoc = 50;
+            double scoreRightLoc = 100;
             double scoreTopLoc = 50;
             score = new ScoreGrid(scoreHeight, scoreWidth);
 
-
-            double nextRightLoc = scoreRightLoc;
+            // set next block board
+            double nextRightLoc;
             double nextTopLoc = scoreTopLoc + scoreHeight + 10;
             NextBlockGrid nextGrid = new NextBlockGrid(nextBlockSize);
 
             Border border2 = new Border();
 
             border2.BorderBrush = new SolidColorBrush(Colors.Black);
-            border2.BorderThickness = new Thickness(1, 1, 1, 1);
+            border2.BorderThickness = new Thickness(3, 3, 3, 3);
+            border2.CornerRadius = new CornerRadius(10);
+            border2.Padding = new Thickness(3, 3, 3, 3);
 
             double[] nextSize = nextGrid.getSize();
 
@@ -117,17 +124,15 @@ namespace Tetris.AdvancedGUI
 
             border2.Child = nextGrid;
             aCanvas.Children.Add(border2);
-            border2.SetValue(Canvas.RightProperty, 10.0);
-            border2.SetValue(Canvas.TopProperty, 400.0);
 
-            //aCanvas.Children.Add(nextGrid);
-            //nextGrid.SetValue(Canvas.RightProperty, nextRightLoc + scoreWidth);
-            //nextGrid.SetValue(Canvas.TagProperty, nextTopLoc + 1000);
+            nextRightLoc = 0.5 * score.Width - 0.5 * border2.Width + scoreRightLoc;
+            border2.SetValue(Canvas.RightProperty, nextRightLoc);
+            border2.SetValue(Canvas.TopProperty, 220.0);
 
             game.AddDisplay(nextGrid);
 
             aCanvas.Children.Add(score);
-            score.SetValue(Canvas.RightProperty, scoreRightLoc + scoreWidth);
+            score.SetValue(Canvas.RightProperty, scoreRightLoc);
             score.SetValue(Canvas.TopProperty, scoreTopLoc);
 
             score.DataContext = game.ScoreSystem;
