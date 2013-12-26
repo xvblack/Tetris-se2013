@@ -146,6 +146,7 @@
     <Compile Include="ConsoleDisplay.cs" />
     <Compile Include="ControllerConfig.cs" />
     <Compile Include="Dictionary.cs" />
+    <Compile Include="FixedEngine.cs" />
     <Compile Include="GameGrid.xaml.cs">
       <DependentUpon>GameGrid.xaml</DependentUpon>
     </Compile>

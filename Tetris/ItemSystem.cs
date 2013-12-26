@@ -130,7 +130,7 @@ namespace Tetris
                             Debug.Assert(game.IsDuelGame);
                             Console.WriteLine("Inversed Control");
                             game.DuelGame.Controller.InverseControl();
-                            game.Later(10*TetrisGame.RoundTicks, () =>
+                            game.Later(10*game.RoundTicks, () =>
                             {
                                 game.DuelGame.Controller.InverseControl();
                                 Console.WriteLine("Inversed Back");

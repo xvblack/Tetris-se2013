@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 using Tetris.GameSystem;
+using Tetris.Properties;
 
 namespace Tetris.GameBase
 {
@@ -95,7 +96,7 @@ namespace Tetris.GameBase
         public Block Block { get; private set; }
         private int _tick;
         private readonly int _w, _h;
-        public const int RoundTicks = 48;   // round tick numbers
+        public int RoundTicks = Properties.Settings.Default.RoundTicks;   // round tick numbers
         public int GameSpeed { get; set; }
         private volatile int _state;         // 0 for game ending, 1 for looping, 2 for pause
         public volatile bool NeedDraw;
