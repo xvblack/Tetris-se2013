@@ -80,10 +80,10 @@ namespace Tetris.AdvancedGUI
             games.Item2.AddDisplay(gameGrid2);
             //Add Display of NextBlockGrid
 
-            games.Item1.SetController(_controller);
-            //AIController _aiController1 = new AIController(games.Item1, 100);
-            AIController _aiController2 = new AIController(games.Item2, 100);
-            //games.Item1.SetController(_aiController1);
+            //games.Item1.SetController(_controller);
+            AIController _aiController1 = new AIController(games.Item1, 12);
+            AIController _aiController2 = new AIController(games.Item2, 15);
+            games.Item1.SetController(_aiController1);
             games.Item2.SetController(_aiController2);
 
         }

@@ -20,17 +20,25 @@ namespace Tetris.GameBase
         public Square SquareAt(int i, int j) // 获得以左下角为原点的i行j列的方块，包括旋转
         {
             Debug.Assert(Direction >= 0 && Direction <= 3);
+            if ((i < 0) || (j < 0))
+                return null;
             try
             {
                 switch (Direction)
                 {
                     case 0:
+                        if ((i > Style.GetUpperBound(0)) || (j > Style.GetUpperBound(1)))
+                            return null;
                         return Style[i, j];
                     case 1:
+                        if (j > Style.GetUpperBound(0))
+                            return null;
                         return Style[j, Style.GetUpperBound(1) - i];
-                    case 2:
+                    case 2:                        
                         return Style[Style.GetUpperBound(0) - i, Style.GetUpperBound(1) - j];
                     case 3:
+                        if (i > Style.GetUpperBound(1))
+                            return null;
                         return Style[Style.GetUpperBound(0) - j, i];
                 }
                 return null;
