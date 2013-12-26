@@ -23,11 +23,5 @@ namespace Tetris
             AllocConsole();
             base.OnStartup(e);
         }
-
-        protected override void OnExit(ExitEventArgs e)
-        {
-            AchievementSystem.Save();
-            base.OnExit(e);
-        }
     }
 }

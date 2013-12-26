@@ -15,6 +15,7 @@ using System.Windows.Media.Animation;
 using System.Threading;
 using System.Windows.Threading;
 using System.Windows.Navigation;
+using Tetris.GameSystem;
 
 namespace Tetris.AdvancedGUI
 {
@@ -51,6 +52,13 @@ namespace Tetris.AdvancedGUI
             NavigationPage firstPage = new NavigationPage();
             firstPage.holderWin = this;
             this.Navigate(firstPage);
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            AchievementSystem.Save();
+            Tetrisor.StopEngines();
+            base.OnClosed(e);
         }
 
         private void NavigationWindow_Navigating(object sender, NavigatingCancelEventArgs e) {

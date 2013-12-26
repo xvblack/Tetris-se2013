@@ -53,6 +53,7 @@ namespace Tetris
         private readonly IEngine _engine;
         private Dictionary<int,TetrisGame> games;
         private Random ran;
+        private static List<Tetrisor> tetrisors=new List<Tetrisor>();
         readonly int[][,] styles = {new int[2, 2]{{1, 1}, {1, 1}}, new int[1, 4]{{2, 2, 2, 2}}, new int[2, 3]{{0, 3, 0},{3, 3, 3}},
                                new int[2, 3]{{4, 0, 0}, {4, 4, 4}}, new int[2, 3]{{0, 0, 5}, {5, 5, 5}}, 
                                new int[2, 3]{{6, 6, 0}, {0, 6, 6}}, new int[2, 3]{{0, 7, 7}, {7, 7, 0}}};
@@ -63,6 +64,15 @@ namespace Tetris
             games=new Dictionary<int, TetrisGame>();
             _engine.Enabled = true;
             ran = new Random();
+            tetrisors.Add(this);
+        }
+
+        public static void StopEngines()
+        {
+            foreach (var tetrisor in tetrisors)
+            {
+                tetrisor.StopEngine();
+            }
         }
 
         public void StopEngine()
