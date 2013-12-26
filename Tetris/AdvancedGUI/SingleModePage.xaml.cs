@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Animation;
 using Tetris.AdvancedGUI.Pic;
+using Tetris.GameControl;
 
 namespace Tetris.AdvancedGUI
 {
@@ -60,7 +61,8 @@ namespace Tetris.AdvancedGUI
             game.AddDisplay(gameGrid);
             //AIController _aiController = new AIController(game, 100);
             //game.SetController(_aiController);
-            game.SetController(_controller);
+            game.SetController(_controller[0]);
+            
 
             border.Child = gameGrid;
             outerGrid.Children.Add(border);
@@ -153,6 +155,18 @@ namespace Tetris.AdvancedGUI
         {
             game.Start();
             base.whatHappenWhenAnimationStop(sender, e);
+        }
+
+        protected override void keyPressed(object sender, KeyEventArgs e)
+        {
+            _controller[0].OnKeyDown(e);
+            if (e.Key == Key.Escape)
+            {
+                game.Pause();
+                EscapeDialog win = new EscapeDialog(game);
+                win.holderWindow = this.holderWin;
+                win.ShowDialog();
+            }
         }
     }
 }

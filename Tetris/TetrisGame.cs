@@ -169,7 +169,7 @@ namespace Tetris.GameBase
         }
         public void Pause()
         {
-            Debug.Assert(_state==1,"Can Only Pause a Ongoing Game");
+            //Debug.Assert(_state==1,"Can Only Pause a Ongoing Game");
             _state = 2;
         }
         public void Continue()
@@ -177,7 +177,7 @@ namespace Tetris.GameBase
             _state = 1;
         }
 
-        private void PauseOrContinue()
+        public void PauseOrContinue()
         {
             if (_state == 1)
             {

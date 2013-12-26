@@ -44,7 +44,7 @@ namespace Tetris.GameControl
 
         public void OnKeyDown(KeyEventArgs e)
         {
-            TetrisGame.GameAction tempAction;
+            
             TetrisGame.GameAction newAction;
             //如果能在config表中找到对应按键的对应动作，就把该动作添加到动作清单里.
             if (config.TryGetValue(e.Key,out newAction))
@@ -62,26 +62,31 @@ namespace Tetris.GameControl
                     }
                 }
 
-
-                if (actionStack.Count > 0)
-                {
-                    if ((tempAction = actionStack.Pop()) != newAction)
-                    {
-                        actionStack.Push(tempAction);
-                        actionStack.Push(newAction);
-                    }
-                    else
-                    {
-                        actionStack.Push(tempAction);
-                    }
-                }
-                else  //如果堆栈为空，直接将新的action推入
-                {
-                    actionStack.Push(newAction);
-                }
+                AddNewAction(newAction);           
                     
             }
         }
+        public void AddNewAction(TetrisGame.GameAction newAction)
+        {
+            TetrisGame.GameAction tempAction;
+            if (actionStack.Count > 0)
+            {
+                if ((tempAction = actionStack.Pop()) != newAction)
+                {
+                    actionStack.Push(tempAction);
+                    actionStack.Push(newAction);
+                }
+                else
+                {
+                    actionStack.Push(tempAction);
+                }
+            }
+            else  //如果堆栈为空，直接将新的action推入
+            {
+                actionStack.Push(newAction);
+            }
+        }
+
         public  void OnKeyUp(KeyEventArgs e)
         {
         }

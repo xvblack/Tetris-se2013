@@ -81,10 +81,12 @@ namespace Tetris.AdvancedGUI
             //Add Display of NextBlockGrid
 
             //games.Item1.SetController(_controller);
-            AIController _aiController1 = new AIController(games.Item1, 12);
-            AIController _aiController2 = new AIController(games.Item2, 15);
-            games.Item1.SetController(_aiController1);
-            games.Item2.SetController(_aiController2);
+            //AIController _aiController1 = new AIController(games.Item1, 12);
+            //AIController _aiController2 = new AIController(games.Item2, 15);
+            //games.Item1.SetController(_aiController1);
+            //games.Item2.SetController(_aiController2);
+            games.Item1.SetController(_controller[0]);
+            games.Item2.SetController(_controller[1]);
 
         }
 
@@ -105,6 +107,19 @@ namespace Tetris.AdvancedGUI
             games.Item2.Start();
             
             base.whatHappenWhenAnimationStop(sender, e);
+        }
+        protected override void keyPressed(object sender, KeyEventArgs e)
+        {
+            _controller[0].OnKeyDown(e);
+            _controller[1].OnKeyDown(e);
+            if (e.Key == Key.Escape)
+            {
+                games.Item1.Pause();
+                games.Item2.Pause();
+                EscapeDialog win = new EscapeDialog(games.Item1, games.Item2);
+                win.holderWindow = this.holderWin;
+                win.ShowDialog();
+            }
         }
     }
 }
