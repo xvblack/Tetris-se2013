@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AIControllerTest.cs" />
     <Compile Include="BlockTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TetrisItemFactoryTest.cs" />
