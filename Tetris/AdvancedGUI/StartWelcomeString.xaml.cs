@@ -23,13 +23,15 @@ namespace Tetris.AdvancedGUI
     {
         
         private Dictionary<char, int[,]> fontLibrary;  // store the bit maps of capital letters
-        const int fontHeight = 9;
-        const int fontWidth = 9;
+        int fontHeight = 9;
+        int fontWidth = 9;
         private SolidColorBrush[,] brush;
         private int gridLen;
-        private Color[] colorMap = (new Styles.SquareGenerator()).getColorMap();
+        private Color[] colorMap;
         int[,] contentMap;
         private Rectangle[,] rect;
+
+        private Styles.SquareGenerator squareGen;
 
         public StartWelcomeString(String content)
         {   
@@ -38,7 +40,7 @@ namespace Tetris.AdvancedGUI
 
             contentMap  = getWelcomeString(content);
 
-            gridLen = content.Length * fontWidth;
+            //gridLen = content.Length * fontWidth;
 
             GridLength gl = new GridLength(0, GridUnitType.Auto);
 
@@ -56,8 +58,11 @@ namespace Tetris.AdvancedGUI
                 aRow.Height = gl;
                 this.RowDefinitions.Add(aRow);
             }
-            
-            int _squareSize = Styles.SquareGenerator.squareSize();
+
+            squareGen = new Styles.SquareGenerator();
+
+            colorMap = squareGen.colorMap();
+            double _squareSize = squareGen.squareSize();
             rect = new Rectangle[fontHeight, gridLen];
             brush = new SolidColorBrush[fontHeight, gridLen];
             for (i = 0; i < fontHeight; i++)
@@ -102,6 +107,28 @@ namespace Tetris.AdvancedGUI
             return ((rect[0, 0].Height+1) * fontHeight);
         }
 
+        public void noAnimation()
+        {
+            Random num = new Random();
+
+            for (int i = 0; i < fontHeight; i++)
+            {
+                for (int j = 0; j < gridLen; j++)
+                {
+
+                    Color fromColor = colorMap[0];
+                    Color toColor = colorMap[num.Next(5) + 1];
+                    Color strokeColor = Colors.Gray;
+
+                    if (contentMap[i, j] == 1)
+                    {
+                        rect[i, j].Width = squareGen.squareSize();
+                        rect[i, j].Height = squareGen.squareSize();
+                        rect[i, j].Fill = new SolidColorBrush(toColor);
+                    }
+                }
+            }
+            }
         public void startAnimation(int timeStep, int timeDelay) {
             Random num = new Random();
             int beginTime = 0;
@@ -152,19 +179,22 @@ namespace Tetris.AdvancedGUI
 
         private int[,] getWelcomeString(String s) {
             char[] content = s.ToCharArray();
-            int[,] contentMap = new int[fontHeight, fontWidth * content.Length];
-
-            int[,] font = new int[fontHeight, fontWidth];
+            
+            gridLen = 0;
             for (int n = 0; n < content.Length; n++)
             {
-                font = fontLibrary[content[n]];
+                int[,] font = fontLibrary[content[n]];
+                gridLen += font.GetLength(1);
+            }
+            int[,] contentMap = new int[fontHeight, gridLen];
+            int index = 0;
+            for (int n = 0; n < content.Length; n++)
+            {
+                int[,] font = fontLibrary[content[n]];
                 for (int i = 0; i < fontHeight; i++)
-                {
-                    for (int j = 0; j < fontWidth; j++)
-                    {
-                        contentMap[i, j + n * fontWidth] = font[i, j];
-                    }
-                }
+                    for (int j = 0; j < font.GetLength(1); j++)
+                        contentMap[i, j+index] = font[i, j];
+                index += font.GetLength(1);
             }
          /* // test code
             for (int i = 0; i < fontHeight; i++)
@@ -186,7 +216,7 @@ namespace Tetris.AdvancedGUI
         private void setFontLibrary() {
             fontLibrary = new Dictionary<char,int[,]>();
             int[,] aFont;
-            aFont = new int[fontHeight, fontWidth]{{0, 0, 0, 0, 1, 0, 0, 0, 0},
+            aFont = new int[,]{{0, 0, 0, 0, 1, 0, 0, 0, 0},
                                                    {0, 0, 0, 1, 0, 1, 0, 0, 0},
                                                    {0, 0, 1, 0, 0, 0, 1, 0, 0},
                                                    {0, 1, 0, 0, 0, 0, 0, 1, 0},
@@ -197,7 +227,7 @@ namespace Tetris.AdvancedGUI
                                                    {0, 1, 0, 0, 0, 0, 0, 1, 0}};
             fontLibrary.Add('A', aFont);
 
-            aFont = new int[fontHeight, fontWidth]{{0, 1, 1, 1, 1, 1, 0, 0, 0},
+            aFont = new int[,]{{0, 1, 1, 1, 1, 1, 0, 0, 0},
                                                    {0, 1, 0, 0, 0, 0, 1, 0, 0},
                                                    {0, 1, 0, 0, 0, 0, 0, 1, 0},
                                                    {0, 1, 0, 0, 0, 0, 0, 1, 0},
@@ -208,7 +238,7 @@ namespace Tetris.AdvancedGUI
                                                    {0, 1, 1, 1, 1, 1, 0, 0, 0}};
             fontLibrary.Add('D', aFont);
 
-            aFont = new int[fontHeight, fontWidth]{{0, 1, 1, 1, 1, 1, 0, 0, 0},
+            aFont = new int[,]{{0, 1, 1, 1, 1, 1, 0, 0, 0},
                                                    {0, 1, 0, 0, 0, 0, 1, 0, 0},
                                                    {0, 1, 0, 0, 0, 0, 1, 0, 0},
                                                    {0, 1, 0, 0, 0, 0, 1, 0, 0},
@@ -219,7 +249,7 @@ namespace Tetris.AdvancedGUI
                                                    {0, 1, 0, 0, 0, 0, 0, 1, 0}};
             fontLibrary.Add('R', aFont);
 
-            aFont = new int[fontHeight, fontWidth]{{0, 1, 1, 1, 1, 1, 1, 1, 0},
+            aFont = new int[,]{{0, 1, 1, 1, 1, 1, 1, 1, 0},
                                                    {0, 1, 0, 0, 0, 0, 0, 0, 0},
                                                    {0, 1, 0, 0, 0, 0, 0, 0, 0},
                                                    {0, 1, 0, 0, 0, 0, 0, 0, 0},
@@ -230,7 +260,7 @@ namespace Tetris.AdvancedGUI
                                                    {0, 1, 1, 1, 1, 1, 1, 1, 0}};
             fontLibrary.Add('E', aFont);
 
-            aFont = new int[fontHeight, fontWidth]{{1, 0, 0, 0, 0, 0, 0, 0, 1},
+            aFont = new int[,]{{1, 0, 0, 0, 0, 0, 0, 0, 1},
                                                    {0, 1, 0, 0, 0, 0, 0, 1, 0},
                                                    {0, 0, 1, 0, 0, 0, 1, 0, 0},
                                                    {0, 0, 0, 1, 0, 1, 0, 0, 0},
@@ -241,7 +271,7 @@ namespace Tetris.AdvancedGUI
                                                    {0, 0, 0, 0, 1, 0, 0, 0, 0}};
             fontLibrary.Add('Y', aFont);
 
-            aFont = new int[fontHeight, fontWidth]{{0, 0, 0, 1, 1, 1, 1, 0, 0},
+            aFont = new int[,]{                     {0, 0, 0, 1, 1, 1, 1, 0, 0},
                                                    {0, 0, 1, 0, 0, 0, 0, 1, 0},
                                                    {0, 1, 0, 0, 0, 0, 0, 1, 0},
                                                    {0, 1, 0, 0, 0, 0, 0, 0, 0},
@@ -252,7 +282,7 @@ namespace Tetris.AdvancedGUI
                                                    {0, 0, 0, 1, 1, 1, 1, 0, 0}};
             fontLibrary.Add('G', aFont);
 
-            aFont = new int[fontHeight, fontWidth]{{0, 0, 0, 1, 1, 1, 0, 0, 0},
+            aFont = new int[,]{                     {0, 0, 0, 1, 1, 1, 0, 0, 0},
                                                    {0, 0, 1, 0, 0, 0, 1, 0, 0},
                                                    {0, 1, 0, 0, 0, 0, 0, 1, 0},
                                                    {0, 1, 0, 0, 0, 0, 0, 1, 0},
@@ -262,6 +292,76 @@ namespace Tetris.AdvancedGUI
                                                    {0, 0, 1, 0, 0, 0, 1, 0, 0},
                                                    {0, 0, 0, 1, 1, 1, 0, 0, 0}};
             fontLibrary.Add('O', aFont);
+
+            aFont = new int[,]{                     {1,1,1,1,1,1,1},
+                                                   {0,0,0,1,0,0,0},
+                                                   {0,0,0,1,0,0,0},
+                                                   {0,0,0,1,0,0,0},
+                                                   {0,0,0,1,0,0,0},
+                                                   {0,0,0,1,0,0,0},
+                                                   {0,0,0,1,0,0,0},
+                                                   {0,0,0,1,0,0,0},
+                                                   {0,0,0,1,0,0,0}};
+            fontLibrary.Add('T', aFont);
+
+            aFont = new int[,]{{0, 0, 1, 0, 0, 0},
+                                                   {0, 0, 1, 0, 0, 0},
+                                                   {0, 1, 1, 1, 1, 0},
+                                                   {0, 0, 1, 0, 0, 0},
+                                                   {0, 0, 1, 0, 0, 0},
+                                                   {0, 0, 1, 0, 0, 0},
+                                                   {0, 0, 1, 0, 0, 0},
+                                                   {0, 0, 1, 0, 0, 0},
+                                                   {0, 0, 1, 1, 1, 0}};
+            fontLibrary.Add('t', aFont);
+
+            aFont = new int[,]{
+                                                   {0, 0, 0, 0, 0, 0,0},
+                                                   {0, 0, 0, 0, 0, 0,0},
+                                                   {0, 1, 1, 1, 1, 0,0},
+                                                   {1, 0, 0, 0, 0, 1,0},
+                                                   {1, 0, 0, 0, 0, 1,0},
+                                                   {1, 1, 1, 1, 1, 1,0},
+                                                   {1, 0, 0, 0, 0, 0,0},
+                                                   {1, 0, 0, 0, 0, 0,0},
+                                                   {0, 1, 1, 1, 1, 0,0}};
+            fontLibrary.Add('e', aFont);
+
+            aFont = new int[,]{
+                                                   {0,0, 0, 0, 0,0},
+                                                   {0,0, 0, 0, 0,0},
+                                                   {0,1, 0, 1, 1,0},
+                                                   {0,1, 1, 0, 0,0},
+                                                   {0,1, 0, 0, 0,0},
+                                                   {0,1, 0, 0, 0,0},
+                                                   {0,1, 0, 0, 0,0},
+                                                   {0,1, 0, 0, 0,0},
+                                                   {0,1, 0, 0, 0,0}};
+            fontLibrary.Add('r', aFont);
+
+            aFont = new int[,]{
+                                                   {0, 1, 0},
+                                                   {0, 0, 0},
+                                                   {0, 0, 0},
+                                                   {0, 1, 0},
+                                                   {0, 1, 0},
+                                                   {0, 1, 0},
+                                                   {0, 1, 0},
+                                                   {0, 1, 0},
+                                                   {0, 1, 0}};
+            fontLibrary.Add('i', aFont);
+
+            aFont = new int[,]{
+                                                   {0,0, 0, 0, 0, 0},
+                                                   {0,0, 0, 0, 0, 0},
+                                                   {0,0, 1, 1, 1, 0},
+                                                   {0,1, 0, 0, 0, 0},
+                                                   {0,1, 0, 0, 0, 0},
+                                                   {0,0, 1, 1, 0, 0},
+                                                   {0,0, 0, 0, 1, 0},
+                                                   {0,0, 0, 0, 1, 0},
+                                                   {0,1, 1, 1, 1, 0}};
+            fontLibrary.Add('s', aFont);
 
             /* // test code
             foreach (KeyValuePair<char, int[,]>temp in fontLibrary){

@@ -110,8 +110,8 @@
     <Compile Include="AdvancedGUI\Pic\MonkeyGen.cs" />
     <Compile Include="AdvancedGUI\Pic\PicGen.cs" />
     <Compile Include="AdvancedGUI\Pic\PicGenGrid.xaml.cs" />
-    <Compile Include="AdvancedGUI\NextBlockGrid.xaml.cs">
-      <DependentUpon>NextBlockGrid.xaml</DependentUpon>
+    <Compile Include="AdvancedGUI\NextBlock.xaml.cs">
+      <DependentUpon>NextBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="AdvancedGUI\Pic\TestPic.xaml.cs">
       <DependentUpon>TestPic.xaml</DependentUpon>
@@ -214,7 +214,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AdvancedGUI\ScoreGrid.xaml" />
-    <Page Include="AdvancedGUI\NextBlockGrid.xaml">
+    <Page Include="AdvancedGUI\NextBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -30,7 +30,7 @@ namespace Tetris.AdvancedGUI
             mark.VerticalAlignment = System.Windows.VerticalAlignment.Center;
             mark.Visibility = System.Windows.Visibility.Hidden;
 
-            mark.Fill = new SolidColorBrush(((new Styles.SquareGenerator()).getColorMap())[markColor]);
+            mark.Fill = new SolidColorBrush(((new Styles.SquareGenerator()).colorMap())[markColor]);
 
             button.MouseEnter += showMark;
             button.MouseLeave += hideMark;

@@ -20,31 +20,56 @@ namespace Tetris.AdvancedGUI.Styles
     class SquareGenerator
     {
         const int _colorNum = 9;
-        static int _squareContainerSize = 30;
-        static int _squareSize = 40;
-        static public int picSquareSize = 13;
-        Color[] colorMap;
 
-        public SquareGenerator() { 
-            colorMap = new Color[_colorNum];
+        private double _squareSize;
+        private double _picSquareSize;
+        private Color[] _colorMap;
+
+        public SquareGenerator() {
+
+            double tmpHeight = WindowSizeGenerator.gameModuleHeight 
+                / WindowSizeGenerator.gameHeight;
+
+            double tmpWidth = WindowSizeGenerator.dualGameModuleWidth
+                / WindowSizeGenerator.gameWidth;
+
+            if (tmpHeight < tmpWidth)
+                _squareSize = tmpHeight;
+            else
+                _squareSize = tmpWidth;
+
+            _picSquareSize = _squareSize / 3;
+            _colorMap = new Color[_colorNum];
+            setColorMap();
         }
 
+        public double squareSize()
+        {
+            return _squareSize;
+        }
 
+        public double picSquareSize()
+        {
+            return _picSquareSize;
+        }
+
+        public Color[] colorMap() 
+        {
+            return _colorMap;
+        }
         // get squares' colors
-        public Color[] getColorMap() {
+        private void setColorMap() {
             
             // colors definition
-            colorMap[0] = Colors.Transparent;   // Transparent, no color
-            colorMap[1] = Color.FromArgb(255, 255, 68, 68);     // red
-            colorMap[2] = Color.FromArgb(255, 153, 204, 0);     // green
-            colorMap[3] = Color.FromArgb(255, 255, 187, 51);    // yellow
-            colorMap[4] = Color.FromArgb(255, 51, 181, 229);    // blue
-            colorMap[5] = Color.FromArgb(255, 170, 102, 204);   // purple
-            colorMap[6] = Color.FromArgb(255, 255, 136, 51);    // orange ? // We should drop out some colors
-            colorMap[7] = Colors.Gray;
-            colorMap[8] = Color.FromArgb(100, 0, 0, 0);   // black for dao ju
-
-            return colorMap;
+            _colorMap[0] = Colors.Transparent;   // Transparent, no color
+            _colorMap[1] = Color.FromArgb(255, 255, 68, 68);     // red
+            _colorMap[2] = Color.FromArgb(255, 153, 204, 0);     // green
+            _colorMap[3] = Color.FromArgb(255, 255, 187, 51);    // yellow
+            _colorMap[4] = Color.FromArgb(255, 51, 181, 229);    // blue
+            _colorMap[5] = Color.FromArgb(255, 170, 102, 204);   // purple
+            _colorMap[6] = Color.FromArgb(255, 255, 136, 51);    // orange ? // We should drop out some colors
+            _colorMap[7] = Colors.Gray;
+            _colorMap[8] = Color.FromArgb(100, 0, 0, 0);   // black for dao ju
         }
 
         public int[] randomColorIndex(int colorNum)
@@ -67,7 +92,5 @@ namespace Tetris.AdvancedGUI.Styles
             }
             return colorIndex;
         }
-        public static int squareSize() { return _squareSize; }
-        public static int squareContainerSize() { return _squareContainerSize;  }
     }
 }

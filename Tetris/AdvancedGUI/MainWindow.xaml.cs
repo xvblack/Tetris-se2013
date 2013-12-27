@@ -30,8 +30,9 @@ namespace Tetris.AdvancedGUI
         public MainWindow()
         {
             InitializeComponent();
-            
+
             // which window size is used?
+            /*
             if (Styles.WindowSizeGenerator.windowSize == "Maximum")
             {
                 this.WindowState = WindowState.Maximized;
@@ -42,12 +43,14 @@ namespace Tetris.AdvancedGUI
             else
             {
                 this.WindowState = WindowState.Normal;
-            }
+            }*/
 
+            /*
             this.MinHeight = Styles.WindowSizeGenerator.mainWindowMinHeight;
             this.MinWidth = Styles.WindowSizeGenerator.mainWindowMinWidth;
             this.Height = this.MinHeight;
             this.Width = this.MinWidth;
+            */
 
             NavigationPage firstPage = new NavigationPage();
             firstPage.holderWin = this;

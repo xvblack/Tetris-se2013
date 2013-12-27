@@ -11,5 +11,5 @@
     </Grid.ColumnDefinitions>
     <Rectangle Name="mark" Grid.Column="0" Width="20" Height="20"/>
     <Button Name="button" Grid.Column="1" x:FieldModifier="public"
-            Style="{StaticResource ButtonTheme}"/>
+            Template="{DynamicResource ButtonTemplate}"/>
 </Grid>

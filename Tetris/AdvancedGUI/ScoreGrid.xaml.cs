@@ -26,7 +26,11 @@ namespace Tetris.AdvancedGUI
 
             this.Height = height;
             this.Width = width;
-            //score.Content = "0";
+
+            topLabel.SetValue(Label.FontSizeProperty, 
+                Styles.WindowSizeGenerator.fontSizeSmall);
+            score.SetValue(Label.FontSizeProperty,
+                Styles.WindowSizeGenerator.fontSizeLarge);
         }
     }
 }

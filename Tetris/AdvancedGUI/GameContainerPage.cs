@@ -43,7 +43,7 @@ namespace Tetris.AdvancedGUI
             this.Content = aCanvas;
 
             RowDefinition aRow = new RowDefinition();
-            aRow.Height = new GridLength(50, GridUnitType.Star);
+            aRow.Height = new GridLength(2, GridUnitType.Star);
             outerGrid.RowDefinitions.Add(aRow);
 
             aRow = new RowDefinition();
@@ -51,7 +51,7 @@ namespace Tetris.AdvancedGUI
             outerGrid.RowDefinitions.Add(aRow);
 
             aRow = new RowDefinition();
-            aRow.Height = new GridLength(50, GridUnitType.Star);
+            aRow.Height = new GridLength(1, GridUnitType.Star);
             outerGrid.RowDefinitions.Add(aRow);
 
             aCanvas.Children.Add(outerGrid);
@@ -73,6 +73,7 @@ namespace Tetris.AdvancedGUI
 
             welcomeString = new StartWelcomeString("READY");
 
+            /*
             if (double.IsNaN(outerGrid.Width))
             {
                 outerGrid.Width = Styles.WindowSizeGenerator.mainWindowMinWidth;
@@ -82,9 +83,10 @@ namespace Tetris.AdvancedGUI
             {
                 outerGrid.Height = Styles.WindowSizeGenerator.mainWindowMinHeight;
             }
+             */
 
             Canvas.SetLeft(welcomeString,
-                (Styles.WindowSizeGenerator.screenSize - welcomeString.getWidth()) / 2);
+                (Styles.WindowSizeGenerator.screenWidth - welcomeString.getWidth()) / 2);
             Canvas.SetTop(welcomeString,
                 (outerGrid.Height - welcomeString.getHeight()) / 2);
             Canvas.SetZIndex(welcomeString, 10);
@@ -98,7 +100,7 @@ namespace Tetris.AdvancedGUI
 
             welcomeString = new StartWelcomeString("GO");
             Canvas.SetLeft(welcomeString,
-                (Styles.WindowSizeGenerator.screenSize - welcomeString.getWidth()) / 2);
+                (Styles.WindowSizeGenerator.screenWidth - welcomeString.getWidth()) / 2);
             Canvas.SetTop(welcomeString,
                 (holderWin.Height - welcomeString.getHeight()) / 2);
             Canvas.SetZIndex(welcomeString, 10);

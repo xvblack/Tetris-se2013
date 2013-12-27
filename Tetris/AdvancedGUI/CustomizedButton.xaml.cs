@@ -32,6 +32,8 @@ namespace Tetris.AdvancedGUI
             this.Height = height;
             this.Width = width;
 
+
+
             double markSize = height / 4;
             double labelSize = height - markSize;
 
@@ -44,8 +46,6 @@ namespace Tetris.AdvancedGUI
             mark.Height = mark.Width;
             Random num = new Random();
 
-            Console.WriteLine(mark.Width);
-            Console.WriteLine(this.ActualHeight);
             //mark.Fill = new SolidColorBrush(((new Styles.SquareGenerator()).getColorMap())[color]);
 
             mark.Fill = new SolidColorBrush(Colors.Black);

@@ -93,8 +93,13 @@ namespace Tetris
             {
                 factory = new TetrisFactory(Square.Styles(styles), ran);
             }
+
+            // use AdvancedGUI.Styles.WindowSizeGenerator to set the game size! shuo han
+
+            int gameWidth = AdvancedGUI.Styles.WindowSizeGenerator.gameWidth;
+            int gameHeight = AdvancedGUI.Styles.WindowSizeGenerator.gameHeight;
             
-            var game = new TetrisGame(id,Square.Styles(styles), _engine, factory,10,15,2);
+            var game = new TetrisGame(id,Square.Styles(styles), _engine, factory,gameWidth,gameHeight,2);
             game.SetController(controller);
             ItemSystem.Bind(game);
             ScoreSystem.Bind(game);

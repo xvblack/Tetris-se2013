@@ -60,5 +60,10 @@ namespace Tetris.AdvancedGUI.Pic
                 }
             }
         }
+
+        public int[] getPicSize()
+        { 
+            return(new int[2] {rowNum, colNum});
+        }
     }
 }

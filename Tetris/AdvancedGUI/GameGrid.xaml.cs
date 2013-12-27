@@ -20,10 +20,11 @@ namespace Tetris.AdvancedGUI
     /// </summary>
     public partial class GameGrid : Grid, IDisplay
     {
-        Color[] colorMap = (new Styles.SquareGenerator()).getColorMap();
+        Color[] colorMap;
         Rectangle[,] squaresMatrix; // hold the squares
         int gridHeight;
         int gridWidth;
+        double _squareSize;
         private int[,] imageCache = null;
 
         // height or width means the maximum number of squares contained
@@ -35,9 +36,11 @@ namespace Tetris.AdvancedGUI
             squaresMatrix = new Rectangle[gridHeight, gridWidth];
 
             // size definitions
-            int _squareContainerSize = 
-                Styles.SquareGenerator.squareContainerSize();
-            int _squareSize = Styles.SquareGenerator.squareSize();
+            Styles.SquareGenerator squareGen = new Styles.SquareGenerator();
+
+            colorMap = squareGen.colorMap();
+
+            _squareSize = squareGen.squareSize();
             GridLength _gridLen = new GridLength(1,
                 GridUnitType.Auto);  // square size
                 // initialize the grid
@@ -80,6 +83,14 @@ namespace Tetris.AdvancedGUI
                 }
            // this.testSquares();
         }
+
+        public double[] getGameGridSize()
+        {
+            double height = gridHeight * _squareSize;
+            double width = gridWidth * _squareSize;
+            return (new double[2]{height, width});
+        }
+
         public void OnDrawing(Tetris.GameBase.TetrisGame game,
             Tetris.GameBase.TetrisGame.DrawEventArgs e) 
         {
@@ -119,19 +130,6 @@ namespace Tetris.AdvancedGUI
                             }
                         }
                     }
-        }
-
-        public void testSquares()
-        {
-            int i = 0;
-            int j = 0;
-            Random num = new Random();
-            for (i = 0; i < gridHeight; i++)
-                for (j = 0; j < gridWidth; j++)
-                {
-                    squaresMatrix[i, j].Fill =
-                        new SolidColorBrush(colorMap[num.Next(9)]);
-                }
         }
     }
 }

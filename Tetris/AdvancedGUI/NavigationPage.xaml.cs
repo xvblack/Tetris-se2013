@@ -26,6 +26,8 @@ namespace Tetris.AdvancedGUI
         public NavigationPage() {
             InitializeComponent();
 
+
+
             ButtonsGrid.Width = 300;
 
             double buttonHeight = 50;
@@ -59,6 +61,24 @@ namespace Tetris.AdvancedGUI
             ButtonsGrid.Children.Add(achievementButton);
             ButtonsGrid.Children.Add(settingsButton);
             ButtonsGrid.Children.Add(exitButton);
+
+           
+            StartWelcomeString title = new StartWelcomeString("Tetris");
+            
+           outerGrid.Children.Add(title);
+            
+           title.SetValue(Grid.RowProperty, 1);
+           title.SetValue(Grid.ColumnProperty, 1);
+           title.noAnimation();
+
+           Styles.SquareGenerator squareGen = new Styles.SquareGenerator();
+           Pic.Cat2Gen pic = new Pic.Cat2Gen();
+           Pic.PicGenGrid pg = new Pic.PicGenGrid(pic, squareGen.picSquareSize() / 1.2);
+           aCanvas.Children.Add(pg);
+           pg.SetValue(Canvas.ZIndexProperty, 0);
+
+           Canvas.SetRight(pg, 2);
+           Canvas.SetBottom(pg, 2);
         }
 
         // Click the button to go to Achievement
@@ -93,8 +113,10 @@ namespace Tetris.AdvancedGUI
 
         private void Page_Loaded_1(object sender, RoutedEventArgs e)
         {
+           /*
             this.holderWin.Width = Styles.WindowSizeGenerator.mainWindowMinWidth;
             this.holderWin.Left = Styles.WindowSizeGenerator.mainWindowLocationLeft;
+            * */
         }
     }
 }
