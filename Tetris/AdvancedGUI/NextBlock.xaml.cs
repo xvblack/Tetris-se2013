@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Tetris.GameBase;
+using Tetris.AdvancedGUI.Styles;
 
 namespace Tetris.AdvancedGUI
 {
@@ -40,11 +41,9 @@ namespace Tetris.AdvancedGUI
         {
             InitializeComponent();
 
+            colorMap = SquareGenerator.colorMap;
 
-            Styles.SquareGenerator squareGen = new Styles.SquareGenerator();
-            colorMap = squareGen.colorMap();
-
-            _squareSize = squareGen.squareSize();
+            _squareSize = SquareGenerator.squareSize;
             canvasHeight = h;
             canvasWidth = w;
 
@@ -57,9 +56,7 @@ namespace Tetris.AdvancedGUI
 
             this.Child = aCanvas;
 
-            //if (gridSize[0])
             aCanvas.Background = new SolidColorBrush(Colors.Transparent);
-            
 
             squaresMatrix = new Rectangle[_gridHeight, _gridWidth];
 

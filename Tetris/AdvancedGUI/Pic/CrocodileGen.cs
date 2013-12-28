@@ -18,11 +18,8 @@ namespace Tetris.AdvancedGUI.Pic
     public class CrocodileGen: PicGen
     {
         public CrocodileGen()
-            : base() { }
-
-        protected override void setPicMatrix()
+            : base() 
         {
-            //base.setPicMatrix();
             colorIndexMatrix = new int[,]{
                 {6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,2,6,6,6,2,6,6,6,6,6,6,6,6,6,6,6},
                 {6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,2,6,6,2,2,2,6,2,2,2,6,2,2,6,6,6,6,6,6,6},
@@ -42,18 +39,7 @@ namespace Tetris.AdvancedGUI.Pic
                 {6,6,3,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,6,1,1,1,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,3,3,3,6,6},
                 {6,6,3,3,3,3,3,3,3,3,3,6,6,6,6,3,3,1,3,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,3,3,6,6,6},
                 {6,6,6,6,3,3,3,6,6,6,6,6,6,6,6,1,1,1,1,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,3,3,6,6,6,6}};
-            xNum = colorIndexMatrix.GetLength(0);
-            yNum = colorIndexMatrix.GetLength(1);
-
-            picMatrix = new SolidColorBrush[xNum, yNum];
-            for (int i = 0; i < xNum; i++ )
-            {
-                for (int j = 0; j < yNum; j++)
-                {
-                    picMatrix[i, j] = 
-                        new SolidColorBrush(colorMap[colorIndexMatrix[i, j]-1]);
-                }
-            }
+            setPicMatrix();
         }
 
         protected override void setColorMap()

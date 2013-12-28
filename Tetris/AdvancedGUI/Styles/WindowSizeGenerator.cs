@@ -63,6 +63,6 @@ namespace Tetris.AdvancedGUI.Styles
         // additional font size
         static readonly public double fontSizeLarge = screenWidth / 30;
         static readonly public double fontSizeSmall = screenWidth / 80;
-
+        static readonly public double fontSizeMedium = screenWidth / 50;
     }
 }

@@ -4,11 +4,11 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
-      d:DesignHeight="400" d:DesignWidth="1000"
+      d:DesignHeight="400" d:DesignWidth="1000" 
 	Title="NavigationPage"
       Loaded="Page_Loaded_1">
 
-    <Grid Name="outerGrid">
+    <Grid Name="outerGrid" >
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
             <RowDefinition Height="Auto" />
@@ -27,7 +27,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Canvas Name="aCanvas" Grid.Row="0" Grid.Column="1"/>
-            <Grid Name="ButtonsGrid" Grid.Row="0" Grid.Column="2" 
+            <Grid Name="ButtonsGrid" Grid.Row="0" Grid.Column="2"
                   HorizontalAlignment="Left" VerticalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />

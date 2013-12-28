@@ -17,12 +17,8 @@ namespace Tetris.AdvancedGUI.Pic
 {
     public class Cat3Gen : PicGen
     {
-        public Cat3Gen()
-            : base() { }
-
-        protected override void setPicMatrix()
+        public Cat3Gen() : base()          
         {
-            //base.setPicMatrix();
             colorIndexMatrix = new int[,]{
                 {4,4,4,4,4,4,2,2,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},
                 {4,4,4,4,4,2,2,2,2,2,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},
@@ -74,23 +70,11 @@ namespace Tetris.AdvancedGUI.Pic
                 {4,4,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,4,4,4,4,4,4},
                 {4,4,2,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},
                 {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4}};
-            xNum = colorIndexMatrix.GetLength(0);
-            yNum = colorIndexMatrix.GetLength(1);
-
-            picMatrix = new SolidColorBrush[xNum, yNum];
-            for (int i = 0; i < xNum; i++)
-            {
-                for (int j = 0; j < yNum; j++)
-                {
-                    picMatrix[i, j] =
-                        new SolidColorBrush(colorMap[colorIndexMatrix[i, j] - 1]);
-                }
-            }
+            setPicMatrix();
         }
 
         protected override void setColorMap()
         {
-            //base.setColorMap();
             colorNum = 4;
             colorMap = new Color[colorNum];
             colorMap[0] = Color.FromArgb(255, 255, 218, 237); // pink

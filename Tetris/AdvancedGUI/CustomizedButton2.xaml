@@ -9,7 +9,7 @@
         <ColumnDefinition Width="30"/>
         <ColumnDefinition />
     </Grid.ColumnDefinitions>
-    <Rectangle Name="mark" Grid.Column="0" Width="20" Height="20"/>
-    <Button Name="button" Grid.Column="1" x:FieldModifier="public"
+    <Rectangle Name="mark" Grid.Column="0" Width="20" Height="20" Margin="0 5 0 5"/>
+    <Button Name="button" Grid.Column="1" x:FieldModifier="public" Margin="20 5 0 5"
             Template="{DynamicResource ButtonTemplate}"/>
 </Grid>

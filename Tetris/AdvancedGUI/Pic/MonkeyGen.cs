@@ -18,11 +18,8 @@ namespace Tetris.AdvancedGUI.Pic
     class MonkeyGen : PicGen
     {
         public MonkeyGen()
-            : base() { }
-
-        protected override void setPicMatrix()
+            : base() 
         {
-            //base.setPicMatrix();
             colorIndexMatrix = new int[,]{
                 {3,3,3,3,3,3,3,3,3,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
                 {3,3,3,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3},
@@ -54,18 +51,7 @@ namespace Tetris.AdvancedGUI.Pic
                 {3,3,3,3,3,3,3,3,1,1,3,3,3,3,3,3,1,1,3,3,3,3,3,3,3,3,3,3,3},
                 {3,3,3,3,3,3,3,3,1,1,3,3,3,3,3,3,1,1,3,3,3,3,3,3,3,3,3,3,3},
                 {3,3,3,3,3,3,3,3,3,1,3,3,3,3,3,3,1,3,3,3,3,3,3,3,3,3,3,3,3}};
-            xNum = colorIndexMatrix.GetLength(0);
-            yNum = colorIndexMatrix.GetLength(1);
-
-            picMatrix = new SolidColorBrush[xNum, yNum];
-            for (int i = 0; i < xNum; i++ )
-            {
-                for (int j = 0; j < yNum; j++)
-                {
-                    picMatrix[i, j] = 
-                        new SolidColorBrush(colorMap[colorIndexMatrix[i, j]-1]);
-                }
-            }
+            setPicMatrix();
         }
 
         protected override void setColorMap()

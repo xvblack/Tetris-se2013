@@ -79,12 +79,14 @@
     </Compile>
     <Compile Include="AdvancedGUI\Animation\FadeInFadeOut.cs" />
     <Compile Include="AdvancedGUI\Animation\WindowNavigationEffect.cs" />
-    <Compile Include="AdvancedGUI\CustomizedButton.xaml.cs">
-      <DependentUpon>CustomizedButton.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="AdvancedGUI\ContentGridGenerator.cs" />
     <Compile Include="AdvancedGUI\CustomizedButton2.xaml.cs">
       <DependentUpon>CustomizedButton2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AdvancedGUI\DifficultySelectionPage.xaml.cs">
+      <DependentUpon>DifficultySelectionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\GameGrid.cs" />
     <Compile Include="AdvancedGUI\Pic\Cat3Gen.cs" />
     <Compile Include="AdvancedGUI\Pic\Cat5Gen.cs" />
     <Compile Include="AdvancedGUI\Pic\CatGen.cs" />
@@ -122,15 +124,10 @@
     <Compile Include="AdvancedGUI\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AdvancedGUI\GameGrid.xaml.cs">
-      <DependentUpon>GameGrid.xaml</DependentUpon>
-    </Compile>
     <Compile Include="AdvancedGUI\SingleModePage.xaml.cs">
       <DependentUpon>SingleModePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AdvancedGUI\StartWelcomeString.xaml.cs">
-      <DependentUpon>StartWelcomeString.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="AdvancedGUI\StringGrid.cs" />
     <Compile Include="AdvancedGUI\Styles\SquareGenerator.cs" />
     <Compile Include="AdvancedGUI\Styles\WindowSizeGenerator.cs" />
     <Compile Include="AdvancedGUI\Styles\TestClasses\TestWindow.xaml.cs">
@@ -177,11 +174,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdvancedGUI\CustomizedButton.xaml">
+    <Page Include="AdvancedGUI\CustomizedButton2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdvancedGUI\CustomizedButton2.xaml">
+    <Page Include="AdvancedGUI\DifficultySelectionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -205,10 +202,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdvancedGUI\Pic\PicGenGrid.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="AdvancedGUI\Pic\TestPic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -226,15 +219,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdvancedGUI\StartWelcomeString.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="AdvancedGUI\Styles\GUIStyles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="AdvancedGUI\GameGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

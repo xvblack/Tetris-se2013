@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Windows.Media.Animation;
 using Tetris.AdvancedGUI.Pic;
 using Tetris.GameControl;
+using Tetris.AdvancedGUI.Styles;
 
 namespace Tetris.AdvancedGUI
 {
@@ -26,10 +27,11 @@ namespace Tetris.AdvancedGUI
         private Tetrisor t = new Tetrisor();
         private GameGrid gameGrid;
         private Tetris.GameBase.TetrisGame game;
+        private Rectangle aRect;
 
         private ScoreGrid score;
 
-        public SingleModePage():base()
+        public SingleModePage()
         {
             InitializeComponent();
 
@@ -68,9 +70,7 @@ namespace Tetris.AdvancedGUI
             game.AddDisplay(gameGrid);
             //AIController _aiController = new AIController(game);
             //game.SetController(_aiController);
-            game.SetController(_controller[0]);
-
-            Styles.SquareGenerator squareGen = new Styles.SquareGenerator();
+            
 
             //outerGrid.SetValue(Canvas.LeftProperty, Styles.WindowSizeGenerator.singleModePageLocationLeft);
 
@@ -83,7 +83,7 @@ namespace Tetris.AdvancedGUI
             // set left crocodile
             PicGen pic = new CrocodileGen();
 
-            PicGenGrid pg1 = new PicGenGrid(pic, squareGen.picSquareSize());
+            PicGenGrid pg1 = new PicGenGrid(pic, SquareGenerator.picSquareSize);
             aCanvas.Children.Add(pg1);
             pg1.SetValue(Canvas.ZIndexProperty, 0);
 
@@ -95,7 +95,7 @@ namespace Tetris.AdvancedGUI
 
             // set right crocodile
             pic = new CrocodileGen();
-            PicGenGrid pg2 = new PicGenGrid(pic, squareGen.picSquareSize());
+            PicGenGrid pg2 = new PicGenGrid(pic, SquareGenerator.picSquareSize);
             aCanvas.Children.Add(pg2);
             pg2.SetValue(Canvas.ZIndexProperty, 0);
 
@@ -106,7 +106,7 @@ namespace Tetris.AdvancedGUI
 
             // set little sun
             pic = new SunGen();
-            PicGenGrid pg3 = new PicGenGrid(pic, squareGen.picSquareSize() / 1.1);
+            PicGenGrid pg3 = new PicGenGrid(pic, SquareGenerator.picSquareSize / 1.1);
             aCanvas.Children.Add(pg3);
             pg3.SetValue(Canvas.ZIndexProperty, 0);
 
@@ -182,7 +182,21 @@ namespace Tetris.AdvancedGUI
 
             game.AddDisplay(nextBlock);
 
-       
+            //welcomeString1.story.Completed += whatHappenWhenAnimationStop;
+            //welcomeString2.story.Completed += this.whatHappenWhenAnimationStop;
+            //welcomeString1.beginAnimation();
+            //welcomeString2.beginAnimation();
+
+            aRect = new Rectangle();
+            aRect.Fill = new SolidColorBrush(Colors.Transparent);
+            aRect.Width = gameGrid.getGameGridSize()[1];
+            aRect.Height = gameGrid.getGameGridSize()[0];
+            outerGrid.Children.Add(aRect);
+            aRect.SetValue(Grid.ColumnProperty, 1);
+            aRect.SetValue(Grid.RowProperty, 1);
+            //game.GameEndEvent += gameEnd;
+            game.GameEndEvent += gameEndEffect;
+
 
         }
 
@@ -199,9 +213,12 @@ namespace Tetris.AdvancedGUI
 
         }
 
-        protected override void whatHappenWhenAnimationStop(object sender, System.Timers.ElapsedEventArgs e)
+        protected override void whatHappenWhenAnimationStop(object sender, EventArgs e)
         {
             game.Start();
+            game.SetController(_controller[0]);
+            gameHasStarted = true;
+
             base.whatHappenWhenAnimationStop(sender, e);
         }
 
@@ -211,10 +228,51 @@ namespace Tetris.AdvancedGUI
             if (e.Key == Key.Enter)
             {
                 game.Pause();
-                EscapeDialog win = new EscapeDialog(game);
+                if ((welcomeString1.pauseState == false))
+                {
+                    welcomeString1.story.Pause(welcomeString1);
+                    welcomeString2.story.Pause(welcomeString2);
+                    welcomeString1.pauseState = true;
+                }
+                else
+                {
+                    welcomeString1.story.Resume(welcomeString1);
+                    welcomeString2.story.Resume(welcomeString2);
+                    welcomeString1.pauseState = false;
+                }
+                EscapeDialog win = new EscapeDialog(this, game);
                 win.holderWindow = this.holderWin;
                 win.ShowDialog();
+
             }
+            base.keyPressed(sender, e);
+        }
+
+        public void gameEndEffect(object sender, Tetris.GameBase.TetrisGame.GameEndEventArgs e)
+        {
+            
+            this.Dispatcher.Invoke(
+                new Action(
+                    delegate
+                    {
+                        ColorAnimationUsingKeyFrames c = new ColorAnimationUsingKeyFrames();
+                        SolidColorBrush b = new SolidColorBrush();
+
+                        double beginTime = 800;
+                        double timeDelay = 500;
+                        double timeStep = 000;
+                        c.KeyFrames.Add(new LinearColorKeyFrame(Colors.Transparent,
+                            TimeSpan.FromMilliseconds(beginTime)));
+                        c.KeyFrames.Add(new LinearColorKeyFrame(Colors.White,
+                            TimeSpan.FromMilliseconds(beginTime + timeDelay)));
+                        c.KeyFrames.Add(new LinearColorKeyFrame(Colors.White,
+                            TimeSpan.FromMilliseconds(timeStep + beginTime + timeDelay)));;
+                        c.Completed += gameEnd;
+                        aRect.Fill.BeginAnimation(SolidColorBrush.ColorProperty, c);
+                    }
+                )
+            );
         }
     }
+
 }

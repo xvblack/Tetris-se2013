@@ -17,12 +17,8 @@ namespace Tetris.AdvancedGUI.Pic
 {
     public class Cat5Gen : PicGen
     {
-        public Cat5Gen()
-            : base() { }
-
-        protected override void setPicMatrix()
-        {
-            //base.setPicMatrix();
+        public Cat5Gen() : base() 
+       {
             colorIndexMatrix = new int[,]{
                 {3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
                 {3,3,3,3,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,1,1,3,3},
@@ -76,23 +72,11 @@ namespace Tetris.AdvancedGUI.Pic
                 {3,1,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
                 {3,3,1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3},
                 {3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3}};
-            xNum = colorIndexMatrix.GetLength(0);
-            yNum = colorIndexMatrix.GetLength(1);
-
-            picMatrix = new SolidColorBrush[xNum, yNum];
-            for (int i = 0; i < xNum; i++)
-            {
-                for (int j = 0; j < yNum; j++)
-                {
-                    picMatrix[i, j] =
-                        new SolidColorBrush(colorMap[colorIndexMatrix[i, j] - 1]);
-                }
-            }
+            setPicMatrix();
         }
 
         protected override void setColorMap()
         {
-            //base.setColorMap();
             colorNum = 3;
             colorMap = new Color[colorNum];
             colorMap[1] = Color.FromArgb(255, 252, 219, 0); // yellow

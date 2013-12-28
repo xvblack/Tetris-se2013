@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 using Tetris.GameBase;
 using System.Timers;
 using Tetris.GameControl;
+using Tetris.AdvancedGUI.Styles;
+
 
 namespace Tetris.AdvancedGUI
 {
@@ -25,11 +27,15 @@ namespace Tetris.AdvancedGUI
     {
         public MainWindow holderWin { get; set; }
         // used to set the parameters of the main window
-        protected StartWelcomeString welcomeString;
+        public StringGrid welcomeString1, welcomeString2;
         // show a greeting message
+
+        public StringGrid gameOver;
 
         protected Grid outerGrid = new Grid();
         protected Canvas aCanvas = new Canvas();
+
+        public bool gameHasStarted = false;
 
         public PlayerController[] _controller = new PlayerController[2];
 
@@ -66,52 +72,71 @@ namespace Tetris.AdvancedGUI
 
         protected void startAnimation()
         {
-            int timeStart = 500;
-            int timeStep = 1200;
-            int timeDelay = timeStep + 500;
-            
+            int timeStart = 10;
+            int timeStep = 1000;
+            int timeDelay = timeStep + 100;
 
-            welcomeString = new StartWelcomeString("READY");
 
-            /*
-            if (double.IsNaN(outerGrid.Width))
-            {
-                outerGrid.Width = Styles.WindowSizeGenerator.mainWindowMinWidth;
-            }
+            welcomeString1 = new StringGrid("READY", SquareGenerator.squareSize / 1.8);
 
-            if (double.IsNaN(outerGrid.Height))
-            {
-                outerGrid.Height = Styles.WindowSizeGenerator.mainWindowMinHeight;
-            }
-             */
+            Canvas.SetLeft(welcomeString1,
+                (Styles.WindowSizeGenerator.screenWidth - welcomeString1.getWidth()) / 2);
+            Canvas.SetTop(welcomeString1,
+                (outerGrid.Height - welcomeString1.getHeight()) / 2);
+            Canvas.SetZIndex(welcomeString1, 10);
 
-            Canvas.SetLeft(welcomeString,
-                (Styles.WindowSizeGenerator.screenWidth - welcomeString.getWidth()) / 2);
-            Canvas.SetTop(welcomeString,
-                (outerGrid.Height - welcomeString.getHeight()) / 2);
-            Canvas.SetZIndex(welcomeString, 10);
-
-            aCanvas.Children.Add(welcomeString);
-            welcomeString.startAnimation(timeStep, timeStart);
+            aCanvas.Children.Add(welcomeString1);
+            welcomeString1.startAnimation(timeStep, timeStart);
 
             Console.WriteLine(outerGrid.Width);
-            Console.WriteLine(welcomeString.getWidth());
-            Console.WriteLine((holderWin.Width - welcomeString.getWidth()) / 2);
+            Console.WriteLine(welcomeString1.getWidth());
+            Console.WriteLine((holderWin.Width - welcomeString1.getWidth()) / 2);
 
-            welcomeString = new StartWelcomeString("GO");
-            Canvas.SetLeft(welcomeString,
-                (Styles.WindowSizeGenerator.screenWidth - welcomeString.getWidth()) / 2);
-            Canvas.SetTop(welcomeString,
-                (holderWin.Height - welcomeString.getHeight()) / 2);
-            Canvas.SetZIndex(welcomeString, 10);
+            welcomeString2 = new StringGrid("GO", SquareGenerator.squareSize);
+            Canvas.SetLeft(welcomeString2,
+                (Styles.WindowSizeGenerator.screenWidth - welcomeString2.getWidth()) / 2);
+            Canvas.SetTop(welcomeString2,
+                (holderWin.Height - welcomeString2.getHeight()) / 2);
+            Canvas.SetZIndex(welcomeString2, 10);
 
-            aCanvas.Children.Add(welcomeString);
-            welcomeString.startAnimation(timeStep, timeDelay + timeStart);
+            aCanvas.Children.Add(welcomeString2);
+            welcomeString2.startAnimation(timeStep, timeDelay + timeStart);
 
-            whenGameBegin.Interval = timeStep + timeStep + timeDelay;
-            whenGameBegin.Elapsed += whatHappenWhenAnimationStop;
+            welcomeString2.story.Completed += whatHappenWhenAnimationStop;
 
-            whenGameBegin.Start();
+
+            welcomeString1.beginAnimation();
+            welcomeString2.beginAnimation();
+
+            gameOver = new StringGrid("Geisr", SquareGenerator.squareSize / 1.5);
+
+            aCanvas.Children.Add(gameOver);
+
+            Canvas.SetLeft(gameOver,
+                (Styles.WindowSizeGenerator.screenWidth - gameOver.getWidth()) / 2);
+            Canvas.SetTop(gameOver,
+                (outerGrid.Height - gameOver.getHeight()) / 2);
+            Canvas.SetZIndex(gameOver, 10);
+
+            gameOver.startAnimation(1500, 0);
+
+            //whenGameBegin.Interval = timeStep + timeStep + timeDelay;
+            //whenGameBegin.Elapsed += whatHappenWhenAnimationStop;
+
+            //whenGameBegin.Start();
+            
+        }
+
+        protected void gameEnd(object sender, EventArgs e)
+        {
+            gameOver.story.Completed += showExitLog;
+            gameOver.beginAnimation();
+        }
+        protected void showExitLog(object sender, EventArgs e)
+        {
+            NavigationPage backPage = new NavigationPage();
+            backPage.holderWin = this.holderWin;
+            this.holderWin.Navigate(backPage);
         }
 
         virtual protected void Loaded_Event(object sender, RoutedEventArgs e)
@@ -121,16 +146,16 @@ namespace Tetris.AdvancedGUI
         }
 
         virtual protected void whatHappenWhenAnimationStop(object sender,
-            ElapsedEventArgs e) 
+            EventArgs e) 
         {
-            Console.WriteLine("stop");
             whenGameBegin.Stop();
         }
 
         virtual protected void keyPressed(object sender, KeyEventArgs e)
         {
             _controller[0].OnKeyDown(e);
-            _controller[1].OnKeyDown(e);   
+            _controller[1].OnKeyDown(e);
+
         }
 
         protected void Unloaded_Event(object sender, RoutedEventArgs e)

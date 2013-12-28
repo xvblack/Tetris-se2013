@@ -29,7 +29,7 @@ namespace Tetris.AdvancedGUI.Pic
 
             pixelSize = 5;
 
-            pic = new Cat5Gen();
+            pic = new Cat2Gen();
             picGrid = new PicGenGrid(pic, pixelSize);
 
             this.Content = picGrid;

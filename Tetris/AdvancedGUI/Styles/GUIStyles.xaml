@@ -34,18 +34,14 @@
         <Setter Property="CornerRadius" Value="10" />
         <Setter Property="Padding" Value="1" />
     </Style>
-    
-    <s:Double x:Key="_fontSize"> 30</s:Double>
 
     <ControlTemplate x:Key="ButtonTemplate" TargetType="Button">
-        <Border BorderBrush="Transparent" Name="Border" TextBlock.FontFamily="微软雅黑"
-                HorizontalAlignment="Left" VerticalAlignment="Center" >
-            <TextBlock.FontSize>
-                <StaticResource ResourceKey="_fontSize"></StaticResource>
-            </TextBlock.FontSize>
+        <Border Name="Border" TextBlock.FontFamily="微软雅黑"
+                 HorizontalAlignment="Left" VerticalAlignment="Center" >
             <Grid>
-                <Rectangle Name="FocusCue" Visibility="Hidden" Stroke="Transparent" />
-                <ContentPresenter RecognizesAccessKey="True" />
+                <Rectangle Name="FocusCue" Visibility="Hidden" Stroke="Transparent"/>
+                <ContentPresenter RecognizesAccessKey="True" VerticalAlignment="Center" 
+                                  HorizontalAlignment="Left"/>
             </Grid>
         </Border>
         <ControlTemplate.Triggers>

@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Animation;
 using Tetris.AdvancedGUI.Pic;
+using Tetris.AdvancedGUI.Styles;
 
 namespace Tetris.AdvancedGUI
 {
@@ -26,10 +27,15 @@ namespace Tetris.AdvancedGUI
         private Tuple<Tetris.GameBase.TetrisGame,
             Tetris.GameBase.TetrisGame> games;
 
-        public DualModePage() : base()
+        int mode = 0;
+
+        private Rectangle aRect1, aRect2;
+
+        public DualModePage(int modeSel) : base()
         {
             InitializeComponent();
 
+            mode = modeSel;
             // game grid definition
             outerGrid.Width = Styles.WindowSizeGenerator.screenWidth;
             outerGrid.Height = Styles.WindowSizeGenerator.screenHeight;
@@ -89,14 +95,21 @@ namespace Tetris.AdvancedGUI
             games.Item1.AddDisplay(gameGrid1);
             games.Item2.AddDisplay(gameGrid2);
 
-            AIController _aiController1 = new AIController(games.Item1, AIController.AIType.Middle);
-            AIController _aiController2 = new AIController(games.Item2, AIController.AIType.Low);
-            games.Item1.SetController(_aiController1);
-            games.Item2.SetController(_aiController2);
-            //games.Item1.SetController(_controller[0]);
-            //games.Item2.SetController(_controller[1]);
 
-            
+
+            if (mode == 0)
+            {
+                AIController _aiController1 = new AIController(games.Item1, AIController.AIType.High);
+                AIController _aiController2 = new AIController(games.Item2, AIController.AIType.High);
+                games.Item1.SetController(_aiController1);
+                games.Item2.SetController(_aiController2);
+            }
+            else
+            {
+                //games.Item1.SetController(_controller[0]);
+                //games.Item2.SetController(_controller[1]);
+            }
+                
 
             // set score board and next block board
             Grid scoreNextBlockGrid = new Grid();
@@ -183,21 +196,39 @@ namespace Tetris.AdvancedGUI
 
             // set background pictures.
 
-            Styles.SquareGenerator squareGen = new Styles.SquareGenerator();
-
             PicGen pic = new Cat3Gen();
 
             double picSizeRatio = 1.1;
 
-            PicGenGrid pg1 = new PicGenGrid(pic, squareGen.picSquareSize() / picSizeRatio);
+            PicGenGrid pg1 = new PicGenGrid(pic, SquareGenerator.picSquareSize / picSizeRatio);
             aCanvas.Children.Add(pg1);
             pg1.SetValue(Canvas.ZIndexProperty, 0);
 
             Canvas.SetLeft(pg1, (Styles.WindowSizeGenerator.screenWidth -
-                pg1.getPicSize()[1] * squareGen.picSquareSize() / picSizeRatio) / 2);
+                pg1.getPicSize()[1] * SquareGenerator.picSquareSize / picSizeRatio) / 2);
             Canvas.SetBottom(pg1, Styles.WindowSizeGenerator.gameModuleTop + 
                 ( -1 * pg1.getPicSize()[0] *
-                squareGen.picSquareSize() / picSizeRatio ) / 2.2 );
+                SquareGenerator.picSquareSize / picSizeRatio) / 2.2);
+
+            aRect1 = new Rectangle();
+            aRect1.Fill = new SolidColorBrush(Colors.Transparent);
+            aRect1.Width = gameGrid1.getGameGridSize()[1];
+            aRect1.Height = gameGrid1.getGameGridSize()[0];
+            outerGrid.Children.Add(aRect1);
+            aRect1.SetValue(Grid.ColumnProperty, 1);
+            aRect1.SetValue(Grid.RowProperty, 1);
+            //game.GameEndEvent += gameEnd;
+            games.Item1.GameEndEvent += gameEndEffect;
+
+            aRect2 = new Rectangle();
+            aRect2.Fill = new SolidColorBrush(Colors.Transparent);
+            aRect2.Width = gameGrid1.getGameGridSize()[1];
+            aRect2.Height = gameGrid1.getGameGridSize()[0];
+            outerGrid.Children.Add(aRect2);
+            aRect2.SetValue(Grid.ColumnProperty, 3);
+            aRect2.SetValue(Grid.RowProperty, 1);
+            //game.GameEndEvent += gameEnd;
+            games.Item1.GameEndEvent += gameEndEffect;
 
         }
 
@@ -213,10 +244,11 @@ namespace Tetris.AdvancedGUI
             base.Loaded_Event(sender, e);
         }
 
-        protected override void whatHappenWhenAnimationStop(object sender, System.Timers.ElapsedEventArgs e)
+        protected override void whatHappenWhenAnimationStop(object sender, EventArgs e)
         {
             games.Item1.Start();
             games.Item2.Start();
+            gameHasStarted = true;
             
             base.whatHappenWhenAnimationStop(sender, e);
         }
@@ -228,10 +260,58 @@ namespace Tetris.AdvancedGUI
             {
                 games.Item1.Pause();
                 games.Item2.Pause();
-                EscapeDialog win = new EscapeDialog(games.Item1, games.Item2);
+                if ((welcomeString1.pauseState == false))
+                {
+                    welcomeString1.story.Pause(welcomeString1);
+                    welcomeString2.story.Pause(welcomeString2);
+                    welcomeString1.pauseState = true;
+                }
+                else
+                {
+                    welcomeString1.story.Resume(welcomeString1);
+                    welcomeString2.story.Resume(welcomeString2);
+                    welcomeString1.pauseState = false;
+                }
+                EscapeDialog win = new EscapeDialog(this, games.Item1, games.Item2);
                 win.holderWindow = this.holderWin;
                 win.ShowDialog();
+
             }
+
+        }
+        public void gameEndEffect(object sender, Tetris.GameBase.TetrisGame.GameEndEventArgs e)
+        {
+
+            this.Dispatcher.Invoke(
+                new Action(
+                    delegate
+                    {
+                        ColorAnimationUsingKeyFrames c1 = new ColorAnimationUsingKeyFrames();
+
+                        double beginTime = 800;
+                        double timeDelay = 500;
+                        double timeStep = 000;
+                        c1.KeyFrames.Add(new LinearColorKeyFrame(Colors.Transparent,
+                            TimeSpan.FromMilliseconds(beginTime)));
+                        c1.KeyFrames.Add(new LinearColorKeyFrame(Colors.White,
+                            TimeSpan.FromMilliseconds(beginTime + timeDelay)));
+                        c1.KeyFrames.Add(new LinearColorKeyFrame(Colors.White,
+                            TimeSpan.FromMilliseconds(timeStep + beginTime + timeDelay))); ;
+                        c1.Completed += gameEnd;
+                        aRect1.Fill.BeginAnimation(SolidColorBrush.ColorProperty, c1);
+
+                        ColorAnimationUsingKeyFrames c2 = new ColorAnimationUsingKeyFrames();
+                        c2.KeyFrames.Add(new LinearColorKeyFrame(Colors.Transparent,
+                            TimeSpan.FromMilliseconds(beginTime)));
+                        c2.KeyFrames.Add(new LinearColorKeyFrame(Colors.White,
+                            TimeSpan.FromMilliseconds(beginTime + timeDelay)));
+                        c2.KeyFrames.Add(new LinearColorKeyFrame(Colors.White,
+                            TimeSpan.FromMilliseconds(timeStep + beginTime + timeDelay))); ;
+                        c2.Completed += gameEnd;
+                        aRect2.Fill.BeginAnimation(SolidColorBrush.ColorProperty, c2);
+                    }
+                )
+            );
         }
     }
 }

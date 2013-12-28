@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Tetris.AdvancedGUI.Styles;
 
 namespace Tetris.AdvancedGUI
 {
@@ -22,21 +23,20 @@ namespace Tetris.AdvancedGUI
     {
         //public Button button = new Button();
 
-        public CustomizedButton2(String content, double height, double width, int markColor)
+        public CustomizedButton2(String content, Color aColor)
         {
             InitializeComponent();
+
+            button.FontSize = Styles.WindowSizeGenerator.fontSizeMedium;
 
             mark.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
             mark.VerticalAlignment = System.Windows.VerticalAlignment.Center;
             mark.Visibility = System.Windows.Visibility.Hidden;
 
-            mark.Fill = new SolidColorBrush(((new Styles.SquareGenerator()).colorMap())[markColor]);
+            mark.Fill = new SolidColorBrush(aColor);
 
             button.MouseEnter += showMark;
             button.MouseLeave += hideMark;
-
-            button.Height = height;
-            button.Width = width;
 
             button.Content = content;
         }

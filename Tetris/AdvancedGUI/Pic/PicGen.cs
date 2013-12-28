@@ -26,7 +26,7 @@ namespace Tetris.AdvancedGUI.Pic
         protected Color[] colorMap;
         protected int colorNum { set; get; }
 
-        public int[,] colorIndexMatrix;
+        protected int[,] colorIndexMatrix;
 
         protected SolidColorBrush[,] picMatrix;
 
@@ -36,7 +36,24 @@ namespace Tetris.AdvancedGUI.Pic
             this.setPicMatrix();
         }
 
-        virtual protected void setPicMatrix() { }
+        protected void setPicMatrix() {
+
+            if (colorIndexMatrix != null) 
+            {
+                xNum = colorIndexMatrix.GetLength(0);
+                yNum = colorIndexMatrix.GetLength(1);
+
+                picMatrix = new SolidColorBrush[xNum, yNum];
+                for (int i = 0; i < xNum; i++)
+                {
+                    for (int j = 0; j < yNum; j++)
+                    {
+                        picMatrix[i, j] = 
+                            new SolidColorBrush(colorMap[colorIndexMatrix[i, j] - 1]);
+                    }
+                }
+            }
+        }
         virtual protected void setColorMap() {
             colorNum = 2;
             colorMap = new Color[colorNum];

@@ -21,9 +21,6 @@ namespace Tetris.AdvancedGUI.TestClasses
     {
         public TestWindow()
         {
-            InitializeComponent();
-            CustomizedButton b = new CustomizedButton(100, 200, "hello", 2);
-            grid.Children.Add(b);
 
         }
     }

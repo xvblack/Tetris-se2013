@@ -18,11 +18,8 @@ namespace Tetris.AdvancedGUI.Pic
     public class Mao4 : PicGen
     {
         public Mao4()
-            : base() { }
-
-        protected override void setPicMatrix()
+            : base() 
         {
-            //base.setPicMatrix();
             colorIndexMatrix = new int[,]{
                 {2,2,2,2,2,2,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
                 {2,2,2,2,2,2,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
@@ -62,18 +59,7 @@ namespace Tetris.AdvancedGUI.Pic
                 {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
                 {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
                 {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2}};
-            xNum = colorIndexMatrix.GetLength(0);
-            yNum = colorIndexMatrix.GetLength(1);
-
-            picMatrix = new SolidColorBrush[xNum, yNum];
-            for (int i = 0; i < xNum; i++)
-            {
-                for (int j = 0; j < yNum; j++)
-                {
-                    picMatrix[i, j] =
-                        new SolidColorBrush(colorMap[colorIndexMatrix[i, j] - 1]);
-                }
-            }
+            setPicMatrix();
         }
 
         protected override void setColorMap()
