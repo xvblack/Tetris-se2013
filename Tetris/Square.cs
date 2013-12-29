@@ -16,7 +16,7 @@ namespace Tetris.GameBase
             get; set;
         }
 
-        public int SubId; // 多方块子Id
+        public int SubId = 0; // 多方块子Id
         static public void MarkMulti(Block block)
         {
             for (var i = 0; i < block.Height; i++)
