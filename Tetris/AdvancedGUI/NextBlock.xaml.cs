@@ -25,6 +25,8 @@ namespace Tetris.AdvancedGUI
         Color[] colorMap;
         Rectangle[,] squaresMatrix; // hold the squares
 
+        private Brush[] brushesMap = SquareGenerator.brushesMap;
+
         Grid nextBlockGrid;
 
         double canvasHeight;
@@ -138,13 +140,26 @@ namespace Tetris.AdvancedGUI
                             new Action(
                                 delegate
                                 {
+                                    /*
                                     squaresMatrix[i, j].Fill =
                                         //new SolidColorBrush(Colors.Transparent);
                                        
                                         new SolidColorBrush(colorMap[block.SquareAt(j, i) == null ? 0 :
                                             (block.SquareAt(j, i).Color < colorMap.Length ?
                                             block.SquareAt(j, i).Color : colorMap.Length - 1)]);
+                                    */
+                                    squaresMatrix[i, j].Fill = SquareGenerator.brushClone(
+                                           brushesMap[
+                                               block.SquareAt(j, i) == null
+                                                   ? 0
+                                                       : (block.SquareAt(j, i).Color + 
+                                                            block.SquareAt(j, i).SubId
+                                                                    < brushesMap.Length
+                                                           ? block.SquareAt(j, i).Color + 
+                                                                    block.SquareAt(j, i).SubId
+                                                           : brushesMap.Length - 1)]);
                                         
+
                                 }
                         ));
                     }

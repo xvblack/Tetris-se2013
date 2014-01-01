@@ -60,10 +60,11 @@ namespace Tetris.AdvancedGUI.Styles
                                new SolidColorBrush(colorMap[6]),
                                new SolidColorBrush(colorMap[7]),
                                new SolidColorBrush(colorMap[8]), // 8
-                               new RadialGradientBrush(colorMap[1], colorMap[2]), // special items // 9
-                               new RadialGradientBrush(colorMap[2], colorMap[3]), // 10
-                               new RadialGradientBrush(colorMap[3], colorMap[4]), // 11
-                               new RadialGradientBrush(colorMap[4], colorMap[5]), // 12
+                               new ImageBrush((new BitmapImage(new Uri(@"Pic\g.jpg", UriKind.Relative)))), // special items // 9
+                               new ImageBrush((new BitmapImage(new Uri(@"Pic\ig.jpg", UriKind.Relative)))), // 10
+                               new ImageBrush((new BitmapImage(new Uri(@"Pic\t.jpg", UriKind.Relative)))), // 11
+                               new ImageBrush((new BitmapImage(new Uri(@"Pic\i.jpg", UriKind.Relative)))), // 12
+
                                new ImageBrush((new BitmapImage(new Uri(@"Pic\GunPic\1.jpg", UriKind.Relative)))), // 13
                                new ImageBrush((new BitmapImage(new Uri(@"Pic\GunPic\2.jpg", UriKind.Relative)))), // 14
                                // 15
@@ -77,18 +78,18 @@ namespace Tetris.AdvancedGUI.Styles
                                new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\2.jpg", UriKind.Relative)))),
                                new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\3.jpg", UriKind.Relative)))),
                                //23
-                               new RadialGradientBrush(colorMap[1], colorMap[3]), // 24
-                               new RadialGradientBrush(colorMap[1], colorMap[4]), // 25
+                               new SolidColorBrush(Colors.Black), // 24
+                               new SolidColorBrush(colorMap[3]), // 25
                                // 26
-                               new RadialGradientBrush(colorMap[4], colorMap[7]),  // 26    
-                               new RadialGradientBrush(colorMap[4], colorMap[7]),
-                               new RadialGradientBrush(colorMap[4], colorMap[7]),
-                               new RadialGradientBrush(colorMap[4], colorMap[7]),
-                               new RadialGradientBrush(colorMap[4], colorMap[7]),
-                               new RadialGradientBrush(colorMap[4], colorMap[7]),
-                               new RadialGradientBrush(colorMap[4], colorMap[7]),
-                               new RadialGradientBrush(colorMap[4], colorMap[7]),
-                               new RadialGradientBrush(colorMap[4], colorMap[7])
+                               new SolidColorBrush(colorMap[1]),  // 26    
+                               new SolidColorBrush(colorMap[1]),
+                               new SolidColorBrush(colorMap[1]),
+                               new SolidColorBrush(colorMap[1]),
+                               new SolidColorBrush(colorMap[1]),
+                               new SolidColorBrush(colorMap[1]),
+                               new SolidColorBrush(colorMap[1]),
+                               new SolidColorBrush(colorMap[1]),
+                               new SolidColorBrush(colorMap[1])
                                // 35
             
         };
