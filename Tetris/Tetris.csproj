@@ -300,6 +300,10 @@
     <Resource Include="AdvancedGUI\Styles\Pic\TonPic\8.jpg" />
     <Resource Include="AdvancedGUI\Styles\Pic\TonPic\9.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="AdvancedGUI\Styles\Pic\GunPic\1.jpg" />
+    <Resource Include="AdvancedGUI\Styles\Pic\GunPic\2.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

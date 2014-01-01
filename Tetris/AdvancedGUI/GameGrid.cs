@@ -70,18 +70,25 @@ namespace Tetris.AdvancedGUI
             for (i = 0; i < game.Height; i++)
                 for (j = 0; j < game.Width; j++)
                 {
-                   
                     
-                    
-                    if ((image[i, j] == null && imageCache[i, j] != 0) || (image[i, j] != null && image[i, j].Color != imageCache[i, j]))
+                    if ((image[i, j] == null && imageCache[i, j] != 0) || (image[i, j] != null && image[i, j].Color+image[i,j].SubId != imageCache[i, j]))
                     {
                         if (image[i, j] != null)
-                        if (image[i, j].Color >= 10)
+                        if (image[i, j].SubId == 8)
                         {
-                            Console.WriteLine("block num " + image[i, j].Color);
+                            Console.WriteLine("a 3*3 block");
+                            Console.Write(image[i, j - 2].SubId + " ");
+                            Console.Write(image[i, j - 1].SubId + " ");
+                            Console.Write(image[i, j - 0].SubId + " aRow \n");
+                            Console.Write(image[i+1, j - 2].SubId + " ");
+                            Console.Write(image[i+1, j - 1].SubId + " ");
+                            Console.Write(image[i + 1, j - 0].SubId + " aRow\n ");
+                            Console.Write(image[i+2, j - 2].SubId + " ");
+                            Console.Write(image[i+2, j - 1].SubId + " ");
+                            Console.Write(image[i + 2, j - 0].SubId + " aRow\n");
 
                         }
-                        imageCache[i, j] = image[i, j] == null ? 0 : image[i, j].Color;
+                        imageCache[i, j] = image[i, j] == null ? 0 : image[i, j].Color + image[i,j].SubId;
                         try
                         {
                             squaresMatrix[i, j].Dispatcher.Invoke(
@@ -102,8 +109,9 @@ namespace Tetris.AdvancedGUI
                                             brushesMap[
                                                 image[i, j] == null
                                                     ? 0
-                                                        : (image[i, j].Color < brushesMap.Length
-                                                            ? image[i, j].Color
+                                                        : (image[i, j].Color + image[i, j].SubId 
+                                                                            < brushesMap.Length
+                                                            ? image[i, j].Color + +image[i, j].SubId
                                                             : brushesMap.Length - 1)]);
                                     }
                                     ));

@@ -51,30 +51,31 @@ namespace Tetris.AdvancedGUI.Styles
 
         const int _brushLen = 20;
         static readonly public Brush[] brushesMap = new Brush[] {
-                               new SolidColorBrush(colorMap[0]),  // 1-8: normal blocks
-                               new SolidColorBrush(colorMap[1]),
+                               new SolidColorBrush(colorMap[0]),  
+                               new SolidColorBrush(colorMap[1]), // 1-8: normal blocks
                                new SolidColorBrush(colorMap[2]),
                                new SolidColorBrush(colorMap[3]),
                                new SolidColorBrush(colorMap[4]),
                                new SolidColorBrush(colorMap[5]),
                                new SolidColorBrush(colorMap[6]),
-                               new SolidColorBrush(colorMap[7]), // 8
+                               new SolidColorBrush(colorMap[7]),
+                               new SolidColorBrush(colorMap[8]), // 8
                                new RadialGradientBrush(colorMap[1], colorMap[2]), // special items // 9
                                new RadialGradientBrush(colorMap[2], colorMap[3]), // 10
                                new RadialGradientBrush(colorMap[3], colorMap[4]), // 11
                                new RadialGradientBrush(colorMap[4], colorMap[5]), // 12
-                               new RadialGradientBrush(colorMap[5], colorMap[6]), // 13
-                               new RadialGradientBrush(colorMap[6], colorMap[7]), // 14
-                               // 15E:\我的文档\GitHub\Tetris-se2013\Tetris\AdvancedGUI\Styles\Pic\TonPic\1.jpg
-                               new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\1.jpg", UriKind.RelativeOrAbsolute)))), // 15 - 23
-                               new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\2.jpg", UriKind.Relative)))),
-                               new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\3.jpg", UriKind.Relative)))),
+                               new ImageBrush((new BitmapImage(new Uri(@"Pic\GunPic\1.jpg", UriKind.Relative)))), // 13
+                               new ImageBrush((new BitmapImage(new Uri(@"Pic\GunPic\2.jpg", UriKind.Relative)))), // 14
+                               // 15
+                               new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\7.jpg", UriKind.RelativeOrAbsolute)))), // 15 - 23
+                               new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\8.jpg", UriKind.Relative)))),
+                               new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\9.jpg", UriKind.Relative)))),
                                new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\4.jpg", UriKind.Relative)))),
                                new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\5.jpg", UriKind.Relative)))),
                                new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\6.jpg", UriKind.Relative)))),
-                               new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\7.jpg", UriKind.Relative)))),
-                               new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\8.jpg", UriKind.Relative)))),
-                               new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\9.jpg", UriKind.Relative)))),
+                               new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\1.jpg", UriKind.Relative)))),
+                               new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\2.jpg", UriKind.Relative)))),
+                               new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\3.jpg", UriKind.Relative)))),
                                //23
                                new RadialGradientBrush(colorMap[1], colorMap[3]), // 24
                                new RadialGradientBrush(colorMap[1], colorMap[4]), // 25
