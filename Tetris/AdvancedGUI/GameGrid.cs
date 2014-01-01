@@ -73,21 +73,7 @@ namespace Tetris.AdvancedGUI
                     
                     if ((image[i, j] == null && imageCache[i, j] != 0) || (image[i, j] != null && image[i, j].Color+image[i,j].SubId != imageCache[i, j]))
                     {
-                        if (image[i, j] != null)
-                        if (image[i, j].SubId == 8)
-                        {
-                            Console.WriteLine("a 3*3 block");
-                            Console.Write(image[i, j - 2].SubId + " ");
-                            Console.Write(image[i, j - 1].SubId + " ");
-                            Console.Write(image[i, j - 0].SubId + " aRow \n");
-                            Console.Write(image[i+1, j - 2].SubId + " ");
-                            Console.Write(image[i+1, j - 1].SubId + " ");
-                            Console.Write(image[i + 1, j - 0].SubId + " aRow\n ");
-                            Console.Write(image[i+2, j - 2].SubId + " ");
-                            Console.Write(image[i+2, j - 1].SubId + " ");
-                            Console.Write(image[i + 2, j - 0].SubId + " aRow\n");
 
-                        }
                         imageCache[i, j] = image[i, j] == null ? 0 : image[i, j].Color + image[i,j].SubId;
                         try
                         {

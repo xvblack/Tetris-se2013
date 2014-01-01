@@ -5,5 +5,11 @@
     <Setting Name="RoundTicks" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">120</Value>
     </Setting>
+    <Setting Name="Player1Path" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.\\player1.xml</Value>
+    </Setting>
+    <Setting Name="Player2Path" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.\\player2.xml</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

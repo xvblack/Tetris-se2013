@@ -63,11 +63,14 @@ namespace Tetris.AdvancedGUI
             aCanvas.Children.Add(outerGrid);
             outerGrid.SetValue(Canvas.ZIndexProperty, 1);
 
+            String player1Path = Properties.Settings.Default.Player1Path;
+            String player2Path = Properties.Settings.Default.Player2Path;
+
             _controller[0] = new PlayerController();
-            _controller[0].SetConfig(new ControllerConfig(ControllerConfig.ConfigType.Player1));
+            _controller[0].SetConfig(new ControllerConfig(player1Path));
 
             _controller[1] = new PlayerController();
-            _controller[1].SetConfig(new ControllerConfig(ControllerConfig.ConfigType.Player2));
+            _controller[1].SetConfig(new ControllerConfig(player2Path));
         }
 
         protected void startAnimation()

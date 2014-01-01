@@ -83,6 +83,10 @@
     <Compile Include="AdvancedGUI\CustomizedButton2.xaml.cs">
       <DependentUpon>CustomizedButton2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AdvancedGUI\CustomizedGrid.cs" />
+    <Compile Include="AdvancedGUI\CustomizedLabel.xaml.cs">
+      <DependentUpon>CustomizedLabel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AdvancedGUI\DifficultySelectionPage.xaml.cs">
       <DependentUpon>DifficultySelectionPage.xaml</DependentUpon>
     </Compile>
@@ -128,6 +132,7 @@
       <DependentUpon>SingleModePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="AdvancedGUI\StringGrid.cs" />
+    <Compile Include="AdvancedGUI\Styles\PlayersName.cs" />
     <Compile Include="AdvancedGUI\Styles\SquareGenerator.cs" />
     <Compile Include="AdvancedGUI\Styles\WindowSizeGenerator.cs" />
     <Compile Include="AdvancedGUI\Styles\TestClasses\TestWindow.xaml.cs">
@@ -175,6 +180,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AdvancedGUI\CustomizedButton2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\CustomizedLabel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

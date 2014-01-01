@@ -61,7 +61,7 @@ namespace Tetris.AdvancedGUI
             border.BorderBrush = new SolidColorBrush(Colors.Gray);
             border.BorderThickness = new Thickness(2, 2, 2, 2);
 
-            game = t.NewGame();
+            game = t.NewGame(PlayersName.getName(0));
 
             int[] gridSize = new int[2] { game.Height, game.Width };
 
@@ -215,9 +215,10 @@ namespace Tetris.AdvancedGUI
 
         protected override void whatHappenWhenAnimationStop(object sender, EventArgs e)
         {
-            game.Start();
             game.SetController(_controller[0]);
             gameHasStarted = true;
+            game.Start();
+ 
 
             base.whatHappenWhenAnimationStop(sender, e);
         }

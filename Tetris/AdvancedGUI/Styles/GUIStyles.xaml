@@ -22,10 +22,11 @@
         <Setter Property="Width" Value="100" />
     </Style>
     <Style x:Key="LabelTheme1" TargetType="Label">
-        <Setter Property="Label.FontSize" Value="15"/>
+        <Setter Property="Label.FontSize" Value="15" />
     </Style>
     <Style x:Key="LabelTheme2" TargetType="Label">
-        <Setter Property="Label.FontSize" Value="40"/>
+        <Setter Property="Label.FontSize" Value="40" />
+        <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
     <Style x:Key="BorderTheme" TargetType="Border">
         <Setter Property="BorderBrush" Value="Black" />
@@ -36,7 +37,7 @@
     </Style>
 
     <ControlTemplate x:Key="ButtonTemplate" TargetType="Button">
-        <Border Name="Border" TextBlock.FontFamily="微软雅黑"
+        <Border Name="Border" TextBlock.FontFamily="微软雅黑" 
                  HorizontalAlignment="Left" VerticalAlignment="Center" >
             <Grid>
                 <Rectangle Name="FocusCue" Visibility="Hidden" Stroke="Transparent"/>
@@ -48,6 +49,19 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter TargetName="Border" Property="TextBlock.FontWeight" Value="SemiBold"/>
             </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ButtonTemplate2" TargetType="Button"> 
+        <Border Name="Border" TextBlock.FontFamily="微软雅黑" Width="200" BorderThickness="1"
+                 HorizontalAlignment="Left" VerticalAlignment="Center" >
+            <Grid>
+                <Rectangle Name="FocusCue" Visibility="Hidden" Stroke="Transparent"/>
+                <ContentPresenter RecognizesAccessKey="True" VerticalAlignment="Center" 
+                                  HorizontalAlignment="Left"/>
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
         </ControlTemplate.Triggers>
     </ControlTemplate>
 

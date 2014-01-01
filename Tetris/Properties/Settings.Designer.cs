@@ -34,5 +34,29 @@ namespace Tetris.Properties {
                 this["RoundTicks"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\\\player1.xml")]
+        public string Player1Path {
+            get {
+                return ((string)(this["Player1Path"]));
+            }
+            set {
+                this["Player1Path"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\\\player2.xml")]
+        public string Player2Path {
+            get {
+                return ((string)(this["Player2Path"]));
+            }
+            set {
+                this["Player2Path"] = value;
+            }
+        }
     }
 }

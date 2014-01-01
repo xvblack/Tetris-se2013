@@ -35,8 +35,10 @@ namespace Tetris.GameControl
             { TetrisGame.GameAction.Right,  Key.Right },
             { TetrisGame.GameAction.Rotate, Key.Up    },
             { TetrisGame.GameAction.Down,   Key.Down  },
-            { TetrisGame.GameAction.Pause,  Key.Enter }}
+            { TetrisGame.GameAction.Pause,  Key.Space }}
         };
+
+        public Dictionary<TetrisGame.GameAction, Key> inversedKeyAndValue = new Dictionary<TetrisGame.GameAction, Key>();
 
         //构造方法,如果未指定则使用默认配置.
         public ControllerConfig():base()
@@ -49,6 +51,11 @@ namespace Tetris.GameControl
         }
         public ControllerConfig(ConfigType type)
         {
+            defaultPut(type);
+        }
+
+        private void defaultPut(ConfigType type)
+        {
             if (ConfigType.Player1 == type)
             {
                 this.Clear();
@@ -56,7 +63,7 @@ namespace Tetris.GameControl
                 this.Put(ControllerConfig.DefaultConfig[0][TetrisGame.GameAction.Rotate], TetrisGame.GameAction.Rotate);
                 this.Put(ControllerConfig.DefaultConfig[0][TetrisGame.GameAction.Left], TetrisGame.GameAction.Left);
                 this.Put(ControllerConfig.DefaultConfig[0][TetrisGame.GameAction.Right], TetrisGame.GameAction.Right);
-                this.Put(ControllerConfig.DefaultConfig[0][TetrisGame.GameAction.Pause], TetrisGame.GameAction.Pause);
+                this.Put(ControllerConfig.DefaultConfig[0][TetrisGame.GameAction.Pause], TetrisGame.GameAction.Pause); 
             }
             else if (ConfigType.Player2 == type)
             {
@@ -67,13 +74,20 @@ namespace Tetris.GameControl
                 this.Put(ControllerConfig.DefaultConfig[1][TetrisGame.GameAction.Right], TetrisGame.GameAction.Right);
                 this.Put(ControllerConfig.DefaultConfig[1][TetrisGame.GameAction.Pause], TetrisGame.GameAction.Pause);
             }
+            
         }
 
         //以参数文件路径为参数的构造方法
         public ControllerConfig(String path)
             : base()
         {
-            this.Load(path);
+            if (File.Exists(path)) this.Load(path);
+            else
+            {
+                defaultPut(ConfigType.Player2);
+                Save(path);
+            }
+            
         }
 
 
@@ -140,6 +154,7 @@ namespace Tetris.GameControl
             {
             }
             base.Add(key,action);
+            this.inversedKeyAndValue.Add(action, key);
         }
         
     }

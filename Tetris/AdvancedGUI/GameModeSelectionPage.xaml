@@ -7,7 +7,7 @@
       d:DesignHeight="300" d:DesignWidth="300"
 	Title="GameModeSelectionPage">
 
-    <Grid>
+    <Grid ShowGridLines="True" Name="holder">
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
             <RowDefinition Height="40" />
@@ -21,13 +21,5 @@
             <ColumnDefinition Width="100" />
             <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
-        <Grid Name ="ButtonsGrid" Grid.Row="2" Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="20" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-        </Grid>
     </Grid>
 </Page>

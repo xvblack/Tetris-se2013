@@ -19,36 +19,20 @@ namespace Tetris.AdvancedGUI
     /// <summary>
     /// CustomizedButton2.xaml 的交互逻辑
     /// </summary>
-    public partial class CustomizedButton2 : Grid
+    public partial class CustomizedButton2 : CustomizedGrid
     {
         //public Button button = new Button();
 
-        public CustomizedButton2(String content, Color aColor)
+        public CustomizedButton2(String content, Color aColor):base(aColor)
         {
             InitializeComponent();
 
             button.FontSize = Styles.WindowSizeGenerator.fontSizeMedium;
 
-            mark.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
-            mark.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-            mark.Visibility = System.Windows.Visibility.Hidden;
-
-            mark.Fill = new SolidColorBrush(aColor);
-
-            button.MouseEnter += showMark;
-            button.MouseLeave += hideMark;
-
             button.Content = content;
-        }
 
-        private void showMark(object sender, MouseEventArgs e)
-        {
-            this.mark.Visibility = System.Windows.Visibility.Visible;
-        }
-
-        private void hideMark(object sender, MouseEventArgs e)
-        {
-            this.mark.Visibility = System.Windows.Visibility.Hidden;
+            this.MouseEnter += showMark;
+            this.MouseLeave += hideMark;
         }
     }
 }
