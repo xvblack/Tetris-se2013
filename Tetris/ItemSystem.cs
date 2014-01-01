@@ -27,6 +27,7 @@ namespace Tetris
         protected ItemBlock(SquareArray style, int blockId = -1)
             : base(style, blockId)
         {
+            Square.MarkMulti(this);
         }
     }
 
@@ -46,8 +47,11 @@ namespace Tetris
                     return GameColor.InverseControlSquare;
             }
             return 0;
-        } 
+        }
+
+
         public int ItemId; // 道具Id
+
         public ItemSquare(int itemId):base(GetColorByItemId(itemId))
         {
             ItemId = itemId;

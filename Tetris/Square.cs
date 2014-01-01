@@ -16,6 +16,16 @@ namespace Tetris.GameBase
             get; set;
         }
 
+        public int SubId = 0; // 多方块子Id
+        static public void MarkMulti(Block block)
+        {
+            for (var i = 0; i < block.Height; i++)
+                for (var j = 0; j < block.Width; j++)
+                    {
+                        if (block.SquareAt(i, j) != null)
+                            block.SquareAt(i, j).SubId = block.Width * i + j;
+                    }
+                }
         public bool NewSquare { get; private set; } // 是否是下落中或刚刚落下的方块
 
         public void Devoid() // 标记为旧方块
