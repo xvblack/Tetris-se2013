@@ -269,9 +269,40 @@ namespace Tetris.AdvancedGUI
             TextBox aBox2 = setTextBox(3, 1, 1);
             SwitchLabel dif2Sel = setSwitchLabel(3, contents2, 0);
 
+            DualModePage.gameMode[] pModes = new DualModePage.gameMode[2];
+
             CustomizedButton2 goButton =
                 new CustomizedButton2("开始游戏！", colors[2]);
-            //dualModeButton.button.Click += selDualMode_Click;
+            goButton.button.Click += new RoutedEventHandler(
+                delegate
+                {
+                    if (player1Sel.getLabelIndex() == 0) // player1 is 人 
+                    {
+                        PlayersName.setName(0, aBox1.Text);
+                        pModes[0] = new DualModePage.gameMode(0, 0);
+                    }
+                    else
+                    {
+                        PlayersName.setName(0, "AI");
+                        pModes[0] = new DualModePage.gameMode(1, dif1Sel.getLabelIndex());
+                    }
+                    if (player2Sel.getLabelIndex() == 0) // player2 is 人 
+                    {
+                        PlayersName.setName(1, aBox2.Text);
+                        pModes[1] = new DualModePage.gameMode(0, 0);
+                    }
+                    else
+                    {
+                        PlayersName.setName(1, "AI");
+                        pModes[1] = new DualModePage.gameMode(1, dif2Sel.getLabelIndex());
+                    }
+
+                    nav = NavigationService.GetNavigationService(this);
+                    DualModePage nextPage = new DualModePage(pModes);
+                    nextPage.holderWin = holderWin;
+                    nav.Navigate(nextPage);
+                });
+
             goButton.SetValue(Grid.RowProperty, 4);
 
             CustomizedButton2 backButton =
@@ -328,19 +359,10 @@ namespace Tetris.AdvancedGUI
                 });
         }
 
-        // Click to start single mode game
-        private void selSingleMode_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
         // Click to start dual mode game
         private void selDualMode_Click(object sender, RoutedEventArgs e)
         { 
-            nav = NavigationService.GetNavigationService(this);
-            difficultySelectionPage nextPage = new difficultySelectionPage();
-            nextPage.holderWin = holderWin;
-            nav.Navigate(nextPage);
+            
         }
         // Click to go to the last page
         private void back_Click(object sender, RoutedEventArgs e)

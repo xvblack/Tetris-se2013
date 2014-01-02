@@ -31,8 +31,8 @@ namespace Tetris.AdvancedGUI
         const double width = 200;
         const double buttonWidth = 50;
 
-        public SwitchButton n = new SwitchButton(height, 1);
-        public SwitchButton p = new SwitchButton(height, 0);
+        public SwitchButton p = new SwitchButton(height, 1);
+        public SwitchButton n = new SwitchButton(height, 0);
 
         public SwitchLabel(String[] contents)
         {
@@ -41,17 +41,17 @@ namespace Tetris.AdvancedGUI
 
             this.Height = height;
 
-            this.Children.Add(p);
             this.Children.Add(n);
+            this.Children.Add(p);
 
             Rectangle pRect = setMaskRect(0);
             Rectangle nRect = setMaskRect(1);
 
-            p.SetValue(Canvas.LeftProperty, 0.0);
-            n.SetValue(Canvas.RightProperty, 0.0);
+            n.SetValue(Canvas.LeftProperty, 0.0);
+            p.SetValue(Canvas.RightProperty, 0.0);
 
-            p.SetValue(Canvas.ZIndexProperty, 10);
             n.SetValue(Canvas.ZIndexProperty, 10);
+            p.SetValue(Canvas.ZIndexProperty, 10);
 
             this.Width = 2 * buttonWidth + width;
 
