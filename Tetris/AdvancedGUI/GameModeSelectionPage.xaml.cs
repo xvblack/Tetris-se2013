@@ -63,8 +63,10 @@ namespace Tetris.AdvancedGUI
             }        
         }
 
-        private void switchGrid(Grid fromGrid, Grid toGrid, Grid holder)
+        private void switchGrid(Grid fromGrid, Grid toGrid, Grid holder, Button trigger)
         {
+            trigger.IsEnabled = false;
+
             addChildrenGrid(holder, toGrid, 0);
             DoubleAnimation fa = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.2));
             DoubleAnimation ta = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.2));
@@ -73,6 +75,7 @@ namespace Tetris.AdvancedGUI
                 delegate
                 {
                     holder.Children.Remove(fromGrid);
+                    trigger.IsEnabled = true;
                 });
   
             fa.Completed += new EventHandler(
@@ -82,6 +85,32 @@ namespace Tetris.AdvancedGUI
                 });
 
             fromGrid.BeginAnimation(Grid.OpacityProperty, fa);        
+        }
+
+
+
+        private void switchContent(FrameworkElement from, FrameworkElement to, Grid holder, Button trigger)
+        {
+            trigger.IsEnabled = false;
+            holder.Children.Add(to);
+
+            DoubleAnimation fa = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.2));
+            DoubleAnimation ta = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.2));
+
+            ta.Completed += new EventHandler(
+                delegate
+                {
+                    holder.Children.Remove(from);
+                    trigger.IsEnabled = true;
+                });
+
+            fa.Completed += new EventHandler(
+                delegate
+                {
+                    to.BeginAnimation(Grid.OpacityProperty, ta);
+                });
+
+            from.BeginAnimation(Grid.OpacityProperty, fa); 
         }
 
         private Grid ButtonGrid1(Grid holder)
@@ -99,13 +128,18 @@ namespace Tetris.AdvancedGUI
             singleModeButton.button.Click += new RoutedEventHandler(
                 delegate { 
                     Grid nextGrid = this.ButtonGridSingle(holder);
-                    switchGrid(aGrid, nextGrid, holder);
+                    switchGrid(aGrid, nextGrid, holder, singleModeButton.button);
                 });
             singleModeButton.SetValue(Grid.RowProperty, 0);
 
             CustomizedButton2 dualModeButton =
                 new CustomizedButton2("双人游戏", colors[1]);
-            //dualModeButton.button.Click += selDualMode_Click;
+            dualModeButton.button.Click += new RoutedEventHandler(
+                delegate
+                {
+                    Grid nextGrid = this.ButtonGridDual(holder);
+                    switchGrid(aGrid, nextGrid, holder, dualModeButton.button);
+                });
             dualModeButton.SetValue(Grid.RowProperty, 1);
 
             CustomizedButton2 backButton =
@@ -120,6 +154,28 @@ namespace Tetris.AdvancedGUI
             return (aGrid);
         }
 
+        private TextBox setTextBox(int row, int col, int nameIndex)
+        {
+            TextBox aBox = new TextBox();
+            aBox.Text = PlayersName.getName(nameIndex);
+            aBox.BorderThickness = new Thickness(0, 0, 0, 0);
+            aBox.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+            aBox.FontSize = Styles.WindowSizeGenerator.fontSizeMedium;
+            aBox.SetValue(Grid.RowProperty, row);
+            aBox.SetValue(Grid.ColumnProperty, col);
+            aBox.Focus();
+
+            return (aBox);
+        }
+
+        private CustomizedLabel whoAreYouLabel(int row, Color c, String content)
+        {
+            CustomizedLabel l = new CustomizedLabel(c, content);
+            l.SetValue(Grid.RowProperty, row);
+
+            return (l);
+        }
+
         private Grid ButtonGridSingle(Grid holder)
         {
             Grid aGrid = new Grid();
@@ -130,19 +186,9 @@ namespace Tetris.AdvancedGUI
 
             Color[] colors = SquareGenerator.randomColor(colorNum);
 
-            CustomizedLabel whoAreYouPlayer1 =
-                new CustomizedLabel( colors[0], "您哪位:");
-            //whoAreYouPlayer1.Width = 100;
-            whoAreYouPlayer1.SetValue(Grid.RowProperty, 0);
+            CustomizedLabel whoAreYouPlayer1 = whoAreYouLabel(0, colors[0], "您哪位:");
 
-            TextBox aBox = new TextBox();
-            aBox.Text = PlayersName.getName(0);
-            aBox.BorderThickness = new Thickness(0, 0, 0, 0);
-            aBox.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-            aBox.FontSize = Styles.WindowSizeGenerator.fontSizeMedium;
-            aBox.SetValue(Grid.RowProperty, 0);
-            aBox.SetValue(Grid.ColumnProperty, 1);
-            aBox.Focus();
+            TextBox aBox = setTextBox(0, 1, 0);
 
             CustomizedButton2 goButton =
                 new CustomizedButton2("开始游戏！", colors[1]);
@@ -165,7 +211,7 @@ namespace Tetris.AdvancedGUI
                     delegate
                     {
                         Grid nextGrid = ButtonGrid1(holder);
-                        switchGrid(aGrid, nextGrid, holder);
+                        switchGrid(aGrid, nextGrid, holder, backButton.button);
                     }); 
             backButton.SetValue(Grid.RowProperty, 3);
 
@@ -176,7 +222,111 @@ namespace Tetris.AdvancedGUI
 
             return (aGrid);
         }
-            
+
+        private SwitchLabel setSwitchLabel(int row, String[] contents, double opaque)
+        {
+            SwitchLabel l = new SwitchLabel(contents);
+            l.SetValue(Grid.RowProperty, row);
+            l.SetValue(Grid.ColumnProperty, 1);
+            l.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
+            l.Opacity = opaque;
+
+            return (l);
+        }
+
+        private Grid ButtonGridDual(Grid holder)
+        {
+            String[] contents1 = new string[2]{"  人  ", "电  脑"};
+            String[] contents2 = new string[3] { "低难度", "中难度", "高难度" };
+
+            Grid aGrid = new Grid();
+            aGrid.ShowGridLines = true;
+            setGrid(2, 6, aGrid);
+
+            int colorNum = 6;
+            Color[] colors = SquareGenerator.randomColor(colorNum);
+
+            CustomizedLabel player1 = whoAreYouLabel(0, colors[5], "玩家1:");
+
+            SwitchLabel player1Sel = setSwitchLabel(0, contents1, 1);
+
+            CustomizedLabel whoAreYouPlayer1 = whoAreYouLabel(1, colors[0], "您哪位:");
+            CustomizedLabel difficulty1 = whoAreYouLabel(1, colors[0], "难  度:");
+            difficulty1.Opacity = 0;
+
+            TextBox aBox1 = setTextBox(1, 1, 0);
+
+            SwitchLabel dif1Sel = setSwitchLabel(1, contents2, 0);
+
+            CustomizedLabel player2 = whoAreYouLabel(2, colors[3], "玩家2:");
+
+            SwitchLabel player2Sel = setSwitchLabel(2, contents1, 1);
+
+            CustomizedLabel whoAreYouPlayer2 = whoAreYouLabel(3, colors[4], "您哪位:");
+            CustomizedLabel difficulty2 = whoAreYouLabel(3, colors[4], "难  度:");
+            difficulty2.Opacity = 0;
+
+            TextBox aBox2 = setTextBox(3, 1, 1);
+            SwitchLabel dif2Sel = setSwitchLabel(3, contents2, 0);
+
+            CustomizedButton2 goButton =
+                new CustomizedButton2("开始游戏！", colors[2]);
+            //dualModeButton.button.Click += selDualMode_Click;
+            goButton.SetValue(Grid.RowProperty, 4);
+
+            CustomizedButton2 backButton =
+                new CustomizedButton2("后  退", colors[1]);
+            backButton.button.Click += new RoutedEventHandler(
+                    delegate
+                    {
+                        Grid nextGrid = ButtonGrid1(holder);
+                        switchGrid(aGrid, nextGrid, holder, backButton.button);
+                    }); 
+            backButton.SetValue(Grid.RowProperty, 6);
+
+            //aGrid.Children.Add(dif1Sel);
+            //aGrid.Children.Add(dif2Sel);
+            //aGrid.Children.Add(difficulty1);
+            //aGrid.Children.Add(difficulty2);
+            aGrid.Children.Add(player1);
+            aGrid.Children.Add(player2);
+            aGrid.Children.Add(player1Sel);
+            aGrid.Children.Add(whoAreYouPlayer1);
+            aGrid.Children.Add(aBox1);
+            aGrid.Children.Add(player2Sel);
+            aGrid.Children.Add(whoAreYouPlayer2);
+            aGrid.Children.Add(aBox2);
+            aGrid.Children.Add(goButton);
+            aGrid.Children.Add(backButton);
+
+            setClickSwitch(whoAreYouPlayer1, difficulty1, aBox1, dif1Sel, player1Sel, aGrid);
+            setClickSwitch(whoAreYouPlayer2, difficulty2, aBox2, dif2Sel, player2Sel, aGrid);
+
+            return (aGrid);
+        }
+
+        private void setClickSwitch(FrameworkElement from1, FrameworkElement to1,
+            FrameworkElement from2, FrameworkElement to2, SwitchLabel l, Grid holder)
+        {
+            l.p.Click += new RoutedEventHandler(
+                delegate
+                {
+                    if (l.getLabelIndex() == 0)
+                    {
+                        switchContent(from1, to1, holder, l.p);
+                        switchContent(from2, to2, holder, l.p);
+                    }
+                });
+            l.n.Click += new RoutedEventHandler(
+                delegate
+                {
+                    if (l.getLabelIndex() == 1)
+                    {
+                        switchContent(to1, from1, holder, l.n);
+                        switchContent(to2, from2, holder, l.p);
+                    }
+                });
+        }
 
         // Click to start single mode game
         private void selSingleMode_Click(object sender, RoutedEventArgs e)

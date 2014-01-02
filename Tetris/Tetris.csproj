@@ -142,6 +142,10 @@
     <Compile Include="AdvancedGUI\Animation\SwitchEffect.xaml.cs">
       <DependentUpon>SwitchEffect.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AdvancedGUI\SwitchButton.xaml.cs">
+      <DependentUpon>SwitchButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\SwitchLabel.cs" />
     <Compile Include="AIController.cs" />
     <Compile Include="CacheFactory.cs" />
     <Compile Include="Color.cs" />
@@ -237,6 +241,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AdvancedGUI\Animation\SwitchEffect.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdvancedGUI\SwitchButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
