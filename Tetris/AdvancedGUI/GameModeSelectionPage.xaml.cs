@@ -34,6 +34,23 @@ namespace Tetris.AdvancedGUI
             Grid aGrid = ButtonGrid1(holder);
             addChildrenGrid(holder, aGrid, 1);
 
+            StringGrid s = new StringGrid("G", SquareGenerator.squareSize * 1.5);
+            s.noAnimation();
+
+            aCanvas.Children.Add(s);
+            s.SetValue(Canvas.RightProperty, 0.0);
+            s.SetValue(Canvas.TopProperty, 
+                (WindowSizeGenerator.screenHeight - s.getHeight())/2);
+            s.SetValue(Canvas.ZIndexProperty, 2);
+
+            Pic.PicGen pic = new Pic.CatGen();
+            Pic.PicGenGrid pg = new Pic.PicGenGrid(pic, SquareGenerator.picSquareSize / 1.2);
+            aCanvas.Children.Add(pg);
+            pg.SetValue(Canvas.ZIndexProperty, 0);
+
+            Canvas.SetRight(pg, 2);
+            Canvas.SetBottom(pg, 2);
+
         }
 
         private void addChildrenGrid(Grid holder, Grid Child, double opaque)
@@ -162,6 +179,7 @@ namespace Tetris.AdvancedGUI
             aBox.FontSize = Styles.WindowSizeGenerator.fontSizeMedium;
             aBox.SetValue(Grid.RowProperty, row);
             aBox.SetValue(Grid.ColumnProperty, col);
+            aBox.Background = new SolidColorBrush(Colors.Transparent);
             aBox.Focus();
 
             return (aBox);

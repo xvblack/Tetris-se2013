@@ -111,7 +111,7 @@ namespace Tetris.AdvancedGUI
             welcomeString1.beginAnimation();
             welcomeString2.beginAnimation();
 
-            gameOver = new StringGrid("Geisr", SquareGenerator.squareSize / 1.5);
+            gameOver = new StringGrid("Game Over", SquareGenerator.squareSize / 2.5);
 
             aCanvas.Children.Add(gameOver);
 

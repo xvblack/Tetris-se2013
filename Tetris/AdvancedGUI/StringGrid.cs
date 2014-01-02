@@ -163,8 +163,8 @@ namespace Tetris.AdvancedGUI
             {
                 'i',
                 new int[,]{
-                           {0, 1, 0},
                            {0, 0, 0},
+                           {0, 1, 0},
                            {0, 0, 0},
                            {0, 1, 0},
                            {0, 1, 0},
@@ -185,7 +185,63 @@ namespace Tetris.AdvancedGUI
                            {0,0, 0, 0, 1, 0},
                            {0,0, 0, 0, 1, 0},
                            {0,1, 1, 1, 1, 0}}
-            }
+            },
+            {
+                'v',
+                new int[,]{
+                    	   {0, 0, 0, 0, 0, 0, 0},
+                           {0, 0, 0, 0, 0, 0, 0},
+                           {0, 1, 0, 0, 0, 1, 0},
+                           {0, 1, 0, 0, 0, 1, 0},
+                           {0, 1, 0, 0, 0, 1, 0},
+                           {0, 1, 0, 0, 0, 1, 0},
+                           {0, 0, 1, 0, 1, 0, 0},
+                           {0, 0, 1, 0, 1, 0, 0},
+                           {0, 0, 0, 1, 0, 0, 0}}
+           },
+           {
+                'a',
+                new int[,]{
+                           {0, 0, 0, 0, 0, 0, 0},
+                           {0, 0, 0, 0, 0, 0, 0},
+                           {0, 1, 1, 1, 1, 0, 0},
+                           {0, 0, 0, 0, 0, 1, 0},
+                           {0, 0, 0, 0, 0, 1, 0},
+                           {0, 1, 1, 1, 1, 1, 0},
+                           {0, 1, 0, 0, 0, 1, 0},
+                           {0, 1, 0, 0, 0, 1, 0},
+                           {0, 1, 1, 1, 1, 1, 0}
+                }
+          },
+          {
+                'm',
+                new int[,]{
+                           {0,0, 0, 0, 0, 0, 0, 0,0},
+                           {0,0, 0, 0, 0, 0, 0, 0,0},
+                           {0,0, 1, 1, 0, 1, 1, 0,0},
+                           {0,1, 0, 0, 1, 0, 0, 1,0},
+                           {0,1, 0, 0, 1, 0, 0, 1,0},
+                           {0,1, 0, 0, 1, 0, 0, 1,0},
+                           {0,1, 0, 0, 1, 0, 0, 1,0},
+                           {0,1, 0, 0, 1, 0, 0, 1,0},
+                           {0,1, 0, 0, 1, 0, 0, 1,0}
+                }
+           },
+          {
+                ' ',
+                new int[,]{
+                           {0, 0, 0},
+                           {0, 0, 0},
+                           {0, 0, 0},
+                           {0, 0, 0},
+                           {0, 0, 0},
+                           {0, 0, 0},
+                           {0, 0, 0},
+                           {0, 0, 0},
+                           {0, 0, 0}}
+        }
+          
+
         };
 
         int[,] contentMap;
@@ -235,6 +291,8 @@ namespace Tetris.AdvancedGUI
                                 delegate
                                 {
                                     squaresMatrix[i, j].Fill = new SolidColorBrush(toColor);
+                                    squaresMatrix[i, j].Stroke = new SolidColorBrush(Colors.Gray);
+                                    squaresMatrix[i, j].StrokeThickness = 1;
                                 }));
                             
                     }
@@ -327,7 +385,7 @@ namespace Tetris.AdvancedGUI
                         name = "stroke" + i.ToString() + '_' + j.ToString();
                         SolidColorBrush stroke = new SolidColorBrush();
                         squaresMatrix[i, j].Stroke = stroke;
-                        squaresMatrix[i, j].StrokeThickness = 3;
+                        squaresMatrix[i, j].StrokeThickness = 1;
 
                         
                         this.RegisterName(name, stroke);

@@ -25,7 +25,7 @@ namespace Tetris.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("120")]
+        [global::System.Configuration.DefaultSettingValueAttribute("48")]
         public int RoundTicks {
             get {
                 return ((int)(this["RoundTicks"]));
