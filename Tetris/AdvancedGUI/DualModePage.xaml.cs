@@ -24,8 +24,7 @@ namespace Tetris.AdvancedGUI
     public partial class DualModePage : GameContainerPage
     {
         private Tetrisor t = new Tetrisor();
-        private Tuple<Tetris.GameBase.TetrisGame,
-            Tetris.GameBase.TetrisGame> games;
+        private DuelGame games;
 
         gameMode p1mode ;
         gameMode p2mode;
@@ -216,7 +215,7 @@ namespace Tetris.AdvancedGUI
             aRect1.SetValue(Grid.ColumnProperty, 1);
             aRect1.SetValue(Grid.RowProperty, 1);
             //game.GameEndEvent += gameEnd;
-            games.Item1.GameEndEvent += gameEndEffect;
+            games.DuelGameEndEvent += gameEndEffect;
 
             aRect2 = new Rectangle();
             aRect2.Fill = new SolidColorBrush(Colors.Transparent);
@@ -226,7 +225,7 @@ namespace Tetris.AdvancedGUI
             aRect2.SetValue(Grid.ColumnProperty, 3);
             aRect2.SetValue(Grid.RowProperty, 1);
             //game.GameEndEvent += gameEnd;
-            games.Item1.GameEndEvent += gameEndEffect;
+            //games.Item1.GameEndEvent += gameEndEffect;
 
         }
 
@@ -263,9 +262,9 @@ namespace Tetris.AdvancedGUI
             if (p2mode.player == 1) // player2 is AI
             {
                 AIController.AIType aiType;
-                if (p1mode.difficulty == 0)
+                if (p2mode.difficulty == 0)
                     aiType = AIController.AIType.Low;
-                else if (p1mode.difficulty == 1)
+                else if (p2mode.difficulty == 1)
                     aiType = AIController.AIType.Middle;
                 else
                     aiType = AIController.AIType.High;
@@ -312,13 +311,24 @@ namespace Tetris.AdvancedGUI
             }
 
         }
-        public void gameEndEffect(object sender, Tetris.GameBase.TetrisGame.GameEndEventArgs e)
+        public void gameEndEffect(object sender, int winner)
         {
 
             this.Dispatcher.Invoke(
                 new Action(
                     delegate
                     {
+                        Label l = new Label();
+                        l.Content = "WINNER!";
+                        l.FontSize = WindowSizeGenerator.fontSizeLarge * 1.5;
+                        this.aCanvas.Children.Add(l);
+                        l.SetValue(Canvas.TopProperty, 0.25 * WindowSizeGenerator.screenHeight);
+                        if (winner == 0)
+                            l.SetValue(Canvas.LeftProperty, 0.15 * WindowSizeGenerator.screenWidth);
+                        else
+                            l.SetValue(Canvas.LeftProperty, 0.75 * WindowSizeGenerator.screenWidth);
+                        l.SetValue(Canvas.ZIndexProperty, 100);
+
                         ColorAnimationUsingKeyFrames c1 = new ColorAnimationUsingKeyFrames();
 
                         double beginTime = 800;
