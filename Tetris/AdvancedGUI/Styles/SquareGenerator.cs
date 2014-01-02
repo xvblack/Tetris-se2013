@@ -20,6 +20,7 @@ namespace Tetris.AdvancedGUI.Styles
     class SquareGenerator
     {
         const int _colorNum = 9;
+        const string path = "../../AdvancedGUI/Styles/Pic/";
 
         static public double squareSize {
             get
@@ -60,23 +61,23 @@ namespace Tetris.AdvancedGUI.Styles
                                new SolidColorBrush(colorMap[6]),
                                new SolidColorBrush(colorMap[7]),
                                new SolidColorBrush(colorMap[8]), // 8
-                               new ImageBrush((new BitmapImage(new Uri(@"Pic\g.jpg", UriKind.Relative)))), // special items // 9
-                               new ImageBrush((new BitmapImage(new Uri(@"Pic\ig.jpg", UriKind.Relative)))), // 10
-                               new ImageBrush((new BitmapImage(new Uri(@"Pic\t.jpg", UriKind.Relative)))), // 11
-                               new ImageBrush((new BitmapImage(new Uri(@"Pic\i.jpg", UriKind.Relative)))), // 12
+                               new ImageBrush((new BitmapImage(new Uri(path + "g.jpg", UriKind.Relative)))), // special items // 9
+                               new ImageBrush((new BitmapImage(new Uri(path + "ig.jpg", UriKind.Relative)))), // 10
+                               new ImageBrush((new BitmapImage(new Uri(path + "t.jpg", UriKind.Relative)))), // 11
+                               new ImageBrush((new BitmapImage(new Uri(path + "i.jpg", UriKind.Relative)))), // 12
 
-                               new ImageBrush((new BitmapImage(new Uri(@"Pic\GunPic\1.jpg", UriKind.Relative)))), // 13
-                               new ImageBrush((new BitmapImage(new Uri(@"Pic\GunPic\2.jpg", UriKind.Relative)))), // 14
+                               new ImageBrush((new BitmapImage(new Uri(path + "GunPic/1.jpg", UriKind.Relative)))), // 13
+                               new ImageBrush((new BitmapImage(new Uri(path + "GunPic/2.jpg", UriKind.Relative)))), // 14
                                // 15
-                               new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\7.jpg", UriKind.RelativeOrAbsolute)))), // 15 - 23
-                               new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\8.jpg", UriKind.Relative)))),
-                               new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\9.jpg", UriKind.Relative)))),
-                               new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\4.jpg", UriKind.Relative)))),
-                               new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\5.jpg", UriKind.Relative)))),
-                               new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\6.jpg", UriKind.Relative)))),
-                               new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\1.jpg", UriKind.Relative)))),
-                               new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\2.jpg", UriKind.Relative)))),
-                               new ImageBrush((new BitmapImage(new Uri(@"Pic\TonPic\3.jpg", UriKind.Relative)))),
+                               new ImageBrush((new BitmapImage(new Uri(path + "TonPic/7.jpg", UriKind.RelativeOrAbsolute)))), // 15 - 23
+                               new ImageBrush((new BitmapImage(new Uri(path + "TonPic/8.jpg", UriKind.Relative)))),
+                               new ImageBrush((new BitmapImage(new Uri(path + "TonPic/9.jpg", UriKind.Relative)))),
+                               new ImageBrush((new BitmapImage(new Uri(path + "TonPic/4.jpg", UriKind.Relative)))),
+                               new ImageBrush((new BitmapImage(new Uri(path + "TonPic/5.jpg", UriKind.Relative)))),
+                               new ImageBrush((new BitmapImage(new Uri(path + "TonPic/6.jpg", UriKind.Relative)))),
+                               new ImageBrush((new BitmapImage(new Uri(path + "TonPic/1.jpg", UriKind.Relative)))),
+                               new ImageBrush((new BitmapImage(new Uri(path + "TonPic/2.jpg", UriKind.Relative)))),
+                               new ImageBrush((new BitmapImage(new Uri(path + "TonPic/3.jpg", UriKind.Relative)))),
                                //23
                                new SolidColorBrush(Colors.Black), // 24
                                new SolidColorBrush(colorMap[3]), // 25
