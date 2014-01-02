@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:src="clr-namespace:Tetris.AdvancedGUI"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" ShowGridLines="True">
+             d:DesignHeight="300" d:DesignWidth="300">
     <Button Name="button" Grid.Column="1" x:FieldModifier="public" Margin="20 5 0 5"
             Template="{DynamicResource ButtonTemplate}"/>
 </src:CustomizedGrid>

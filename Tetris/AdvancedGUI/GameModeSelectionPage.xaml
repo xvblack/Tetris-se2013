@@ -7,7 +7,7 @@
       d:DesignHeight="300" d:DesignWidth="300"
 	Title="GameModeSelectionPage">
 
-    <Grid ShowGridLines="True" Name="holder">
+    <Grid Name="holder">
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
             <RowDefinition Height="40" />

@@ -49,21 +49,25 @@ namespace Tetris.AdvancedGUI
             refDict1.Add(left1.Name, TetrisGame.GameAction.Left);
             refDict1.Add(right1.Name, TetrisGame.GameAction.Right);
             refDict1.Add(rotate1.Name, TetrisGame.GameAction.Rotate);
+            refDict1.Add(stop1.Name, TetrisGame.GameAction.Pause);
 
             refDict2.Add(down2.Name, TetrisGame.GameAction.Down);
             refDict2.Add(left2.Name, TetrisGame.GameAction.Left);
             refDict2.Add(right2.Name, TetrisGame.GameAction.Right);
             refDict2.Add(rotate2.Name, TetrisGame.GameAction.Rotate);
+            refDict2.Add(stop2.Name, TetrisGame.GameAction.Pause);
 
             initializeMap(down1, refDict1, config1);
             initializeMap(left1, refDict1, config1);
             initializeMap(right1, refDict1, config1);
             initializeMap(rotate1, refDict1,config1);
+            initializeMap(stop1, refDict1, config1);
 
             initializeMap(down2, refDict2, config2);
             initializeMap(left2, refDict2, config2);
             initializeMap(right2, refDict2, config2);
             initializeMap(rotate2, refDict2, config2);
+            initializeMap(stop2, refDict2, config2);
 
             CustomizedButton2 okayButton =
                 new CustomizedButton2("确  定", SquareGenerator.colorMap[3]);

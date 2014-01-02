@@ -116,7 +116,6 @@ namespace Tetris.AdvancedGUI
         private Grid ButtonGrid1(Grid holder)
         {
             Grid aGrid = new Grid();
-            aGrid.ShowGridLines = true;
             setGrid(1, 3, aGrid);
 
             int colorNum = 6;
@@ -179,7 +178,6 @@ namespace Tetris.AdvancedGUI
         private Grid ButtonGridSingle(Grid holder)
         {
             Grid aGrid = new Grid();
-            aGrid.ShowGridLines = true;
             setGrid(2, 3, aGrid);
 
             int colorNum = 6;
@@ -240,7 +238,6 @@ namespace Tetris.AdvancedGUI
             String[] contents2 = new string[3] { "低难度", "中难度", "高难度" };
 
             Grid aGrid = new Grid();
-            aGrid.ShowGridLines = true;
             setGrid(2, 6, aGrid);
 
             int colorNum = 6;

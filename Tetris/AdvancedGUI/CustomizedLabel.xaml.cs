@@ -27,8 +27,6 @@ namespace Tetris.AdvancedGUI
             aCol.Width = new GridLength(1, GridUnitType.Auto);
             this.ColumnDefinitions.Add(aCol);
 
-            this.ShowGridLines = true;
-
             Label l = new Label();
             l.Content = content;
             l.Margin = new Thickness(20, 5, 0, 5);

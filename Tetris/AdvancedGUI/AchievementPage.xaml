@@ -7,7 +7,7 @@
       d:DesignHeight="300" d:DesignWidth="300"
 	Title="SettingPage" Loaded="Page_Loaded_1">
 
-    <Grid ShowGridLines="True" Name="contentGrid">
+    <Grid  Name="contentGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
             <RowDefinition Height="Auto" />
