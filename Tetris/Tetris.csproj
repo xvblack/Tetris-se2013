@@ -87,9 +87,6 @@
     <Compile Include="AdvancedGUI\CustomizedLabel.xaml.cs">
       <DependentUpon>CustomizedLabel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AdvancedGUI\DifficultySelectionPage.xaml.cs">
-      <DependentUpon>DifficultySelectionPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="AdvancedGUI\GameGrid.cs" />
     <Compile Include="AdvancedGUI\Pic\Cat3Gen.cs" />
     <Compile Include="AdvancedGUI\Pic\Cat5Gen.cs" />
@@ -188,10 +185,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AdvancedGUI\CustomizedLabel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="AdvancedGUI\DifficultySelectionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

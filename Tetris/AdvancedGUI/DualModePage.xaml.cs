@@ -27,15 +27,28 @@ namespace Tetris.AdvancedGUI
         private Tuple<Tetris.GameBase.TetrisGame,
             Tetris.GameBase.TetrisGame> games;
 
-        int mode = 0;
+        gameMode p1mode ;
+        gameMode p2mode;
 
         private Rectangle aRect1, aRect2;
 
-        public DualModePage(int modeSel) : base()
+        public class gameMode
+        {
+            public int player = 0;  // 0 is human; 1 is AI
+            public int difficulty = 0; // 0 is low; 1 is medium; 2 is high
+            public gameMode(int player, int difficulty)
+            {
+                this.player = player;
+                this.difficulty = difficulty;
+            }
+        }
+
+        public DualModePage(gameMode[] modeSels) : base()
         {
             InitializeComponent();
 
-            mode = modeSel;
+            p1mode = modeSels[0];
+            p2mode = modeSels[1];
             // game grid definition
             outerGrid.Width = Styles.WindowSizeGenerator.screenWidth;
             outerGrid.Height = Styles.WindowSizeGenerator.screenHeight;
@@ -93,22 +106,7 @@ namespace Tetris.AdvancedGUI
             border2.SetValue(Grid.ColumnProperty, 3);
 
             games.Item1.AddDisplay(gameGrid1);
-            games.Item2.AddDisplay(gameGrid2);
-
-
-
-            if (mode == 0)
-            {
-                AIController _aiController1 = new AIController(games.Item1, AIController.AIType.High);
-                AIController _aiController2 = new AIController(games.Item2, AIController.AIType.High);
-                games.Item1.SetController(_aiController1);
-                games.Item2.SetController(_aiController2);
-            }
-            else
-            {
-                //games.Item1.SetController(_controller[0]);
-                //games.Item2.SetController(_controller[1]);
-            }
+            games.Item2.AddDisplay(gameGrid2);               
                 
 
             // set score board and next block board
@@ -246,6 +244,41 @@ namespace Tetris.AdvancedGUI
 
         protected override void whatHappenWhenAnimationStop(object sender, EventArgs e)
         {
+            if (p1mode.player == 1) // player1 is AI
+            {
+                AIController.AIType aiType;
+                if (p1mode.difficulty == 0)
+                    aiType = AIController.AIType.Low;
+                else if (p1mode.difficulty == 1)
+                    aiType = AIController.AIType.Middle;
+                else
+                    aiType = AIController.AIType.High;
+                AIController _aiController1 = new AIController(games.Item1, aiType);
+                games.Item1.SetController(_aiController1);
+            }
+            else  // playrer1 is human
+            {
+                games.Item1.SetController(_controller[0]);
+            }
+            if (p2mode.player == 1) // player2 is AI
+            {
+                AIController.AIType aiType;
+                if (p1mode.difficulty == 0)
+                    aiType = AIController.AIType.Low;
+                else if (p1mode.difficulty == 1)
+                    aiType = AIController.AIType.Middle;
+                else
+                    aiType = AIController.AIType.High;
+                AIController _aiController1 = new AIController(games.Item1, aiType);
+
+                AIController _aiController2 = new AIController(games.Item2, aiType);
+                games.Item2.SetController(_aiController2);
+            }
+            else  // playrer2 is human
+            {
+                games.Item2.SetController(_controller[1]);
+            }
+
             games.Item1.Start();
             games.Item2.Start();
             gameHasStarted = true;
