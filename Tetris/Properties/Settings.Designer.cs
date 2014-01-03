@@ -25,18 +25,6 @@ namespace Tetris.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("48")]
-        public int RoundTicks {
-            get {
-                return ((int)(this["RoundTicks"]));
-            }
-            set {
-                this["RoundTicks"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(".\\\\player1.xml")]
         public string Player1Path {
             get {
@@ -56,6 +44,18 @@ namespace Tetris.Properties {
             }
             set {
                 this["Player2Path"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("120")]
+        public int RoundTicks {
+            get {
+                return ((int)(this["RoundTicks"]));
+            }
+            set {
+                this["RoundTicks"] = value;
             }
         }
     }

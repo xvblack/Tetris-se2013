@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Tetris.AdvancedGUI.Styles;
 
 namespace Tetris.AdvancedGUI.TestClasses
 {
@@ -21,7 +22,35 @@ namespace Tetris.AdvancedGUI.TestClasses
     {
         public TestWindow()
         {
+            InitializeComponent();
 
+            Canvas aCanvas = new Canvas();
+
+            this.Height = WindowSizeGenerator.screenHeight;
+            this.Width = WindowSizeGenerator.screenWidth;
+
+            this.Content = aCanvas;
+
+            /*
+            StringGrid gameOver = new StringGrid("Game Over", SquareGenerator.squareSize / 2.5);
+
+            aCanvas.Children.Add(gameOver);
+
+            gameOver.startAnimation(1500, 0);
+
+            gameOver.beginAnimation();
+
+            Label l = new Label();
+
+            l.Content = "gds";
+
+            grid.Children.Add(l);
+            */
+
+            SwitchLabel l = new SwitchLabel((new string[4]{"label1", "label2", "label3", "label4"}));
+            aCanvas.Children.Add(l);
+
+            this.Show();
         }
     }
 }
