@@ -36,7 +36,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Label Name="label1" Content="您哪位：" Grid.Column="0" Grid.Row="0" />
+            <Label Name="label1" Content="昵称：" Grid.Column="0" Grid.Row="0" />
             <Label Name="label2" Content="最高得分：" Grid.Column="0" Grid.Row="2" />
             <Label Name="label3" Content="最大消除行数：" Grid.Column="0" Grid.Row="3" />
             <Label Name="label4" Content="连续消除三次两行：" Grid.Column="0" Grid.Row="4" />
@@ -53,7 +53,7 @@
             <Label Name="HardSurvive" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="5" />
         </Grid>
         
-        <Label Name="AllPeopleLabel" Content="所有人成就" Grid.Column="2" Grid.Row="1" />
+        <Label Name="AllPeopleLabel" Content="总成就" Grid.Column="2" Grid.Row="1" />
         <Grid Name="AllPeople" Grid.Column="2" Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -67,10 +67,10 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Label Name="label11" Content="得分最高的人：" Grid.Column="0" Grid.Row="2" />
-            <Label Name="label12" Content="    ta的了多少分：" Grid.Column="0" Grid.Row="3"/>
-            <Label Name="label13" Content="消除行数最多的人：" Grid.Column="0" Grid.Row="4" />
-            <Label Name="label14" Content="    ta消了多少行：" Grid.Column="0" Grid.Row="5" />
+            <Label Name="label11" Content="得分最高：" Grid.Column="0" Grid.Row="2" />
+            <Label Name="label12" Content="分数：" Grid.Column="0" Grid.Row="3"/>
+            <Label Name="label13" Content="消除行数最多：" Grid.Column="0" Grid.Row="4" />
+            <Label Name="label14" Content="行数：" Grid.Column="0" Grid.Row="5" />
             <Label Name="HighestScoreName" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="2" />
             <Label Name="MostTotalClearBarName" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="4" />
             <Label Name="HighestScore" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="3" />

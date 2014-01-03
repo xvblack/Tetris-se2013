@@ -288,7 +288,7 @@ namespace Tetris.AdvancedGUI
             _controller[0].OnKeyDown(e);
             _controller[1].OnKeyDown(e);
             // pause the game and show a exit log
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Escape)
             {
                 games.Item1.Pause();
                 games.Item2.Pause();

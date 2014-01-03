@@ -35,7 +35,7 @@ namespace Tetris.GameControl
             { TetrisGame.GameAction.Right,  Key.Right },
             { TetrisGame.GameAction.Rotate, Key.Up    },
             { TetrisGame.GameAction.Down,   Key.Down  },
-            { TetrisGame.GameAction.Pause,  Key.Space }}
+            { TetrisGame.GameAction.Pause,  Key.Enter }}
         };
 
         public Dictionary<TetrisGame.GameAction, Key> inversedKeyAndValue = new Dictionary<TetrisGame.GameAction, Key>();
@@ -84,7 +84,14 @@ namespace Tetris.GameControl
             if (File.Exists(path)) this.Load(path);
             else
             {
-                defaultPut(ConfigType.Player2);
+                if (path == Properties.Settings.Default.Player1Path)
+                {
+                    defaultPut(ConfigType.Player1);
+                }
+                else
+                {
+                    defaultPut(ConfigType.Player2);
+                }
                 Save(path);
             }
             

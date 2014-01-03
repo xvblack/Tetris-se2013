@@ -194,7 +194,7 @@ namespace Tetris.AdvancedGUI
         protected override void keyPressed(object sender, KeyEventArgs e)
         {
             _controller[0].OnKeyDown(e);
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Escape)
             {
                 game.Pause();
                 if ((welcomeString1.pauseState == false))

@@ -35,9 +35,9 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Label Name="label1" Content="旋转/发射：" Grid.Column="0" Grid.Row="0" />
-            <Label Name="label2" Content="向左移动：" Grid.Column="0" Grid.Row="1" />
-            <Label Name="label3" Content="向右移动：" Grid.Column="0" Grid.Row="2" />
-            <Label Name="label4" Content="向下加速：" Grid.Column="0" Grid.Row="3" />
+            <Label Name="label2" Content="左  移：" Grid.Column="0" Grid.Row="1" />
+            <Label Name="label3" Content="右  移：" Grid.Column="0" Grid.Row="2" />
+            <Label Name="label4" Content="加  速：" Grid.Column="0" Grid.Row="3" />
             <Label Name="label5" Content="暂  停：" Grid.Column="0" Grid.Row="4" />
             <Button Name="rotate1" Grid.Column="1" Grid.Row="0" BorderThickness="0" Content="1"
                     Template="{StaticResource ButtonTemplate2}"
@@ -70,9 +70,9 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Label Name="label11" Content="旋转/发射：" Grid.Column="0" Grid.Row="0"/>
-            <Label Name="label12" Content="向左移动：" Grid.Column="0" Grid.Row="1" />
-            <Label Name="label13" Content="向右移动：" Grid.Column="0" Grid.Row="2" />
-            <Label Name="label14" Content="向下加速：" Grid.Column="0" Grid.Row="3" />
+            <Label Name="label12" Content="左  移：" Grid.Column="0" Grid.Row="1" />
+            <Label Name="label13" Content="右  移：" Grid.Column="0" Grid.Row="2" />
+            <Label Name="label14" Content="加  速：" Grid.Column="0" Grid.Row="3" />
             <Label Name="label15" Content="暂  停：" Grid.Column="0" Grid.Row="4" />
             <Button Name="rotate2" Grid.Column="1" Grid.Row="0" BorderThickness="0" Content="2"
                     Template="{StaticResource ButtonTemplate2}"

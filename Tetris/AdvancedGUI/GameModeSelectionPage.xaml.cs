@@ -210,12 +210,12 @@ namespace Tetris.AdvancedGUI
 
             Color[] colors = SquareGenerator.randomColor(colorNum);
 
-            CustomizedLabel whoAreYouPlayer1 = whoAreYouLabel(0, colors[0], "您哪位:");
+            CustomizedLabel whoAreYouPlayer1 = whoAreYouLabel(0, colors[0], "昵称:");
 
             TextBox aBox = setTextBox(0, 1, 0);
 
             CustomizedButton2 goButton =
-                new CustomizedButton2("开始游戏！", colors[1]);
+                new CustomizedButton2("开始游戏", colors[1]);
             //goButton.Width = 100;
             goButton.button.Click += new RoutedEventHandler(
                 delegate
@@ -275,7 +275,7 @@ namespace Tetris.AdvancedGUI
 
             SwitchLabel player1Sel = setSwitchLabel(0, contents1, 1);
 
-            CustomizedLabel whoAreYouPlayer1 = whoAreYouLabel(1, colors[0], "您哪位:");
+            CustomizedLabel whoAreYouPlayer1 = whoAreYouLabel(1, colors[0], "昵称:");
             CustomizedLabel difficulty1 = whoAreYouLabel(1, colors[0], "难  度:");
             difficulty1.Opacity = 0;
 
@@ -287,7 +287,7 @@ namespace Tetris.AdvancedGUI
 
             SwitchLabel player2Sel = setSwitchLabel(2, contents1, 1);
 
-            CustomizedLabel whoAreYouPlayer2 = whoAreYouLabel(3, colors[4], "您哪位:");
+            CustomizedLabel whoAreYouPlayer2 = whoAreYouLabel(3, colors[4], "昵称:");
             CustomizedLabel difficulty2 = whoAreYouLabel(3, colors[4], "难  度:");
             difficulty2.Opacity = 0;
 
@@ -297,7 +297,7 @@ namespace Tetris.AdvancedGUI
             DualModePage.gameMode[] pModes = new DualModePage.gameMode[2];
 
             CustomizedButton2 goButton =
-                new CustomizedButton2("开始游戏！", colors[2]);
+                new CustomizedButton2("开始游戏", colors[2]);
 
             // used to store the settings and go to dual game 
             goButton.button.Click += new RoutedEventHandler(
