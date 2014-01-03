@@ -17,7 +17,7 @@ using Tetris.AdvancedGUI.Styles;
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// CustomizedButton2.xaml 的交互逻辑
+    /// Customized Button, the button with a mark showed up when mouse over
     /// </summary>
     public partial class CustomizedButton2 : CustomizedGrid
     {

@@ -15,8 +15,13 @@ using System.Windows.Shapes;
 
 namespace Tetris.AdvancedGUI.Pic
 {
+    /// <summary>
+    /// generate a cat
+    /// </summary>
+ 
     public class CatGen : PicGen
     {
+      
         public CatGen() : base()
         {
             colorIndexMatrix = new int[,]{

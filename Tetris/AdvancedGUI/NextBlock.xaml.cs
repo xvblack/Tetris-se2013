@@ -18,7 +18,7 @@ using Tetris.AdvancedGUI.Styles;
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// NextBlockGrid.xaml 的交互逻辑
+    /// Next Block
     /// </summary>
     public partial class NextBlock : Border, IDisplay
     {
@@ -104,6 +104,7 @@ namespace Tetris.AdvancedGUI
             return (new double[2] { canvasHeight, canvasWidth });
         }
 
+        // next block drawing
         public void OnDrawing(Tetris.GameBase.TetrisGame game,
             Tetris.GameBase.TetrisGame.DrawEventArgs e)
         {

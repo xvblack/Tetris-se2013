@@ -21,7 +21,7 @@ using Tetris.AdvancedGUI.Styles;
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// GameContainerPage.xaml 的交互逻辑
+    /// Game Container Page (the base of single mode and dual mode pages)
     /// </summary>
     public partial class GameContainerPage : Page
     {
@@ -39,10 +39,10 @@ namespace Tetris.AdvancedGUI
 
         public PlayerController[] _controller = new PlayerController[2];
 
-        Timer whenGameBegin = new Timer();
-
         public GameContainerPage() 
         {
+
+            // layout generation
             this.Loaded += Loaded_Event;
             this.Unloaded += Unloaded_Event;
 
@@ -63,6 +63,8 @@ namespace Tetris.AdvancedGUI
             aCanvas.Children.Add(outerGrid);
             outerGrid.SetValue(Canvas.ZIndexProperty, 1);
 
+            // controller setup
+
             String player1Path = Properties.Settings.Default.Player1Path;
             String player2Path = Properties.Settings.Default.Player2Path;
 
@@ -73,6 +75,7 @@ namespace Tetris.AdvancedGUI
             _controller[1].SetConfig(new ControllerConfig(player2Path));
         }
 
+        // the starting animation(ready go)
         protected void startAnimation()
         {
             int timeStart = 10;
@@ -122,19 +125,16 @@ namespace Tetris.AdvancedGUI
             Canvas.SetZIndex(gameOver, 10);
 
             gameOver.startAnimation(1500, 0);
-
-            //whenGameBegin.Interval = timeStep + timeStep + timeDelay;
-            //whenGameBegin.Elapsed += whatHappenWhenAnimationStop;
-
-            //whenGameBegin.Start();
             
         }
 
+        // show the animation when the game is over
         protected void gameEnd(object sender, EventArgs e)
         {
             gameOver.story.Completed += showExitLog;
             gameOver.beginAnimation();
         }
+
         protected void showExitLog(object sender, EventArgs e)
         {
             NavigationPage backPage = new NavigationPage();
@@ -148,11 +148,9 @@ namespace Tetris.AdvancedGUI
             this.startAnimation();
         }
 
+        // the starting animation is stoped
         virtual protected void whatHappenWhenAnimationStop(object sender,
-            EventArgs e) 
-        {
-            whenGameBegin.Stop();
-        }
+            EventArgs e) { }
 
         virtual protected void keyPressed(object sender, KeyEventArgs e)
         {

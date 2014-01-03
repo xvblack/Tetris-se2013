@@ -15,6 +15,9 @@ using System.Windows.Shapes;
 
 namespace Tetris.AdvancedGUI.Pic
 {
+    /// <summary>
+    /// generate a crocodile
+    /// </summary>
     public class CrocodileGen: PicGen
     {
         public CrocodileGen()

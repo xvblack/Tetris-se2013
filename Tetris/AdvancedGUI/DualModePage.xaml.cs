@@ -19,18 +19,21 @@ using Tetris.AdvancedGUI.Styles;
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// SingleModePage.xaml 的交互逻辑
+    /// Single Mode Page
     /// </summary>
     public partial class DualModePage : GameContainerPage
     {
-        private Tetrisor t = new Tetrisor();
+        private Tetrisor t = new Tetrisor();  // the game
         private DuelGame games;
 
-        gameMode p1mode ;
+        gameMode p1mode ;  // which playr is playing?
         gameMode p2mode;
 
-        private Rectangle aRect1, aRect2;
+        private Rectangle aRect1, aRect2; // used to block game grid when game is over
 
+        /// <summary>
+        /// define a mode holder
+        /// </summary>
         public class gameMode
         {
             public int player = 0;  // 0 is human; 1 is AI
@@ -44,6 +47,7 @@ namespace Tetris.AdvancedGUI
 
         public DualModePage(gameMode[] modeSels) : base()
         {
+            // layout definition
             InitializeComponent();
 
             p1mode = modeSels[0];
@@ -90,7 +94,7 @@ namespace Tetris.AdvancedGUI
                 { games.Item1.Height, games.Item1.Width };
 
           
-            
+            // game grid 
             GameGrid gameGrid1 = new GameGrid(gridSize);
             border1.Child = gameGrid1;
             outerGrid.Children.Add(border1);
@@ -217,6 +221,7 @@ namespace Tetris.AdvancedGUI
             //game.GameEndEvent += gameEnd;
             games.DuelGameEndEvent += gameEndEffect;
 
+            // set the mask rect (used when game is over)
             aRect2 = new Rectangle();
             aRect2.Fill = new SolidColorBrush(Colors.Transparent);
             aRect2.Width = gameGrid1.getGameGridSize()[1];
@@ -224,23 +229,15 @@ namespace Tetris.AdvancedGUI
             outerGrid.Children.Add(aRect2);
             aRect2.SetValue(Grid.ColumnProperty, 3);
             aRect2.SetValue(Grid.RowProperty, 1);
-            //game.GameEndEvent += gameEnd;
-            //games.Item1.GameEndEvent += gameEndEffect;
 
         }
 
         protected override void Loaded_Event(object sender, RoutedEventArgs e)
         {
-            /*
-            holderWin.Width = Styles.WindowSizeGenerator.dualModePageWidth;
-            holderWin.Left = Styles.WindowSizeGenerator.dualModePageLocationLeft;
-
-            outerGrid.Width = holderWin.Width;
-            outerGrid.Height = holderWin.Height;
-            */
             base.Loaded_Event(sender, e);
         }
 
+        // when animation stop, start the game
         protected override void whatHappenWhenAnimationStop(object sender, EventArgs e)
         {
             if (p1mode.player == 1) // player1 is AI
@@ -284,10 +281,13 @@ namespace Tetris.AdvancedGUI
             
             base.whatHappenWhenAnimationStop(sender, e);
         }
+
+        // correspone the key pressed events
         protected override void keyPressed(object sender, KeyEventArgs e)
         {
             _controller[0].OnKeyDown(e);
             _controller[1].OnKeyDown(e);
+            // pause the game and show a exit log
             if (e.Key == Key.Enter)
             {
                 games.Item1.Pause();
@@ -304,6 +304,7 @@ namespace Tetris.AdvancedGUI
                     welcomeString2.story.Resume(welcomeString2);
                     welcomeString1.pauseState = false;
                 }
+
                 EscapeDialog win = new EscapeDialog(this, games.Item1, games.Item2);
                 win.holderWindow = this.holderWin;
                 win.ShowDialog();
@@ -311,6 +312,8 @@ namespace Tetris.AdvancedGUI
             }
 
         }
+
+        // show which one is the winner when game is over, and show the mask rect to hide the game grids
         public void gameEndEffect(object sender, int winner)
         {
 
@@ -318,6 +321,7 @@ namespace Tetris.AdvancedGUI
                 new Action(
                     delegate
                     {
+                        // show the winner
                         Label l = new Label();
                         l.Content = "WINNER!";
                         l.FontSize = WindowSizeGenerator.fontSizeLarge * 1.5;
@@ -329,6 +333,7 @@ namespace Tetris.AdvancedGUI
                             l.SetValue(Canvas.LeftProperty, 0.75 * WindowSizeGenerator.screenWidth);
                         l.SetValue(Canvas.ZIndexProperty, 100);
 
+                        // begin to hide the game grids
                         ColorAnimationUsingKeyFrames c1 = new ColorAnimationUsingKeyFrames();
 
                         double beginTime = 800;

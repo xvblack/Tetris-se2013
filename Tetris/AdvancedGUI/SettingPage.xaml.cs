@@ -20,21 +20,22 @@ using Tetris.GameBase;
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// SettingPage.xaml 的交互逻辑
+    /// Setting Page
     /// </summary>
     public partial class SettingPage : Page
     {
         NavigationService nav;
         public MainWindow holderWin;
 
-        ControllerConfig config1 = new ControllerConfig(Properties.Settings.Default.Player1Path);
-        ControllerConfig config2 = new ControllerConfig(Properties.Settings.Default.Player2Path);
+        ControllerConfig config1 = new ControllerConfig(Properties.Settings.Default.Player1Path);// key map 1
+        ControllerConfig config2 = new ControllerConfig(Properties.Settings.Default.Player2Path);// key map 2
 
-        Dictionary<String, Key> keyDict = new Dictionary<String, Key>();
+        Dictionary<String, Key> keyDict = new Dictionary<String, Key>(); // used to record which key has been used 
+                                                                         // preventing the same key mapped
 
-        Dictionary<String, TetrisGame.GameAction> refDict1 =
+        Dictionary<String, TetrisGame.GameAction> refDict1 =   // use to bind the option and the true action, player 1
             new Dictionary<string, TetrisGame.GameAction>();
-        Dictionary<String, TetrisGame.GameAction> refDict2 = 
+        Dictionary<String, TetrisGame.GameAction> refDict2 =  // player 2
             new Dictionary<string, TetrisGame.GameAction>();
 
         public SettingPage()
@@ -57,13 +58,13 @@ namespace Tetris.AdvancedGUI
             refDict2.Add(rotate2.Name, TetrisGame.GameAction.Rotate);
             refDict2.Add(stop2.Name, TetrisGame.GameAction.Pause);
 
-            initializeMap(down1, refDict1, config1);
+            initializeMap(down1, refDict1, config1); // bind the option, the key and the action
             initializeMap(left1, refDict1, config1);
             initializeMap(right1, refDict1, config1);
             initializeMap(rotate1, refDict1,config1);
             initializeMap(stop1, refDict1, config1);
 
-            initializeMap(down2, refDict2, config2);
+            initializeMap(down2, refDict2, config2); 
             initializeMap(left2, refDict2, config2);
             initializeMap(right2, refDict2, config2);
             initializeMap(rotate2, refDict2, config2);
@@ -99,12 +100,14 @@ namespace Tetris.AdvancedGUI
 
         }
 
+        // switch to next key setup
         private void lostFocusAnimation(object sender, RoutedEventArgs e)
         {
             Button b = (Button)(e.Source);
             b.BeginAnimation(OpacityProperty, null);
         }
 
+        // blink the focused label
         private void focusedAnimation(object sender, RoutedEventArgs e)
         {
             Button b = (Button)(e.Source);
@@ -114,6 +117,7 @@ namespace Tetris.AdvancedGUI
             b.BeginAnimation(OpacityProperty, a);
         }
 
+        // correspone a pressed key, and show the name of the key
         private void keyPressed(object sender, KeyEventArgs e)
         {
             try
@@ -127,6 +131,7 @@ namespace Tetris.AdvancedGUI
                         return;
                     }
                 }
+                // record which key mapped
                 keyDict.Remove(i.Name);
                 keyDict.Add(i.Name, e.Key);
                 i.Content = e.Key;
@@ -138,6 +143,7 @@ namespace Tetris.AdvancedGUI
             
         }
 
+        // store the setting and go back to navigation page
         private void okay_Click(object sender, RoutedEventArgs e)
         {
             config1.Clear();
@@ -175,6 +181,7 @@ namespace Tetris.AdvancedGUI
             nav.Navigate(backPage);  
         }
 
+        // use to read the infomation of the last key mapping 
         private void initializeMap(Button b, Dictionary<String, TetrisGame.GameAction> dict, ControllerConfig config)
         {
             keyDict[b.Name] = config.inversedKeyAndValue[dict[b.Name]];

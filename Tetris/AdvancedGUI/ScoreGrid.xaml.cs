@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// ScoreGrid.xaml 的交互逻辑
+    /// Score board Grid
     /// </summary>
     public partial class ScoreGrid : Grid
     {

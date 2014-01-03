@@ -17,7 +17,7 @@ using Tetris.AdvancedGUI.Styles;
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// CustomizedButton2.xaml 的交互逻辑
+    /// Customized Grid, used to hold customized widgets
     /// </summary>
     public partial class CustomizedGrid : Grid
     {
@@ -26,6 +26,8 @@ namespace Tetris.AdvancedGUI
 
         public CustomizedGrid(Color aColor)
         {
+            // layout definition
+
             ColumnDefinition aCol = new ColumnDefinition();
             aCol.Width = new GridLength(30, GridUnitType.Pixel);
             this.ColumnDefinitions.Add(aCol);
@@ -36,6 +38,7 @@ namespace Tetris.AdvancedGUI
 
             this.Children.Add(mark);
 
+            // a mark
             mark.SetValue(Grid.ColumnProperty, 0);
 
             mark.Width = 20;

@@ -17,7 +17,7 @@ using Tetris.AdvancedGUI.Styles;
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// SwitchButton.xaml 的交互逻辑
+    /// Switching Button
     /// </summary>
     public partial class SwitchButton : Button
     {

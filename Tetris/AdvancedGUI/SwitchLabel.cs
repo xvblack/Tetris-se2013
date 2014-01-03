@@ -15,12 +15,15 @@ using Tetris.AdvancedGUI.Styles;
 
 namespace Tetris.AdvancedGUI
 {
+    /// <summary>
+    /// a label with animation when pressing the switch buttons
+    /// </summary>
 
     public class SwitchLabel : Canvas
     {
         int labelNum = 0;
         Label[] labelArray;
-        int whichLabelShow = 0;
+        int whichLabelShow = 0;// present content index of labelArray
 
         DoubleAnimation ap = new DoubleAnimation();
         DoubleAnimation bp = new DoubleAnimation();
@@ -87,6 +90,7 @@ namespace Tetris.AdvancedGUI
             whichLabelShow = 0;
         }
 
+        // block the flying string
         private Rectangle setMaskRect(int pos)
         {
             Rectangle rect = new Rectangle();
@@ -104,6 +108,7 @@ namespace Tetris.AdvancedGUI
             return (rect);
         }
 
+        // when the back button clicked
         private void pPressed(object sender, RoutedEventArgs e)
         {
             if (whichLabelShow < labelNum - 1)
@@ -119,6 +124,8 @@ namespace Tetris.AdvancedGUI
                 next.BeginAnimation(Canvas.LeftProperty, bp);
             }
         }
+
+        // the 'back' animation done
         private void pAnimationDone(object sender, EventArgs e)
         {
             this.Children.Remove(labelArray[whichLabelShow]);
@@ -127,6 +134,7 @@ namespace Tetris.AdvancedGUI
             p.Click += pPressed;
         }
 
+        // the 'next' animation  done
         private void nAnimationDone(object sender, EventArgs e)
         {
             this.Children.Remove(labelArray[whichLabelShow]);
@@ -135,6 +143,7 @@ namespace Tetris.AdvancedGUI
             n.Click += nPressed;
         }
 
+        // the next button clicked
         private void nPressed(object sender, RoutedEventArgs e)
         {
             if (whichLabelShow > 0)
@@ -150,6 +159,8 @@ namespace Tetris.AdvancedGUI
                 next.BeginAnimation(Canvas.LeftProperty, bn);
             }
         }
+
+        // setup the animation
         private void setAnimation(DoubleAnimation a, double from, double to, double dur, int dir)
         {
             a.From = from;

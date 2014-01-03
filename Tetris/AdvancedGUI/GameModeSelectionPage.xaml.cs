@@ -19,7 +19,7 @@ using System.Windows.Media.Animation;
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// GameModeSelectionPage.xaml 的交互逻辑
+    /// Game Mode Selection Page
     /// </summary>
     /// 
     public partial class GameModeSelectionPage : Page
@@ -29,6 +29,8 @@ namespace Tetris.AdvancedGUI
         
         public GameModeSelectionPage()
         {
+
+            // layout
             InitializeComponent();
 
             Grid aGrid = ButtonGrid1(holder);
@@ -53,6 +55,7 @@ namespace Tetris.AdvancedGUI
 
         }
 
+        // used to show different groups of settings
         private void addChildrenGrid(Grid holder, Grid Child, double opaque)
         {
             holder.Children.Add(Child);
@@ -61,6 +64,7 @@ namespace Tetris.AdvancedGUI
             Child.Opacity = opaque;
         }
 
+        // used to generate the layout
         private void setGrid(int colNum, int rowNum, Grid aGrid)
         {
             int i = 0;
@@ -80,13 +84,14 @@ namespace Tetris.AdvancedGUI
             }        
         }
 
+        // used to show the animation of switching settings
         private void switchGrid(Grid fromGrid, Grid toGrid, Grid holder, Button trigger)
         {
             trigger.IsEnabled = false;
 
             addChildrenGrid(holder, toGrid, 0);
-            DoubleAnimation fa = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.2));
-            DoubleAnimation ta = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.2));
+            DoubleAnimation fa = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.2)); // the last gone animation
+            DoubleAnimation ta = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.2)); // the next comes
 
             ta.Completed += new EventHandler(
                 delegate
@@ -104,15 +109,14 @@ namespace Tetris.AdvancedGUI
             fromGrid.BeginAnimation(Grid.OpacityProperty, fa);        
         }
 
-
-
+        // used to show the animation inside a group of settings
         private void switchContent(FrameworkElement from, FrameworkElement to, Grid holder, Button trigger)
         {
             trigger.IsEnabled = false;
             holder.Children.Add(to);
 
-            DoubleAnimation fa = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.2));
-            DoubleAnimation ta = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.2));
+            DoubleAnimation fa = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0.2));// the last gone
+            DoubleAnimation ta = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.2));// the next cames
 
             ta.Completed += new EventHandler(
                 delegate
@@ -130,6 +134,7 @@ namespace Tetris.AdvancedGUI
             from.BeginAnimation(Grid.OpacityProperty, fa); 
         }
 
+        // the first group of setting
         private Grid ButtonGrid1(Grid holder)
         {
             Grid aGrid = new Grid();
@@ -170,6 +175,7 @@ namespace Tetris.AdvancedGUI
             return (aGrid);
         }
 
+        // set the text box to change the names of players
         private TextBox setTextBox(int row, int col, int nameIndex)
         {
             TextBox aBox = new TextBox();
@@ -185,6 +191,7 @@ namespace Tetris.AdvancedGUI
             return (aBox);
         }
 
+        // a label
         private CustomizedLabel whoAreYouLabel(int row, Color c, String content)
         {
             CustomizedLabel l = new CustomizedLabel(c, content);
@@ -193,6 +200,7 @@ namespace Tetris.AdvancedGUI
             return (l);
         }
 
+        // the single mode setting
         private Grid ButtonGridSingle(Grid holder)
         {
             Grid aGrid = new Grid();
@@ -239,6 +247,7 @@ namespace Tetris.AdvancedGUI
             return (aGrid);
         }
 
+        // a label
         private SwitchLabel setSwitchLabel(int row, String[] contents, double opaque)
         {
             SwitchLabel l = new SwitchLabel(contents);
@@ -250,6 +259,7 @@ namespace Tetris.AdvancedGUI
             return (l);
         }
 
+        // the dual mode setting
         private Grid ButtonGridDual(Grid holder)
         {
             String[] contents1 = new string[2]{"  人  ", "电  脑"};
@@ -288,6 +298,8 @@ namespace Tetris.AdvancedGUI
 
             CustomizedButton2 goButton =
                 new CustomizedButton2("开始游戏！", colors[2]);
+
+            // used to store the settings and go to dual game 
             goButton.button.Click += new RoutedEventHandler(
                 delegate
                 {
@@ -330,10 +342,6 @@ namespace Tetris.AdvancedGUI
                     }); 
             backButton.SetValue(Grid.RowProperty, 6);
 
-            //aGrid.Children.Add(dif1Sel);
-            //aGrid.Children.Add(dif2Sel);
-            //aGrid.Children.Add(difficulty1);
-            //aGrid.Children.Add(difficulty2);
             aGrid.Children.Add(player1);
             aGrid.Children.Add(player2);
             aGrid.Children.Add(player1Sel);
@@ -351,6 +359,7 @@ namespace Tetris.AdvancedGUI
             return (aGrid);
         }
 
+        // a switching animation
         private void setClickSwitch(FrameworkElement from1, FrameworkElement to1,
             FrameworkElement from2, FrameworkElement to2, SwitchLabel l, Grid holder)
         {

@@ -20,7 +20,7 @@ using Tetris.AdvancedGUI.Styles;
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// SingleModePage.xaml 的交互逻辑
+    /// Single Mode Pages, similar to dual page
     /// </summary>
     public partial class SingleModePage : GameContainerPage
     {
@@ -50,11 +50,7 @@ namespace Tetris.AdvancedGUI
             outerGrid.ColumnDefinitions.Add(aCol);
 
             outerGrid.Width = Styles.WindowSizeGenerator.screenWidth;
-            outerGrid.Height = Styles.WindowSizeGenerator.screenHeight;
-
-            //outerGrid.SetValue(Canvas.BottomProperty,
-                //Styles.WindowSizeGenerator.gameModuleTop);
-            
+            outerGrid.Height = Styles.WindowSizeGenerator.screenHeight;  
     
             Border border = new Border();
 
@@ -68,11 +64,6 @@ namespace Tetris.AdvancedGUI
             gameGrid = new GameGrid(gridSize);
 
             game.AddDisplay(gameGrid);
-            //AIController _aiController = new AIController(game);
-            //game.SetController(_aiController);
-            
-
-            //outerGrid.SetValue(Canvas.LeftProperty, Styles.WindowSizeGenerator.singleModePageLocationLeft);
 
             border.Child = gameGrid;
             outerGrid.Children.Add(border);
@@ -127,7 +118,6 @@ namespace Tetris.AdvancedGUI
             aCol.Width = new GridLength(0.5 * scoreWidth, GridUnitType.Pixel);
             scoreNextBlockGrid.ColumnDefinitions.Add(aCol);
             aCol = new ColumnDefinition();
-            //aCol.Width = new GridLength(50, GridUnitType.Star);
             scoreNextBlockGrid.ColumnDefinitions.Add(aCol);
 
             RowDefinition aRow = new RowDefinition();
@@ -151,12 +141,6 @@ namespace Tetris.AdvancedGUI
             outerGrid.Children.Add(scoreNextBlockGrid);
             scoreNextBlockGrid.SetValue(Grid.ColumnProperty, 2);
             scoreNextBlockGrid.SetValue(Grid.RowProperty, 1);
-            
-
-        
-            //aCanvas.Children.Add(score);
-            //score.SetValue(Canvas.LeftProperty, scoreLeftLoc);
-            //score.SetValue(Canvas.BottomProperty, scoreBottomLoc);
 
             score.DataContext = game.ScoreSystem;
 
@@ -177,15 +161,7 @@ namespace Tetris.AdvancedGUI
             nextBlock.SetValue(Grid.HorizontalAlignmentProperty, HorizontalAlignment.Left);
             nextBlock.SetValue(Grid.VerticalAlignmentProperty, VerticalAlignment.Top);
 
-            //nextBlock.SetValue(Canvas.LeftProperty, nextLeftLoc);
-            //nextBlock.SetValue(Canvas.TopProperty, 220.0);
-
             game.AddDisplay(nextBlock);
-
-            //welcomeString1.story.Completed += whatHappenWhenAnimationStop;
-            //welcomeString2.story.Completed += this.whatHappenWhenAnimationStop;
-            //welcomeString1.beginAnimation();
-            //welcomeString2.beginAnimation();
 
             aRect = new Rectangle();
             aRect.Fill = new SolidColorBrush(Colors.Transparent);
@@ -194,7 +170,6 @@ namespace Tetris.AdvancedGUI
             outerGrid.Children.Add(aRect);
             aRect.SetValue(Grid.ColumnProperty, 1);
             aRect.SetValue(Grid.RowProperty, 1);
-            //game.GameEndEvent += gameEnd;
             game.GameEndEvent += gameEndEffect;
 
 
@@ -202,13 +177,6 @@ namespace Tetris.AdvancedGUI
 
         protected override void Loaded_Event(object sender, RoutedEventArgs e)
         {
-            /*
-            holderWin.Width = Styles.WindowSizeGenerator.singleModePageWidth;
-            holderWin.Left = Styles.WindowSizeGenerator.singleModePageLocationLeft;
-
-            outerGrid.Width = holderWin.Width;
-            outerGrid.Height = holderWin.Height;
-            */
             base.Loaded_Event(sender, e);
 
         }

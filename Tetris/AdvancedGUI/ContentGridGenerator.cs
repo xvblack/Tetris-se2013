@@ -17,6 +17,9 @@ using Tetris.AdvancedGUI.Styles;
 
 namespace Tetris.AdvancedGUI
 {
+    /// <summary>
+    /// squares  grid  generator
+    /// </summary>
     public partial class ContentGridGenerator: Grid
     {
         

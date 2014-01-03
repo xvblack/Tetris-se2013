@@ -18,14 +18,17 @@ using System.Windows.Navigation;
 
 namespace Tetris.AdvancedGUI.Animation
 {
+    /// <summary>
+    /// Fade-in and Fade-out Window navigation animation effect
+    /// </summary>
     public class FadeInFadeOut : WindowNavigationEffect
     {
         public FadeInFadeOut() : base() { }
 
+        // the fade-out effect after the prior page disapears
         public override void startEffect(object sender, NavigatingCancelEventArgs e)
         {
-            //base.startEffect(sender, e);
-
+            // pause window navigation, waiting for the end of animation effect
             if (targetWin.Content != null && !targetWin._allowDirectNavigation)
             {
                 e.Cancel = true;
@@ -38,10 +41,13 @@ namespace Tetris.AdvancedGUI.Animation
             targetWin._allowDirectNavigation = false;
 
         }
+
+        // the fade-in effect before the next page shows up
         public override void endEffect(object sender, EventArgs e)
         {
+            
             base.endEffect(sender, e);
-
+            
             targetWin.Dispatcher.BeginInvoke(DispatcherPriority.Loaded,
                 (ThreadStart)delegate()
             {

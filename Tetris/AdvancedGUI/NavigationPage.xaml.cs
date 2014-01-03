@@ -17,7 +17,7 @@ using Tetris.AdvancedGUI.Styles;
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// NavigationPage.xaml 的交互逻辑
+    /// Navigation Pages
     /// </summary>
     public partial class NavigationPage : Page
     {

@@ -15,13 +15,16 @@ using System.Windows.Shapes;
 
 namespace Tetris.AdvancedGUI.Styles
 {
-
-    // generate squares color map
+    /// <summary>
+    /// generate squares color map
+    /// </summary>
+    /// 
     class SquareGenerator
     {
         const int _colorNum = 9;
-        const string path = "../../AdvancedGUI/Styles/Pic/";
+        const string path = "../../AdvancedGUI/Styles/Pic/";  // where the pics of items are stored
 
+        // return the size of a square
         static public double squareSize {
             get
             {
@@ -33,11 +36,14 @@ namespace Tetris.AdvancedGUI.Styles
                  );
             }
         }
+
+        // return the size of a square of background pics
         public static double picSquareSize
         {
             get { return (squareSize / 3); }
         }
 
+        // the colors used by the squares
         static readonly public Color[] colorMap = new Color[] {
                                 Colors.Transparent,  // Transparent, no color
                                 Color.FromArgb(255, 255, 68, 68),     // red
@@ -50,6 +56,7 @@ namespace Tetris.AdvancedGUI.Styles
                                 Color.FromArgb(100, 0, 0, 0)  // black for dao ju
         };
 
+        // the brushes to show the square 
         const int _brushLen = 20;
         static readonly public Brush[] brushesMap = new Brush[] {
                                new SolidColorBrush(colorMap[0]),  
@@ -61,14 +68,16 @@ namespace Tetris.AdvancedGUI.Styles
                                new SolidColorBrush(colorMap[6]),
                                new SolidColorBrush(colorMap[7]),
                                new SolidColorBrush(colorMap[8]), // 8
-                               new ImageBrush((new BitmapImage(new Uri(path + "g.jpg", UriKind.Relative)))), // special items // 9
+                               // special triggering items 
+                               new ImageBrush((new BitmapImage(new Uri(path + "g.jpg", UriKind.Relative)))), // 9
                                new ImageBrush((new BitmapImage(new Uri(path + "ig.jpg", UriKind.Relative)))), // 10
                                new ImageBrush((new BitmapImage(new Uri(path + "t.jpg", UriKind.Relative)))), // 11
                                new ImageBrush((new BitmapImage(new Uri(path + "i.jpg", UriKind.Relative)))), // 12
 
+                               // gun and the inverse
                                new ImageBrush((new BitmapImage(new Uri(path + "GunPic/1.jpg", UriKind.Relative)))), // 13
                                new ImageBrush((new BitmapImage(new Uri(path + "GunPic/2.jpg", UriKind.Relative)))), // 14
-                               // 15
+                               // ton
                                new ImageBrush((new BitmapImage(new Uri(path + "TonPic/7.jpg", UriKind.RelativeOrAbsolute)))), // 15 - 23
                                new ImageBrush((new BitmapImage(new Uri(path + "TonPic/8.jpg", UriKind.Relative)))),
                                new ImageBrush((new BitmapImage(new Uri(path + "TonPic/9.jpg", UriKind.Relative)))),
@@ -78,10 +87,11 @@ namespace Tetris.AdvancedGUI.Styles
                                new ImageBrush((new BitmapImage(new Uri(path + "TonPic/1.jpg", UriKind.Relative)))),
                                new ImageBrush((new BitmapImage(new Uri(path + "TonPic/2.jpg", UriKind.Relative)))),
                                new ImageBrush((new BitmapImage(new Uri(path + "TonPic/3.jpg", UriKind.Relative)))),
-                               //23
+                               // shooted squares
                                new SolidColorBrush(Colors.Black), // 24
+                               // single block
                                new SolidColorBrush(colorMap[3]), // 25
-                               // 26
+                               // tripple block
                                new SolidColorBrush(colorMap[1]),  // 26    
                                new SolidColorBrush(colorMap[1]),
                                new SolidColorBrush(colorMap[1]),
@@ -95,7 +105,7 @@ namespace Tetris.AdvancedGUI.Styles
             
         };
 
-        
+        // used to generate a new brush
         static public Brush brushClone(Brush aBrush) 
         {
             if (aBrush.GetType() == typeof(SolidColorBrush))
@@ -107,12 +117,13 @@ namespace Tetris.AdvancedGUI.Styles
                 return (((RadialGradientBrush)aBrush).Clone());
             }
             else
-            { //return(new SolidColorBrush(Colors.Black));
+            { 
                 return (((ImageBrush)aBrush).Clone());
             }
 
         }
-
+        
+        // generate a random colors list
         public static Color[] randomColor(int colorNum)
         {
             int[] colorIndex = new int[colorNum];

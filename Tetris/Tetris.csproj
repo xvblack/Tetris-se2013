@@ -136,9 +136,6 @@
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="AdvancedGUI\Pic\SunGen.cs" />
-    <Compile Include="AdvancedGUI\Animation\SwitchEffect.xaml.cs">
-      <DependentUpon>SwitchEffect.xaml</DependentUpon>
-    </Compile>
     <Compile Include="AdvancedGUI\SwitchButton.xaml.cs">
       <DependentUpon>SwitchButton.xaml</DependentUpon>
     </Compile>
@@ -230,10 +227,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AdvancedGUI\Styles\TestClasses\TestWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="AdvancedGUI\Animation\SwitchEffect.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

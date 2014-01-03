@@ -15,6 +15,9 @@ using System.Windows.Shapes;
 
 namespace Tetris.AdvancedGUI.Pic
 {
+    /// <summary>
+    /// a sun
+    /// </summary>
     public class SunGen : PicGen
     {
         public SunGen()

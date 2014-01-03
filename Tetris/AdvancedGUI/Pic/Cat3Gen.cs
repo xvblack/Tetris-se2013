@@ -15,6 +15,10 @@ using System.Windows.Shapes;
 
 namespace Tetris.AdvancedGUI.Pic
 {
+    /// <summary>
+    /// generate a cat
+    /// </summary>
+    /// 
     public class Cat3Gen : PicGen
     {
         public Cat3Gen() : base()          

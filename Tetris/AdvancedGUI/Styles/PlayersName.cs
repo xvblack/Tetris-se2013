@@ -9,6 +9,9 @@ using System.IO;
 
 namespace Tetris.AdvancedGUI.Styles
 {
+    /// <summary>
+    /// holding the names of the last players
+    /// </summary>
     public class PlayersName
     {   
         static String[] _names = new String[2]{"sh1", "sh2"};
@@ -28,7 +31,7 @@ namespace Tetris.AdvancedGUI.Styles
             Save();
         }
 
-
+        // save the names for reloading the next time
         static public void Save()
         {
             if (File.Exists(path))
@@ -54,6 +57,7 @@ namespace Tetris.AdvancedGUI.Styles
             }
         }
 
+        // load the record of the last players
         public static void Load()
 
         {

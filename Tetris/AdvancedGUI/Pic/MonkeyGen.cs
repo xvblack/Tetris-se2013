@@ -15,6 +15,9 @@ using System.Windows.Shapes;
 
 namespace Tetris.AdvancedGUI.Pic
 {
+    /// <summary>
+    /// a monkey
+    /// </summary>
     class MonkeyGen : PicGen
     {
         public MonkeyGen()

@@ -19,7 +19,7 @@ using System.Windows.Media.Effects;
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// StartWelcomeString.xaml 的交互逻辑
+    /// set up a string, built by multiple pixels; poor design
     /// </summary>
     public partial class StringGrid : ContentGridGenerator
     {
@@ -248,7 +248,6 @@ namespace Tetris.AdvancedGUI
         ColorAnimationUsingKeyFrames[,] ca ;
         public Storyboard story;
         public bool pauseState = false;
-        //public GameContainerPage holderPage;
 
         public StringGrid(String content, double size)
         {
@@ -270,6 +269,7 @@ namespace Tetris.AdvancedGUI
             return (squareSize * gridHeight);
         }
 
+        // set up the string with no animation
         public void noAnimation()
         {
             Random num = new Random();
@@ -285,7 +285,6 @@ namespace Tetris.AdvancedGUI
 
                     if (contentMap[i, j] == 1)
                     {
-                        //brushesMatrix[i, j] = new SolidColorBrush(toColor);
                         squaresMatrix[i, j].Dispatcher.Invoke(
                             new Action(
                                 delegate
@@ -305,11 +304,13 @@ namespace Tetris.AdvancedGUI
             }
         }
 
+        // pause the animation when game paused
         public void pauseAnimation()
         {
             story.Pause();
         }
 
+        // set up the string with animation
         public void startAnimation(int timeStep, int timeDelay)
         {
             Random num = new Random();
@@ -317,15 +318,6 @@ namespace Tetris.AdvancedGUI
             NameScope.SetNameScope(this, new NameScope());
             ca = new ColorAnimationUsingKeyFrames[gridHeight, gridWidth];
             brushesMatrix = new SolidColorBrush[gridHeight, gridWidth];
-
-           
-
-            /*
-            DependencyProperty[] propertyChain = new DependencyProperty[]
-            {
-                SolidColorBrush.ColorProperty;
-            };
-             * */
 
             for (int i = 0; i < gridHeight; i++)
             {
@@ -345,6 +337,7 @@ namespace Tetris.AdvancedGUI
                         brushesMatrix[i, j] = new SolidColorBrush();
                         SolidColorBrush b = new SolidColorBrush();
 
+                        // animation for square content
                         ca[i, j].KeyFrames.Add(new SplineColorKeyFrame(fromColor,
                             TimeSpan.FromMilliseconds(beginTime + timeDelay)));
                         ca[i, j].KeyFrames.Add(new SplineColorKeyFrame(toColor,
@@ -353,9 +346,6 @@ namespace Tetris.AdvancedGUI
                             TimeSpan.FromMilliseconds(timeStep + beginTime + timeDelay)));
                         ca[i, j].KeyFrames.Add(new SplineColorKeyFrame(fromColor,
                             TimeSpan.FromMilliseconds(timeStep + beginTime + timeDelay)));
-
-                       //ca[i, j].SetValue(Storyboard.TargetPropertyProperty, SolidColorBrush.ColorProperty);
-                        //ca[i, j].SetValue(Storyboard.TargetProperty, brushesMatrix[i, j]);
 
                         story.Children.Add(ca[i, j]);
                             
@@ -365,14 +355,13 @@ namespace Tetris.AdvancedGUI
                         Storyboard.SetTargetName(ca[i, j], name);
                         Storyboard.SetTargetProperty(ca[i, j],
                             new PropertyPath("Color"));
-                        
 
-                        //brushesMatrix[i, j].BeginAnimation(SolidColorBrush.ColorProperty, ca[i, j]);
                         squaresMatrix[i, j].Fill = brushesMatrix[i, j];
 
                         ColorAnimationUsingKeyFrames ca_stroke =
                             new ColorAnimationUsingKeyFrames();
 
+                        // animation for square border
                         ca_stroke.KeyFrames.Add(new SplineColorKeyFrame(fromColor,
                             TimeSpan.FromMilliseconds(beginTime + timeDelay)));
                         ca_stroke.KeyFrames.Add(new SplineColorKeyFrame(strokeColor,
@@ -386,7 +375,6 @@ namespace Tetris.AdvancedGUI
                         SolidColorBrush stroke = new SolidColorBrush();
                         squaresMatrix[i, j].Stroke = stroke;
                         squaresMatrix[i, j].StrokeThickness = 1;
-
                         
                         this.RegisterName(name, stroke);
 
@@ -395,15 +383,13 @@ namespace Tetris.AdvancedGUI
                         Storyboard.SetTargetName(ca_stroke, name);
                         Storyboard.SetTargetProperty(ca_stroke,
                             new PropertyPath("Color"));
-                        //.BeginAnimation(SolidColorBrush.ColorProperty, ca_stroke);
                     }
                 }
 
             }
-            
-
         }
 
+        // start the animation
         public void beginAnimation() { 
             story.Dispatcher.Invoke(
                 new Action(
@@ -413,6 +399,7 @@ namespace Tetris.AdvancedGUI
                     }));
         }
 
+        // get the fonts from a string.
         private int[,] getContentString(String s)
         {
             char[] content = s.ToCharArray();

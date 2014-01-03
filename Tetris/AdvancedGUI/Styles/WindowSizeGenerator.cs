@@ -16,6 +16,9 @@ using System.Windows.Shapes;
 
 namespace Tetris.AdvancedGUI.Styles
 {
+    /// <summary>
+    /// use to handle differnet 分辨率 resolution
+    /// </summary>
     class WindowSizeGenerator
     {
         static readonly public double screenWidth = 

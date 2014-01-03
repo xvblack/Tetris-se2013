@@ -17,7 +17,7 @@ using Tetris.AdvancedGUI.Styles;
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// AchievementPage.xaml 的交互逻辑
+    /// Achievement Page
     /// </summary>
     public partial class AchievementPage : Page
     {
@@ -26,6 +26,7 @@ namespace Tetris.AdvancedGUI
         
         public AchievementPage()
         {
+            // initialize the layout
             InitializeComponent(); 
             this.FontSize = WindowSizeGenerator.fontSizeMedium;
             onePersonLabel.FontSize = WindowSizeGenerator.fontSizeLarge;

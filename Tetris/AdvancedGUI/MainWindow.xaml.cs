@@ -20,7 +20,7 @@ using Tetris.GameSystem;
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// Main Window
     /// </summary>
     public partial class MainWindow : NavigationWindow
     {
@@ -52,6 +52,7 @@ namespace Tetris.AdvancedGUI
             this.Width = this.MinWidth;
             */
 
+            // show navigation page first
             NavigationPage firstPage = new NavigationPage();
             firstPage.holderWin = this;
             this.Navigate(firstPage);

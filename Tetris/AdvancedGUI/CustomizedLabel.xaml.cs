@@ -17,7 +17,7 @@ using Tetris.AdvancedGUI.Styles;
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// CustomizedPlayerSel.xaml 的交互逻辑
+    /// Customized Label
     /// </summary>
     public partial class CustomizedLabel : CustomizedGrid
     {

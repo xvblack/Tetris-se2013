@@ -19,6 +19,7 @@ using System.Windows.Media.Animation;
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
+    /// the grid holding the display of the game
     /// </summary>
     public partial class GameGrid : ContentGridGenerator, IDisplay
     {
@@ -41,7 +42,6 @@ namespace Tetris.AdvancedGUI
 
         public void gameEndEffect(object sender, Tetris.GameBase.TetrisGame.GameEndEventArgs e)
         {
-
             this.Dispatcher.Invoke(
                 new Action(
                     delegate
@@ -56,6 +56,7 @@ namespace Tetris.AdvancedGUI
             );
         }
 
+        // used to draw the game
         public void OnDrawing(Tetris.GameBase.TetrisGame game,
             Tetris.GameBase.TetrisGame.DrawEventArgs e)
         {
@@ -70,7 +71,7 @@ namespace Tetris.AdvancedGUI
             for (i = 0; i < game.Height; i++)
                 for (j = 0; j < game.Width; j++)
                 {
-                    
+                    // only draw the changed part
                     if ((image[i, j] == null && imageCache[i, j] != 0) || (image[i, j] != null && image[i, j].Color+image[i,j].SubId != imageCache[i, j]))
                     {
 

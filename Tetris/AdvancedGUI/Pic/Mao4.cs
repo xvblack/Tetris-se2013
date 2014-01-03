@@ -15,6 +15,9 @@ using System.Windows.Shapes;
 
 namespace Tetris.AdvancedGUI.Pic
 {
+    /// <summary>
+    /// generate a cat
+    /// </summary>
     public class Mao4 : PicGen
     {
         public Mao4()

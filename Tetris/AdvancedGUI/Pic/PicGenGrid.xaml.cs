@@ -17,7 +17,7 @@ using Tetris.AdvancedGUI;
 namespace Tetris.AdvancedGUI.Pic
 {
     /// <summary>
-    /// PicGenGrid.xaml 的交互逻辑
+    /// the grid holding the generated pic
     /// </summary>
     public partial class PicGenGrid : ContentGridGenerator
     {
