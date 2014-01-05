@@ -79,6 +79,7 @@
     </Compile>
     <Compile Include="AdvancedGUI\Animation\FadeInFadeOut.cs" />
     <Compile Include="AdvancedGUI\Animation\WindowNavigationEffect.cs" />
+    <Compile Include="AdvancedGUI\SimplePlayerController.cs" />
     <Compile Include="AdvancedGUI\ContentGridGenerator.cs" />
     <Compile Include="AdvancedGUI\CustomizedButton2.xaml.cs">
       <DependentUpon>CustomizedButton2.xaml</DependentUpon>
@@ -153,6 +154,7 @@
     <Compile Include="IEngine.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="GameAPI.cs" />
+    <Compile Include="IPlayerController.cs" />
     <Compile Include="ItemColor.cs" />
     <Compile Include="ItemSystem.cs" />
     <Compile Include="ITetrisFactory.cs" />

@@ -10,7 +10,7 @@ using Tetris.GameBase;
 namespace Tetris.GameControl
 {
 
-    public class PlayerController : IController
+    public class PlayerController : IPlayerController
     {
         //用于存储用户输入的操作序列,每读取一个操作消除最后一个序列;
         private Stack<TetrisGame.GameAction> actionStack;

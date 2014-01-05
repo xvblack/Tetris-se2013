@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -193,7 +194,7 @@ namespace Tetris.AdvancedGUI
 
         protected override void keyPressed(object sender, KeyEventArgs e)
         {
-            _controller[0].OnKeyDown(e);
+            //_controller[0].OnKeyDown(e);
             if (e.Key == Key.Escape)
             {
                 game.Pause();
@@ -216,6 +217,7 @@ namespace Tetris.AdvancedGUI
             }
             base.keyPressed(sender, e);
         }
+
 
         public void gameEndEffect(object sender, Tetris.GameBase.TetrisGame.GameEndEventArgs e)
         {

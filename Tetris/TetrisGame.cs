@@ -323,6 +323,7 @@ namespace Tetris.GameBase
                 Debug.Assert(Block.Id!=Block.TempId,"loop using a temp block");
                 Block.FallSpeed = FallingSpeed;    // Use the Game FallingSpeed as the block fall speed
                 PerRound(Settings.Default.TickActions, HandleAction);
+                PerRound(Settings.Default.TickFalling, HandleFallingAction);
                 PerRound(1*Block.FallSpeed, HandleFalling);
                 ClearBar();
                 UpdateEndEvent.Invoke(this,new UpdateEndEventArgs(_tick));
@@ -375,7 +376,7 @@ namespace Tetris.GameBase
             {
                 if (_speedUp)
                 {
-                    return 10*GameSpeed;
+                    return Settings.Default.SpeedUp*GameSpeed;
                 }
                 return 1*GameSpeed;
             }
@@ -397,7 +398,7 @@ namespace Tetris.GameBase
             }
         }
 
-        private void HandleAction()
+        private void HandleFallingAction()
         {
             if (_controller.Act(GameAction.Down))
             {
@@ -408,6 +409,10 @@ namespace Tetris.GameBase
                 _speedUp = false;
             }
             Trace.WriteLine(_speedUp);
+        }
+
+        private void HandleAction()
+        {
 
             if (_controller.Act(GameAction.Rotate))
             {

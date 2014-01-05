@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,7 +38,7 @@ namespace Tetris.AdvancedGUI
 
         public bool gameHasStarted = false;
 
-        public PlayerController[] _controller = new PlayerController[2];
+        public IPlayerController[] _controller = new IPlayerController[2];
 
         public GameContainerPage() 
         {
@@ -68,10 +69,10 @@ namespace Tetris.AdvancedGUI
             String player1Path = Properties.Settings.Default.Player1Path;
             String player2Path = Properties.Settings.Default.Player2Path;
 
-            _controller[0] = new PlayerController();
+            _controller[0] = new SimplePlayerController();
             _controller[0].SetConfig(new ControllerConfig(player1Path));
 
-            _controller[1] = new PlayerController();
+            _controller[1] = new SimplePlayerController();
             _controller[1].SetConfig(new ControllerConfig(player2Path));
         }
 
@@ -145,6 +146,7 @@ namespace Tetris.AdvancedGUI
         virtual protected void Loaded_Event(object sender, RoutedEventArgs e)
         {           
             this.holderWin.PreviewKeyDown += this.keyPressed;
+            this.holderWin.PreviewKeyUp += this.KeyUpping;
             this.startAnimation();
         }
 
@@ -159,9 +161,16 @@ namespace Tetris.AdvancedGUI
 
         }
 
+        public void KeyUpping(object sender, KeyEventArgs e)
+        {
+            _controller[0].OnKeyUp(e);
+            _controller[1].OnKeyUp(e);
+        }
+
         protected void Unloaded_Event(object sender, RoutedEventArgs e)
         {
             this.holderWin.PreviewKeyDown -= this.keyPressed;
+            this.holderWin.PreviewKeyUp -= this.KeyUpping;
         }
     }
 }

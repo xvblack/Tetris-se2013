@@ -512,5 +512,9 @@ namespace Tetris
         public void InverseControl()
         {
         }
+
+        public void SetInversed(bool isInversed)
+        {
+        }
     }
 }

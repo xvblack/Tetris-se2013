@@ -12,7 +12,16 @@
       <Value Profile="(Default)">96</Value>
     </Setting>
     <Setting Name="TickActions" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">48</Value>
+      <Value Profile="(Default)">6</Value>
+    </Setting>
+    <Setting Name="TickFalling" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">96</Value>
+    </Setting>
+    <Setting Name="DefaultSpeed" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="SpeedUp" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
     </Setting>
   </Settings>
 </SettingsFile>

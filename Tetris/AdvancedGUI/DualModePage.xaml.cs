@@ -288,8 +288,8 @@ namespace Tetris.AdvancedGUI
         // correspone the key pressed events
         protected override void keyPressed(object sender, KeyEventArgs e)
         {
-            _controller[0].OnKeyDown(e);
-            _controller[1].OnKeyDown(e);
+            //_controller[0].OnKeyDown(e);
+            //_controller[1].OnKeyDown(e);
             // pause the game and show a exit log
             if (e.Key == Key.Escape)
             {
@@ -313,6 +313,7 @@ namespace Tetris.AdvancedGUI
                 win.ShowDialog();
 
             }
+            base.keyPressed(sender, e);
 
         }
 

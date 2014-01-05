@@ -61,13 +61,49 @@ namespace Tetris.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("48")]
+        [global::System.Configuration.DefaultSettingValueAttribute("6")]
         public int TickActions {
             get {
                 return ((int)(this["TickActions"]));
             }
             set {
                 this["TickActions"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("96")]
+        public int TickFalling {
+            get {
+                return ((int)(this["TickFalling"]));
+            }
+            set {
+                this["TickFalling"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int DefaultSpeed {
+            get {
+                return ((int)(this["DefaultSpeed"]));
+            }
+            set {
+                this["DefaultSpeed"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int SpeedUp {
+            get {
+                return ((int)(this["SpeedUp"]));
+            }
+            set {
+                this["SpeedUp"] = value;
             }
         }
     }
