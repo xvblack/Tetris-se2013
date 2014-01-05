@@ -12,6 +12,11 @@ namespace Tetris.GameSystem
 
         public class AchievementState // 单个用户的成就状态
         {
+            public static readonly List<string> HighestScoreUser=new List<string>();
+            public static readonly List<string> HighestTotalClearBarUser=new List<string>();
+
+            public static int HighestScoreGlobal=0;
+            public static int HighestTotalClearBarGlobal=0;
             public int HighScore=0;
             public int TotalClearBar=0;
             public bool SeqClear=false;
@@ -23,6 +28,11 @@ namespace Tetris.GameSystem
         public static AchievementState GetAchievementState(string name = "")
         {
             return States[name];
+        }
+
+        public static bool ExistUser(string name)
+        {
+            return States.ContainsKey(name);
         }
 
         private abstract class BindSystem // 成就系统的绑定子系统
@@ -153,8 +163,10 @@ namespace Tetris.GameSystem
             }
         }
 
-        private static void UpdateHighest() // 更新全体用户的最高分
+        public static void UpdateHighest() // 更新全体用户的最高分
         {
+            AchievementState.HighestTotalClearBarUser.Clear();
+            AchievementState.HighestScoreUser.Clear();
             int hs = 0, htcb = 0;
             foreach (var state in States)
             {
@@ -167,15 +179,19 @@ namespace Tetris.GameSystem
                     htcb = state.Value.TotalClearBar;
                 }
             }
+            AchievementState.HighestScoreGlobal = hs;
+            AchievementState.HighestTotalClearBarGlobal = htcb;
             foreach (var state in States)
             {
                 if (state.Value.HighScore == hs)
                 {
                     state.Value.HighestScore = true;
+                    AchievementState.HighestScoreUser.Add(state.Key);
                 }
                 if (state.Value.TotalClearBar == htcb)
                 {
                     state.Value.HighestTotalClearBar = true;
+                    AchievementState.HighestTotalClearBarUser.Add(state.Key);
                 }
             }
         }

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Tetris.AdvancedGUI.Styles;
+using Tetris.GameSystem;
 
 namespace Tetris.AdvancedGUI
 {
@@ -59,10 +60,13 @@ namespace Tetris.AdvancedGUI
         private void highest_Loaded(object sender, RoutedEventArgs e)
         { 
             // read the achievements from AchievementSystem
-            HighestScore.Content = "";
-            MostTotalClearBar.Content = "";
-            HighestScoreName.Content = "";
-            MostTotalClearBarName.Content = "";
+            AchievementSystem.UpdateHighest();
+            HighestScore.Content = AchievementSystem.AchievementState.HighestScoreGlobal;
+            MostTotalClearBar.Content = AchievementSystem.AchievementState.HighestTotalClearBarGlobal;
+            var hsname = AchievementSystem.AchievementState.HighestScoreUser.Aggregate("", (current, str) => current + str + " ");
+            var htcbname = AchievementSystem.AchievementState.HighestTotalClearBarUser.Aggregate("", (current,str)=>current+str+" ");
+            HighestScoreName.Content = hsname;
+            MostTotalClearBarName.Content = htcbname;
         }
 
         // Click to display the achievements of this one person
@@ -70,14 +74,15 @@ namespace Tetris.AdvancedGUI
         {
             // read the achievements from AchievementSystem
             // if this person exists
-            if (false)
+            if (AchievementSystem.ExistUser(name.Text))
             {
-                areYouSomebody.Content = "";
+                areYouSomebody.Content = name.Text;
+                var state = AchievementSystem.GetAchievementState(name.Text);
                 // display the achievments
-                HighScore.Content = "0";
-                TotalClearBar.Content = "0";
-                SeqClear.Content = ("" == "true" ? "完成" : "还没有");
-                HardSurvive.Content = ("" == "true" ? "完成" : "还没有");
+                HighScore.Content = state.HighScore.ToString();
+                TotalClearBar.Content = state.TotalClearBar.ToString();
+                SeqClear.Content = (state.SeqClear ? "完成" : "还没有");
+                HardSurvive.Content = (state.HardSurvive ? "完成" : "还没有");
             }
             else
             {

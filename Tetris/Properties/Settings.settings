@@ -9,7 +9,10 @@
       <Value Profile="(Default)">.\\player2.xml</Value>
     </Setting>
     <Setting Name="RoundTicks" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">120</Value>
+      <Value Profile="(Default)">96</Value>
+    </Setting>
+    <Setting Name="TickActions" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">48</Value>
     </Setting>
   </Settings>
 </SettingsFile>

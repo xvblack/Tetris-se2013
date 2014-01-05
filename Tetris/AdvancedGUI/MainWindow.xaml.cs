@@ -30,6 +30,7 @@ namespace Tetris.AdvancedGUI
         public MainWindow()
         {
             InitializeComponent();
+            AchievementSystem.Load();
 
             // which window size is used?
             /*
