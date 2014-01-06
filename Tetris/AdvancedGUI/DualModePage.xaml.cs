@@ -90,8 +90,8 @@ namespace Tetris.AdvancedGUI
             border2.BorderThickness = new Thickness(2, 2, 2, 2);
 
             games = t.NewDuelGame(
-                p1mode.player==1?"AI":PlayersName.getName(0),
-                p2mode.player==2?"AI":PlayersName.getName(1)
+                p1mode.player==1?"":PlayersName.getName(0),
+                p2mode.player==1?"":PlayersName.getName(1)
                 );
             int[] gridSize = new int[2] 
                 { games.Item1.Height, games.Item1.Width };

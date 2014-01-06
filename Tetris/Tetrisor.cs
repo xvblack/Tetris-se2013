@@ -109,7 +109,7 @@ namespace Tetris
             return game;
         }
 
-        public DuelGame NewDuelGame(string user1="",string user2="AI",bool withItem=true)
+        public DuelGame NewDuelGame(string user1="",string user2="",bool withItem=true)
         {
             var game1 = NewGame(user1,null,withItem);
             var game2 = NewGame(user2,null,withItem);

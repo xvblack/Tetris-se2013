@@ -310,7 +310,7 @@ namespace Tetris.AdvancedGUI
                     }
                     else
                     {
-                        PlayersName.setName(0, "AI");
+                        PlayersName.setName(0, "");
                         pModes[0] = new DualModePage.gameMode(1, dif1Sel.getLabelIndex());
                     }
                     if (player2Sel.getLabelIndex() == 0) // player2 is 人 
@@ -320,7 +320,7 @@ namespace Tetris.AdvancedGUI
                     }
                     else
                     {
-                        PlayersName.setName(1, "AI");
+                        PlayersName.setName(1, "");
                         pModes[1] = new DualModePage.gameMode(1, dif2Sel.getLabelIndex());
                     }
 
