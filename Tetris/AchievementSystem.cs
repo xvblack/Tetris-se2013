@@ -91,7 +91,7 @@ namespace Tetris.GameSystem
 
         public static void Bind(TetrisGame game, string name="") // 静态方法，绑定游戏
         {
-            if (name == "AI") return;
+            if (name == "_AI") return;
             if (!States.ContainsKey(name)) // 如果没有现在的用户，设定为新用户
             {
                 States[name]=new AchievementState();
