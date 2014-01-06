@@ -90,8 +90,8 @@ namespace Tetris.AdvancedGUI
             border2.BorderThickness = new Thickness(2, 2, 2, 2);
 
             games = t.NewDuelGame(
-                p1mode.player==1?"AI":PlayersName.getName(0),
-                p2mode.player==2?"AI":PlayersName.getName(1)
+                p1mode.player==1?"_AI":PlayersName.getName(0),
+                p2mode.player==2?"_AI":PlayersName.getName(1)
                 );
             int[] gridSize = new int[2] 
                 { games.Item1.Height, games.Item1.Width };
@@ -332,9 +332,9 @@ namespace Tetris.AdvancedGUI
                         this.aCanvas.Children.Add(l);
                         l.SetValue(Canvas.TopProperty, 0.25 * WindowSizeGenerator.screenHeight);
                         if (winner == 0)
-                            l.SetValue(Canvas.LeftProperty, 0.15 * WindowSizeGenerator.screenWidth);
+                            l.SetValue(Canvas.LeftProperty, 0.08 * WindowSizeGenerator.screenWidth);
                         else
-                            l.SetValue(Canvas.LeftProperty, 0.75 * WindowSizeGenerator.screenWidth);
+                            l.SetValue(Canvas.LeftProperty, 0.70 * WindowSizeGenerator.screenWidth);
                         l.SetValue(Canvas.ZIndexProperty, 100);
 
                         // begin to hide the game grids
