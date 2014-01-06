@@ -179,7 +179,8 @@ namespace Tetris.AdvancedGUI
         private TextBox setTextBox(int row, int col, int nameIndex)
         {
             TextBox aBox = new TextBox();
-            aBox.Text = PlayersName.getName(nameIndex);
+            String tmp = PlayersName.getName(nameIndex);
+            aBox.Text = tmp == "_AI" ? "" : tmp;
             aBox.BorderThickness = new Thickness(0, 0, 0, 0);
             aBox.VerticalAlignment = System.Windows.VerticalAlignment.Center;
             aBox.FontSize = Styles.WindowSizeGenerator.fontSizeMedium;
