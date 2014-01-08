@@ -2,16 +2,14 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="300">
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" >
     <Border Style="{StaticResource BorderTheme}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="2*" />
             </Grid.RowDefinitions>
-            <Label Content="得分：" Grid.Row="0" Height="Auto" Width="Auto"
+            <Label Name="topLabel" Content="得分：" Grid.Row="0" Height="Auto" Width="Auto"
                    HorizontalAlignment="Left" VerticalAlignment="Bottom"
                    Style="{StaticResource LabelTheme1}"/>
             <Label Name="score" Grid.Row="1" Height="Auto" Width="Auto"

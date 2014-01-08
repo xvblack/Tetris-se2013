@@ -5,31 +5,76 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-	Title="AchievementPage"
-    >
+	Title="SettingPage" Loaded="Page_Loaded_1">
 
-    <Grid>
+    <Grid  Name="contentGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
-            <RowDefinition Height="40" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
-            <ColumnDefinition Width="100" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
-        <Grid Grid.Row="2" Grid.Column="2" Name="ButtonsGrid">
+        <Label Name="onePersonLabel" Content="个人成就" Grid.Row="1" Grid.Column="1"/>
+        <Grid Name="onePerson" Grid.Column="1" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="20" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-        </Grid>
+            <Label Name="label1" Content="昵称：" Grid.Column="0" Grid.Row="0" />
+            <Label Name="label2" Content="最高得分：" Grid.Column="0" Grid.Row="2" />
+            <Label Name="label3" Content="最大消除行数：" Grid.Column="0" Grid.Row="3" />
+            <Label Name="label4" Content="连续消除三次两行：" Grid.Column="0" Grid.Row="4" />
+            <Label Name="label5" Content="困难模式存活30轮：" Grid.Column="0" Grid.Row="5" />
+            
+            <TextBox Name="name"  Grid.Column="1" Grid.Row="0" BorderThickness="0"/>
+            <Button Name="okay"  Grid.Column="2" Grid.Row="0" Content="点我确定"
+                    Template="{StaticResource ButtonTemplate}"/>
+            <Label Name="areYouSomebody" Grid.Column="0" Grid.Row="1"/>
 
+            <Label Name="HighScore" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="2" />
+            <Label Name="TotalClearBar" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="3" />
+            <Label Name="SeqClear" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="4" />
+            <Label Name="HardSurvive" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="5" />
+        </Grid>
+        
+        <Label Name="AllPeopleLabel" Content="总成就" Grid.Column="2" Grid.Row="1" />
+        <Grid Name="AllPeople" Grid.Column="2" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Name="label11" Content="得分最高：" Grid.Column="0" Grid.Row="2" />
+            <Label Name="label12" Content="分数：" Grid.Column="0" Grid.Row="3"/>
+            <Label Name="label13" Content="消除行数最多：" Grid.Column="0" Grid.Row="4" />
+            <Label Name="label14" Content="行数：" Grid.Column="0" Grid.Row="5" />
+            <Label Name="HighestScoreName" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="2" />
+            <Label Name="MostTotalClearBarName" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="4" />
+            <Label Name="HighestScore" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="3" />
+            <Label Name="MostTotalClearBar" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="5" />
+        </Grid>
     </Grid>
 </Page>

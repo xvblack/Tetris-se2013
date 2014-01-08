@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 namespace Tetris.AdvancedGUI.Pic
 {
     /// <summary>
-    /// TestPic.xaml 的交互逻辑
+    /// used to test the pic 
     /// </summary>
     public partial class TestPic : Window
     {
@@ -29,7 +29,7 @@ namespace Tetris.AdvancedGUI.Pic
 
             pixelSize = 5;
 
-            pic = new Cat5Gen();
+            pic = new Cat2Gen();
             picGrid = new PicGenGrid(pic, pixelSize);
 
             this.Content = picGrid;
@@ -39,6 +39,7 @@ namespace Tetris.AdvancedGUI.Pic
             this.Show();
         }
 
+        // show the color index of the mouse over pixel
         private void mouseOnWhichPixel(object sender, MouseEventArgs e)
         {
             Point pt = e.GetPosition(this);

@@ -15,14 +15,14 @@ using System.Windows.Shapes;
 
 namespace Tetris.AdvancedGUI.Pic
 {
+    /// <summary>
+    /// a sun
+    /// </summary>
     public class SunGen : PicGen
     {
         public SunGen()
-            : base() { }
-
-        protected override void setPicMatrix()
+            : base() 
         {
-            //base.setPicMatrix();
             colorIndexMatrix = new int[,]{
                 {5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5},
                 {5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,3,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5},
@@ -64,19 +64,7 @@ namespace Tetris.AdvancedGUI.Pic
                 {5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5},
                 {5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5},
                 {5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5}};
-
-            xNum = colorIndexMatrix.GetLength(0);
-            yNum = colorIndexMatrix.GetLength(1);
-
-            picMatrix = new SolidColorBrush[xNum, yNum];
-            for (int i = 0; i < xNum; i++)
-            {
-                for (int j = 0; j < yNum; j++)
-                {
-                    picMatrix[i, j] =
-                        new SolidColorBrush(colorMap[colorIndexMatrix[i, j] - 1]);
-                }
-            }
+            setPicMatrix();
         }
 
         protected override void setColorMap()

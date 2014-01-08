@@ -12,43 +12,27 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Tetris.AdvancedGUI.Styles;
 
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// CustomizedButton2.xaml 的交互逻辑
+    /// Customized Button, the button with a mark showed up when mouse over
     /// </summary>
-    public partial class CustomizedButton2 : Grid
+    public partial class CustomizedButton2 : CustomizedGrid
     {
         //public Button button = new Button();
 
-        public CustomizedButton2(String content, double height, double width, int markColor)
+        public CustomizedButton2(String content, Color aColor):base(aColor)
         {
             InitializeComponent();
 
-            mark.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
-            mark.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-            mark.Visibility = System.Windows.Visibility.Hidden;
-
-            mark.Fill = new SolidColorBrush(((new Styles.SquareGenerator()).getColorMap())[markColor]);
-
-            button.MouseEnter += showMark;
-            button.MouseLeave += hideMark;
-
-            button.Height = height;
-            button.Width = width;
+            button.FontSize = Styles.WindowSizeGenerator.fontSizeMedium;
 
             button.Content = content;
-        }
 
-        private void showMark(object sender, MouseEventArgs e)
-        {
-            this.mark.Visibility = System.Windows.Visibility.Visible;
-        }
-
-        private void hideMark(object sender, MouseEventArgs e)
-        {
-            this.mark.Visibility = System.Windows.Visibility.Hidden;
+            this.MouseEnter += showMark;
+            this.MouseLeave += hideMark;
         }
     }
 }

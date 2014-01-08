@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// ScoreGrid.xaml 的交互逻辑
+    /// Score board Grid
     /// </summary>
     public partial class ScoreGrid : Grid
     {
@@ -26,7 +26,11 @@ namespace Tetris.AdvancedGUI
 
             this.Height = height;
             this.Width = width;
-            //score.Content = "0";
+
+            topLabel.SetValue(Label.FontSizeProperty, 
+                Styles.WindowSizeGenerator.fontSizeSmall);
+            score.SetValue(Label.FontSizeProperty,
+                Styles.WindowSizeGenerator.fontSizeLarge);
         }
     }
 }

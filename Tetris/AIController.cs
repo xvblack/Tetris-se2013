@@ -33,7 +33,7 @@ namespace Tetris
             // count: >=0 （每几次才可能犯错一次，0为不犯错，1为每次都可能犯错）
             if (type == AIType.High)
             {
-                speed = 15;
+                speed = 150;
             }
             else if (type == AIType.Middle)
             {
@@ -510,6 +510,10 @@ namespace Tetris
         }
 
         public void InverseControl()
+        {
+        }
+
+        public void SetInversed(bool isInversed)
         {
         }
     }

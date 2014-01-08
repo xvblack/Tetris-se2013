@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tetris.GameBase;
 using Tetris.GameSystem;
+using Tetris.Properties;
 
 namespace Tetris
 {
@@ -93,8 +94,13 @@ namespace Tetris
             {
                 factory = new TetrisFactory(Square.Styles(styles), ran);
             }
+
+            // use AdvancedGUI.Styles.WindowSizeGenerator to set the game size! shuo han
+
+            int gameWidth = AdvancedGUI.Styles.WindowSizeGenerator.gameWidth;
+            int gameHeight = AdvancedGUI.Styles.WindowSizeGenerator.gameHeight;
             
-            var game = new TetrisGame(id,Square.Styles(styles), _engine, factory,10,15,2);
+            var game = new TetrisGame(id,Square.Styles(styles), _engine, factory,gameWidth,gameHeight,Settings.Default.DefaultSpeed);
             game.SetController(controller);
             ItemSystem.Bind(game);
             ScoreSystem.Bind(game);
@@ -103,7 +109,7 @@ namespace Tetris
             return game;
         }
 
-        public DuelGame NewDuelGame(string user1="",string user2="AI",bool withItem=true)
+        public DuelGame NewDuelGame(string user1="",string user2="",bool withItem=true)
         {
             var game1 = NewGame(user1,null,withItem);
             var game2 = NewGame(user2,null,withItem);

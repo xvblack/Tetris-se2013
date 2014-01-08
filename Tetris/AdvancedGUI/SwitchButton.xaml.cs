@@ -12,17 +12,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Tetris.AdvancedGUI.Styles;
 
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// SwitchEffect.xaml 的交互逻辑
+    /// Switching Button
     /// </summary>
-    public partial class SwitchEffect : Grid
+    public partial class SwitchButton : Button
     {
-        public SwitchEffect()
+        public SwitchButton(double height, int dir)
         {
             InitializeComponent();
+            this.Height = height;
+            this.Content = (dir > 0 ? ">" : "<");
+            this.FontSize = WindowSizeGenerator.fontSizeLarge;
+           
         }
     }
 }
