@@ -54,8 +54,14 @@ namespace Tetris.AdvancedGUI
         {
             if (_inversed)
             {
-                if (action == TetrisGame.GameAction.Left) action = TetrisGame.GameAction.Right;
-                if (action == TetrisGame.GameAction.Right) action = TetrisGame.GameAction.Left;
+                if (action == TetrisGame.GameAction.Left)
+                {
+                    action = TetrisGame.GameAction.Right;
+                }
+                else if (action == TetrisGame.GameAction.Right)
+                {
+                    action = TetrisGame.GameAction.Left;
+                }
             }
             if (_pressed[action] > 0)
             {
