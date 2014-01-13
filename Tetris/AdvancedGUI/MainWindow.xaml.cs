@@ -15,6 +15,7 @@ using System.Windows.Media.Animation;
 using System.Threading;
 using System.Windows.Threading;
 using System.Windows.Navigation;
+using Tetris.GameBase;
 using Tetris.GameSystem;
 
 namespace Tetris.AdvancedGUI

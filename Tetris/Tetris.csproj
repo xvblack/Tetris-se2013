@@ -141,40 +141,40 @@
       <DependentUpon>SwitchButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="AdvancedGUI\SwitchLabel.cs" />
-    <Compile Include="AIController.cs" />
-    <Compile Include="CacheFactory.cs" />
-    <Compile Include="Color.cs" />
-    <Compile Include="ConsoleDisplay.cs" />
-    <Compile Include="ControllerConfig.cs" />
-    <Compile Include="Dictionary.cs" />
-    <Compile Include="FixedEngine.cs" />
+    <Compile Include="GameBase\AIController.cs" />
+    <Compile Include="GameBase\Block.cs" />
+    <Compile Include="GameBase\CacheFactory.cs" />
+    <Compile Include="GameBase\Color.cs" />
+    <Compile Include="GameBase\ConsoleDisplay.cs" />
+    <Compile Include="GameBase\ControllerConfig.cs" />
+    <Compile Include="GameBase\Dictionary.cs" />
+    <Compile Include="GameBase\FixedEngine.cs" />
+    <Compile Include="GameBase\GameAPI.cs" />
+    <Compile Include="GameBase\IController.cs" />
+    <Compile Include="GameBase\IDisplay.cs" />
+    <Compile Include="GameBase\IEngine.cs" />
+    <Compile Include="GameBase\IPlayerController.cs" />
+    <Compile Include="GameBase\ISprite.cs" />
+    <Compile Include="GameBase\ITetrisFactory.cs" />
+    <Compile Include="GameBase\PlayerController.cs" />
+    <Compile Include="GameBase\Randomor.cs" />
+    <Compile Include="GameBase\SimpleEngine.cs" />
+    <Compile Include="GameBase\Square.cs" />
+    <Compile Include="GameBase\TetrisFactory.cs" />
+    <Compile Include="GameBase\TetrisGame.cs" />
+    <Compile Include="GameBase\Tetrisor.cs" />
+    <Compile Include="GameBase\TimerEngine.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GameBase\XMLHelper.cs" />
     <Compile Include="GameGrid.xaml.cs">
       <DependentUpon>GameGrid.xaml</DependentUpon>
     </Compile>
-    <Compile Include="IEngine.cs" />
-    <Compile Include="Block.cs" />
-    <Compile Include="GameAPI.cs" />
-    <Compile Include="IPlayerController.cs" />
-    <Compile Include="ItemColor.cs" />
-    <Compile Include="ItemSystem.cs" />
-    <Compile Include="ITetrisFactory.cs" />
-    <Compile Include="Randomor.cs" />
-    <Compile Include="PlayerController.cs" />
-    <Compile Include="SimpleEngine.cs" />
-    <Compile Include="Square.cs" />
-    <Compile Include="TetrisFactory.cs" />
-    <Compile Include="TetrisGame.cs" />
-    <Compile Include="AchievementSystem.cs" />
-    <Compile Include="ScoreSystem.cs" />
-    <Compile Include="IController.cs" />
-    <Compile Include="IDisplay.cs" />
-    <Compile Include="ISprite.cs" />
-    <Compile Include="TetrisItemFactory.cs" />
-    <Compile Include="Tetrisor.cs" />
-    <Compile Include="TimerEngine.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="XMLHelper.cs" />
+    <Compile Include="GameSystem\AchievementSystem.cs" />
+    <Compile Include="GameSystem\ItemColor.cs" />
+    <Compile Include="GameSystem\ItemSystem.cs" />
+    <Compile Include="GameSystem\ScoreSystem.cs" />
+    <Compile Include="GameSystem\TetrisItemFactory.cs" />
     <Page Include="AdvancedGUI\AchievementPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -273,10 +273,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GameBase\" />
-    <Folder Include="GameSystem\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>

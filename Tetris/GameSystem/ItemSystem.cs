@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
-using System.Windows.Shapes;
 using Tetris.GameBase;
 
-namespace Tetris
+namespace Tetris.GameSystem
 {
     /// <summary>
     /// 道具方块类

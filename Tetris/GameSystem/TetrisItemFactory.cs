@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Tetris.GameBase;
 
-namespace Tetris
+namespace Tetris.GameSystem
 {
     public class TetrisItemFactory : TetrisFactory
     {

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Tetris.GameBase;
-using Tetris.GameControl;
 
 namespace Tetris.AdvancedGUI
 {

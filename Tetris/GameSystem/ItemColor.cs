@@ -1,4 +1,4 @@
-﻿namespace Tetris
+﻿namespace Tetris.GameSystem
 {
     static partial class GameColor
     {

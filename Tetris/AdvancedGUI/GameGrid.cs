@@ -12,9 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Tetris.GameBase;
 using Tetris.AdvancedGUI.Styles;
 using System.Windows.Media.Animation;
+using Tetris.GameBase;
 
 namespace Tetris.AdvancedGUI
 {

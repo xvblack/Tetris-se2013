@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
-namespace Tetris
+namespace Tetris.GameBase
 {
     /// <summary>
     /// 使用Sleep实现的简单引擎

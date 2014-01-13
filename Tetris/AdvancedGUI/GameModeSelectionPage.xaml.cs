@@ -13,7 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Tetris.AdvancedGUI.Styles;
-using Tetris.GameControl;
 using System.Windows.Media.Animation;
 
 namespace Tetris.AdvancedGUI

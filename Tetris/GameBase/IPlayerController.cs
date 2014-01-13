@@ -1,7 +1,6 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
-namespace Tetris.GameControl
+namespace Tetris.GameBase
 {
     public interface IPlayerController : IController
     {

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tetris.GameBase;
+using Tetris.GameSystem;
 
-namespace Tetris
+namespace Tetris.GameBase
 {
     /// <summary>
     /// 可以预览下一个方块的工厂

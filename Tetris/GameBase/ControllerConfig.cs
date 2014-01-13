@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml;
-using Tetris.GameBase;
 
-namespace Tetris.GameControl
+namespace Tetris.GameBase
 {
     /**
      * 此类保存了键盘按键和游戏操作的对应关系，可以通过Add()方法进行修改和添加操作.

@@ -1,6 +1,5 @@
-﻿using Tetris.GameBase;
-using System.ComponentModel;
-using System.Diagnostics;
+﻿using System.ComponentModel;
+using Tetris.GameBase;
 
 namespace Tetris.GameSystem
 {

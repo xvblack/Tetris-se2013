@@ -1,25 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tetris.GameBase;
-using System.Diagnostics;
 using System.Threading;
+using Tetris.GameSystem;
 
-namespace Tetris
+namespace Tetris.GameBase
 {
     public class AIController : IController
     {
         private readonly TetrisGame _game;
         private int _id;
-        private int _speed;
+        public int _speed;
         private bool _running = false;
         private bool _left = false;
         private readonly Random _random = new Random();
-        private int _error;
+        public int _error;
         private int _countError;
-        private int _count;
+        public int _count;
         public enum AIType { Low, Middle, High };
         public AIController(TetrisGame game, AIType type = AIType.High)
         {
@@ -276,7 +272,8 @@ namespace Tetris
 
             return bl - rowTrans - colTrans - 4 * holes - wells;
         }
-        private int calRating(Block block)
+
+        public int calRating(Block block)
         {
             int h = _game.Height;
             int w = _game.Width;
@@ -409,7 +406,8 @@ namespace Tetris
 
             return -landHeight + metric - rowTrans - colTrans - 4 * holes - wells;
         }
-        private int calPrior(Block block, int pos, int rot)
+
+        public int calPrior(Block block, int pos, int rot)
         {
             int mov = pos - block.RPos;
             int result = 100 * Math.Abs(mov) + rot;

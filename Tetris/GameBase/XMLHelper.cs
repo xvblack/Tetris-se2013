@@ -3,7 +3,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace Tetris.GameSystem
+namespace Tetris.GameBase
 {
     /// <summary>
     /// XML辅助类

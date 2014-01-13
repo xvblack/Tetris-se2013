@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Threading;
-using Tetris.GameSystem;
 using Tetris.Properties;
 
 namespace Tetris.GameBase

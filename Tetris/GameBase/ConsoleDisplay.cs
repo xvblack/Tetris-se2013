@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using Tetris.GameBase;
 
-namespace Tetris
+namespace Tetris.GameBase
 {
     /// <summary>
     /// 命令行显示

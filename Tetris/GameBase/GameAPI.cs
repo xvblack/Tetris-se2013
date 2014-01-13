@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Windows.Shapes;
 using Tetris.GameSystem;
 
 namespace Tetris.GameBase

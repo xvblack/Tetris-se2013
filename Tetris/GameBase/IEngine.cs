@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
-namespace Tetris
+namespace Tetris.GameBase
 {
     public delegate void TickHandler(object sender, int tick); // 引擎回调函数
     public interface IEngine:INotifyPropertyChanged
