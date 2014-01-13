@@ -22,7 +22,7 @@ namespace Tetris.AdvancedGUI.Styles
     class SquareGenerator
     {
         const int _colorNum = 9;
-        const string path = "../../AdvancedGUI/Styles/Pic/";  // where the pics of items are stored
+        const string path = "./AdvancedGUI/Styles/Pic/";  // where the pics of items are stored
 
         // return the size of a square
         static public double squareSize {
