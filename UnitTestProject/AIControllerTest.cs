@@ -25,7 +25,7 @@ namespace UnitTestProject
         public void TestAILevel()
         {
             AIController _aiController = new AIController(_game, AIController.AIType.High);
-            Assert.AreEqual(20, _aiController._speed);
+            Assert.AreEqual(150, _aiController._speed);
             Assert.AreEqual(0, _aiController._count);
             Assert.AreEqual(0, _aiController._error);
             _aiController = new AIController(_game, AIController.AIType.Middle);
@@ -37,7 +37,7 @@ namespace UnitTestProject
             Assert.AreEqual(1, _aiController._count);
             Assert.AreEqual(30, _aiController._error);
             _aiController = new AIController(_game);
-            Assert.AreEqual(20, _aiController._speed);
+            Assert.AreEqual(150, _aiController._speed);
             Assert.AreEqual(0, _aiController._count);
             Assert.AreEqual(0, _aiController._error);
         }
