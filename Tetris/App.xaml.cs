@@ -20,7 +20,9 @@ namespace Tetris
         private static extern bool AllocConsole();
         protected override void OnStartup(StartupEventArgs e)
         {
+#if DEBUG
             AllocConsole();
+#endif
             base.OnStartup(e);
         }
     }
