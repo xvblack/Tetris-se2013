@@ -52,6 +52,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -273,7 +276,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
@@ -291,6 +293,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
     <Resource Include="AdvancedGUI\Styles\logo.png" />
+    <Resource Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AdvancedGUI\Styles\Pic\TonPic\1.jpg">
