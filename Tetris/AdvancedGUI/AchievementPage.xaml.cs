@@ -12,11 +12,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Tetris.AdvancedGUI.Styles;
+using Tetris.GameSystem;
 
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// AchievementPage.xaml 的交互逻辑
+    /// Achievement Page
     /// </summary>
     public partial class AchievementPage : Page
     {
@@ -25,50 +27,71 @@ namespace Tetris.AdvancedGUI
         
         public AchievementPage()
         {
-            InitializeComponent();
-
-            ButtonsGrid.Width = 300;
-
-            double buttonHeight = 50;
-            double buttonWidth = 200;
-
-            int colorNum = 6;
-            int[] colorIndex = (new Styles.SquareGenerator()).randomColorIndex(colorNum);
-
-            CustomizedButton2 singleModeButton =
-                new CustomizedButton2("单人游戏", buttonHeight, buttonWidth, colorIndex[0]);
-            singleModeButton.button.Click += selDualMode_Click;
-            singleModeButton.SetValue(Grid.RowProperty, 0);
-
-            CustomizedButton2 dualModeButton =
-                new CustomizedButton2("双人游戏", buttonHeight, buttonWidth, colorIndex[1]);
-            dualModeButton.button.Click += selDualMode_Click;
-            dualModeButton.SetValue(Grid.RowProperty, 1);
-
-            CustomizedButton2 backButton =
-                new CustomizedButton2("后  退", buttonHeight, buttonWidth, colorIndex[2]);
-            backButton.button.Click += back_Click;
+            // initialize the layout
+            InitializeComponent(); 
+            this.FontSize = WindowSizeGenerator.fontSizeMedium;
+            onePersonLabel.FontSize = WindowSizeGenerator.fontSizeLarge;
+            foreach (FrameworkElement i in this.onePerson.Children)
+            {              
+                i.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+            }
+            foreach (FrameworkElement i in this.AllPeople.Children)
+            {
+                i.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+            }
+            CustomizedButton2 backButton = new CustomizedButton2("后　退", 
+                SquareGenerator.colorMap[2]);
+            contentGrid.Children.Add(backButton);
+            backButton.SetValue(Grid.ColumnProperty, 2);
             backButton.SetValue(Grid.RowProperty, 3);
+            backButton.button.Click += back_Click;
+            backButton.Width = 200;
+            backButton.HorizontalAlignment = System.Windows.HorizontalAlignment.Right;
 
-            ButtonsGrid.Children.Add(singleModeButton);
-            ButtonsGrid.Children.Add(dualModeButton);
-            ButtonsGrid.Children.Add(backButton);
+            name.Focus();
+            name.Text = PlayersName.getName(0);
+
+            okay.Click += okay_Click;
+
+            areYouSomebody.FontSize = WindowSizeGenerator.fontSizeLarge;
         }
 
-        // NOT FINISHED!!!
-
-        // Click to start single mode game
-        private void selSingleMode_Click(object sender, RoutedEventArgs e)
-        {
-            nav = NavigationService.GetNavigationService(this);
-            //nav.Navigate(new singleModePage());
+        // Load Highest Records
+        private void highest_Loaded(object sender, RoutedEventArgs e)
+        { 
+            // read the achievements from AchievementSystem
+            AchievementSystem.UpdateHighest();
+            HighestScore.Content = AchievementSystem.AchievementState.HighestScoreGlobal;
+            MostTotalClearBar.Content = AchievementSystem.AchievementState.HighestTotalClearBarGlobal;
+            var hsname = AchievementSystem.AchievementState.HighestScoreUser.Aggregate("", (current, str) => current + str + " ");
+            var htcbname = AchievementSystem.AchievementState.HighestTotalClearBarUser.Aggregate("", (current,str)=>current+str+" ");
+            HighestScoreName.Content = hsname;
+            MostTotalClearBarName.Content = htcbname;
         }
 
-        // Click to start dual mode game
-        private void selDualMode_Click(object sender, RoutedEventArgs e)
+        // Click to display the achievements of this one person
+        private void okay_Click(object sender, RoutedEventArgs e)
         {
-            nav = NavigationService.GetNavigationService(this);
-            //nav.Navigate(new dualModePage());
+            // read the achievements from AchievementSystem
+            // if this person exists
+            if (AchievementSystem.ExistUser(name.Text))
+            {
+                areYouSomebody.Content = name.Text;
+                var state = AchievementSystem.GetAchievementState(name.Text);
+                // display the achievments
+                HighScore.Content = state.HighScore.ToString();
+                TotalClearBar.Content = state.TotalClearBar.ToString();
+                SeqClear.Content = (state.SeqClear ? "完成" : "还没有");
+                HardSurvive.Content = (state.HardSurvive ? "完成" : "还没有");
+            }
+            else
+            {
+                areYouSomebody.Content = "你谁啊？";
+                HighScore.Content = "0";
+                TotalClearBar.Content = "0";
+                SeqClear.Content = "还没有";
+                HardSurvive.Content = "还没有";
+            }
         }
         // Click to go to the last page
         private void back_Click(object sender, RoutedEventArgs e)
@@ -77,6 +100,12 @@ namespace Tetris.AdvancedGUI
             NavigationPage backPage = new NavigationPage();
             backPage.holderWin = holderWin;
             nav.Navigate(backPage);  
+        }
+
+        private void Page_Loaded_1(object sender, RoutedEventArgs e)
+        {
+            okay_Click(null, null);
+            highest_Loaded(sender, e);
         }
     }
 }

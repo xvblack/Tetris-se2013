@@ -12,11 +12,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Tetris.AdvancedGUI.Styles;
 
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// NavigationPage.xaml 的交互逻辑
+    /// Navigation Pages
     /// </summary>
     public partial class NavigationPage : Page
     {
@@ -26,39 +27,54 @@ namespace Tetris.AdvancedGUI
         public NavigationPage() {
             InitializeComponent();
 
-            ButtonsGrid.Width = 300;
-
-            double buttonHeight = 50;
-            double buttonWidth = 200;
-
             int colorNum = 6;
             
-            int[] colorIndex = (new Styles.SquareGenerator()).randomColorIndex(colorNum);
+            Color[] colors = SquareGenerator.randomColor(colorNum);
 
             CustomizedButton2 exitButton = 
-                new CustomizedButton2("退  出", buttonHeight, buttonWidth, colorIndex[0]);
+                new CustomizedButton2("退  出", colors[0]);
             exitButton.button.Click += exitGame_Click;
             exitButton.SetValue(Grid.RowProperty, 3);
 
             CustomizedButton2 startGameButton =
-                new CustomizedButton2("开始游戏", buttonHeight, buttonWidth, colorIndex[1]);
+                new CustomizedButton2("开始游戏", colors[1]);
             startGameButton.button.Click += gotoGameModeSel_Click;
             startGameButton.SetValue(Grid.RowProperty, 0);
 
             CustomizedButton2 achievementButton =
-                new CustomizedButton2("成就系统", buttonHeight, buttonWidth, colorIndex[2]);
+                new CustomizedButton2("成就系统", colors[2]);
             achievementButton.button.Click += gotoAchievement_Click;
             achievementButton.SetValue(Grid.RowProperty, 1);
 
+
             CustomizedButton2 settingsButton =
-                new CustomizedButton2("设  置", buttonHeight, buttonWidth, colorIndex[3]);
+                new CustomizedButton2("设  置", colors[3]); 
             settingsButton.button.Click += gotoSetting_Click;
             settingsButton.SetValue(Grid.RowProperty, 2);
-  
+ 
             ButtonsGrid.Children.Add(startGameButton);
             ButtonsGrid.Children.Add(achievementButton);
             ButtonsGrid.Children.Add(settingsButton);
             ButtonsGrid.Children.Add(exitButton);
+
+
+            StringGrid title = new StringGrid("Tetris", SquareGenerator.squareSize / 1.1);
+            
+            outerGrid.Children.Add(title);
+            
+            title.SetValue(Grid.RowProperty, 1);
+            
+            title.SetValue(Grid.ColumnProperty, 1);
+            
+            title.noAnimation();
+            
+            Pic.Cat2Gen pic = new Pic.Cat2Gen();
+            Pic.PicGenGrid pg = new Pic.PicGenGrid(pic, SquareGenerator.picSquareSize / 1.2);
+            aCanvas.Children.Add(pg);
+            pg.SetValue(Canvas.ZIndexProperty, 0);
+
+            Canvas.SetRight(pg, 2);
+            Canvas.SetBottom(pg, 2);
         }
 
         // Click the button to go to Achievement
@@ -93,8 +109,6 @@ namespace Tetris.AdvancedGUI
 
         private void Page_Loaded_1(object sender, RoutedEventArgs e)
         {
-            this.holderWin.Width = Styles.WindowSizeGenerator.mainWindowMinWidth;
-            this.holderWin.Left = Styles.WindowSizeGenerator.mainWindowLocationLeft;
         }
     }
 }

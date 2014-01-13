@@ -2,8 +2,26 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Tetris.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
+    <Setting Name="Player1Path" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.\\player1.xml</Value>
+    </Setting>
+    <Setting Name="Player2Path" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.\\player2.xml</Value>
+    </Setting>
     <Setting Name="RoundTicks" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">24</Value>
+      <Value Profile="(Default)">96</Value>
+    </Setting>
+    <Setting Name="TickActions" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">6</Value>
+    </Setting>
+    <Setting Name="TickFalling" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">96</Value>
+    </Setting>
+    <Setting Name="DefaultSpeed" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="SpeedUp" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
     </Setting>
   </Settings>
 </SettingsFile>

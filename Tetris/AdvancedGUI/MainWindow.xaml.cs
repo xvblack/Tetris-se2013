@@ -20,7 +20,7 @@ using Tetris.GameSystem;
 namespace Tetris.AdvancedGUI
 {
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// Main Window
     /// </summary>
     public partial class MainWindow : NavigationWindow
     {
@@ -30,11 +30,13 @@ namespace Tetris.AdvancedGUI
         public MainWindow()
         {
             InitializeComponent();
-            
+            AchievementSystem.Load();
+
             // which window size is used?
+            /*
             if (Styles.WindowSizeGenerator.windowSize == "Maximum")
             {
-                //this.WindowState = WindowState.Maximized;
+                this.WindowState = WindowState.Maximized;
                 this.ResizeMode = System.Windows.ResizeMode.NoResize;
                 this.WindowStyle = System.Windows.WindowStyle.None;
                 //this.Topmost = true;
@@ -42,13 +44,16 @@ namespace Tetris.AdvancedGUI
             else
             {
                 this.WindowState = WindowState.Normal;
-            }
+            }*/
 
+            /*
             this.MinHeight = Styles.WindowSizeGenerator.mainWindowMinHeight;
             this.MinWidth = Styles.WindowSizeGenerator.mainWindowMinWidth;
             this.Height = this.MinHeight;
             this.Width = this.MinWidth;
+            */
 
+            // show navigation page first
             NavigationPage firstPage = new NavigationPage();
             firstPage.holderWin = this;
             this.Navigate(firstPage);

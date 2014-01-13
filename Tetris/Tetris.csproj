@@ -79,12 +79,16 @@
     </Compile>
     <Compile Include="AdvancedGUI\Animation\FadeInFadeOut.cs" />
     <Compile Include="AdvancedGUI\Animation\WindowNavigationEffect.cs" />
-    <Compile Include="AdvancedGUI\CustomizedButton.xaml.cs">
-      <DependentUpon>CustomizedButton.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="AdvancedGUI\SimplePlayerController.cs" />
+    <Compile Include="AdvancedGUI\ContentGridGenerator.cs" />
     <Compile Include="AdvancedGUI\CustomizedButton2.xaml.cs">
       <DependentUpon>CustomizedButton2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AdvancedGUI\CustomizedGrid.cs" />
+    <Compile Include="AdvancedGUI\CustomizedLabel.xaml.cs">
+      <DependentUpon>CustomizedLabel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedGUI\GameGrid.cs" />
     <Compile Include="AdvancedGUI\Pic\Cat3Gen.cs" />
     <Compile Include="AdvancedGUI\Pic\Cat5Gen.cs" />
     <Compile Include="AdvancedGUI\Pic\CatGen.cs" />
@@ -110,8 +114,8 @@
     <Compile Include="AdvancedGUI\Pic\MonkeyGen.cs" />
     <Compile Include="AdvancedGUI\Pic\PicGen.cs" />
     <Compile Include="AdvancedGUI\Pic\PicGenGrid.xaml.cs" />
-    <Compile Include="AdvancedGUI\NextBlockGrid.xaml.cs">
-      <DependentUpon>NextBlockGrid.xaml</DependentUpon>
+    <Compile Include="AdvancedGUI\NextBlock.xaml.cs">
+      <DependentUpon>NextBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="AdvancedGUI\Pic\TestPic.xaml.cs">
       <DependentUpon>TestPic.xaml</DependentUpon>
@@ -122,24 +126,21 @@
     <Compile Include="AdvancedGUI\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AdvancedGUI\GameGrid.xaml.cs">
-      <DependentUpon>GameGrid.xaml</DependentUpon>
-    </Compile>
     <Compile Include="AdvancedGUI\SingleModePage.xaml.cs">
       <DependentUpon>SingleModePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AdvancedGUI\StartWelcomeString.xaml.cs">
-      <DependentUpon>StartWelcomeString.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="AdvancedGUI\StringGrid.cs" />
+    <Compile Include="AdvancedGUI\Styles\PlayersName.cs" />
     <Compile Include="AdvancedGUI\Styles\SquareGenerator.cs" />
     <Compile Include="AdvancedGUI\Styles\WindowSizeGenerator.cs" />
     <Compile Include="AdvancedGUI\Styles\TestClasses\TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="AdvancedGUI\Pic\SunGen.cs" />
-    <Compile Include="AdvancedGUI\Animation\SwitchEffect.xaml.cs">
-      <DependentUpon>SwitchEffect.xaml</DependentUpon>
+    <Compile Include="AdvancedGUI\SwitchButton.xaml.cs">
+      <DependentUpon>SwitchButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AdvancedGUI\SwitchLabel.cs" />
     <Compile Include="AIController.cs" />
     <Compile Include="CacheFactory.cs" />
     <Compile Include="Color.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="IEngine.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="GameAPI.cs" />
+    <Compile Include="IPlayerController.cs" />
     <Compile Include="ItemColor.cs" />
     <Compile Include="ItemSystem.cs" />
     <Compile Include="ITetrisFactory.cs" />
@@ -177,11 +179,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdvancedGUI\CustomizedButton.xaml">
+    <Page Include="AdvancedGUI\CustomizedButton2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdvancedGUI\CustomizedButton2.xaml">
+    <Page Include="AdvancedGUI\CustomizedLabel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -205,16 +207,12 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdvancedGUI\Pic\PicGenGrid.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="AdvancedGUI\Pic\TestPic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AdvancedGUI\ScoreGrid.xaml" />
-    <Page Include="AdvancedGUI\NextBlockGrid.xaml">
+    <Page Include="AdvancedGUI\NextBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -226,15 +224,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdvancedGUI\StartWelcomeString.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="AdvancedGUI\Styles\GUIStyles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="AdvancedGUI\GameGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -242,7 +232,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdvancedGUI\Animation\SwitchEffect.xaml">
+    <Page Include="AdvancedGUI\SwitchButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -304,6 +294,33 @@
       <Install>false</Install>
     </BootstrapperPackage>
     <Resource Include="AdvancedGUI\Styles\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="AdvancedGUI\Styles\Pic\TonPic\1.jpg" />
+    <Resource Include="AdvancedGUI\Styles\Pic\TonPic\2.jpg" />
+    <Resource Include="AdvancedGUI\Styles\Pic\TonPic\3.jpg" />
+    <Resource Include="AdvancedGUI\Styles\Pic\TonPic\4.jpg" />
+    <Resource Include="AdvancedGUI\Styles\Pic\TonPic\6.jpg" />
+    <Resource Include="AdvancedGUI\Styles\Pic\TonPic\7.jpg" />
+    <Resource Include="AdvancedGUI\Styles\Pic\TonPic\8.jpg" />
+    <Resource Include="AdvancedGUI\Styles\Pic\TonPic\9.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="AdvancedGUI\Styles\Pic\GunPic\1.jpg" />
+    <Resource Include="AdvancedGUI\Styles\Pic\GunPic\2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="AdvancedGUI\Styles\Pic\i.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="AdvancedGUI\Styles\Pic\g.jpg" />
+    <Resource Include="AdvancedGUI\Styles\Pic\ig.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="AdvancedGUI\Styles\Pic\t.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="AdvancedGUI\Styles\Pic\TonPic\5.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
